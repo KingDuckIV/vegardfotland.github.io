@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change of Weather - PDF Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+        }
+        .pdf-section {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pdf-container {
+            width: 80%;
+            max-width: 800px;
+            height: 1000px;
+            border: 2px solid white;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+            margin-top: 20px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .fullscreen-btn { background-color: #f04; color: white; }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .sidebar {
+            flex: 1;
+            background-color: #333;
+            padding: 20px;
+            text-align: left;
+            color: white;
+        }
+        .character-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .character-list li {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #444;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .character-list li:hover {
+            background-color: #555;
+        }
+        .character-info {
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        .character-info img {
+            width: 250px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>O'l Andem Campaign Website</h1>
+    <p>Story by Vegard Fotland, Lars Toppe, Emma Husa, Lee Stø Melting and Sofie Rørlien</p>
+    <p>Visualized by Lars Toppe</p>
+    <div class="container">
+        <div class="pdf-section">
+            <select id="comic-selector"></select>
+            <iframe id="pdf-frame" class="pdf-container" src="" frameborder="0"></iframe>
+            <div class="controls">
+                <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>Characters</h2>
+            <ul class="character-list" id="character-list"></ul>
+            <div class="character-info" id="character-info">
+                <img id="character-image" src="" alt="Character Image">
+                <p id="character-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const comics = {
+            "Change of Weather, Session 17-65": "session1.pdf",
+            "Change of Weather, Session 67-98": "session2.pdf",
+            "Cold Fluorescent Light, Session x-x": "session3.pdf"
+        };
+
+        const characters = {
+            "Torcoll": { image: "Torcoll.png", description: "Torcoll is a Dwarf of Dwalinstad. He was kidnapped by Gamdring Firebrod and injected with alchemical components that gave him draconic powers, but also slowly turns him into a halfdragon." },
+            "Cordelia": { image: "Cordelia.png", description: "Cordelia is a tailor from Reun who was working for Garnielle as part of his spy network." },
+            "Krom": { image: "Krom.png", description: "Krom is a far traveller from a small village in the north who found herself sucked into the war effort." },
+            "Aaliyah": { image: "Aaliyah.png", description: "Aaliyah was an experimental soldier fighting for the dragonborn side until she was disillusioned with the war and changed sides." },
+            "Medella": { image: "Medella.png", description: "Medella is a young cleric of the broken one who found out she was part of a cult and escaped. She was seemingly killed by father Elijah. Her fate is currently unknown." },
+            "Malos": { image: "Malos.png", description: "Malos is a snarky 2000+ year old Drow Elf and was the headmaster of the mystic and occult at the Galloway University. He ingested pneumatic essence and blew up. Poof." }
+        };
+
+        let pdfFrame = document.getElementById("pdf-frame");
+        let comicSelector = document.getElementById("comic-selector");
+        let characterList = document.getElementById("character-list");
+        let characterInfo = document.getElementById("character-info");
+        let characterImage = document.getElementById("character-image");
+        let characterDescription = document.getElementById("character-description");
+
+        function loadComics() {
+            comicSelector.innerHTML = Object.keys(comics).map(comic => `<option value="${comics[comic]}">${comic}</option>`).join("");
+            comicSelector.value = Object.values(comics)[0];
+            pdfFrame.src = Object.values(comics)[0];
+        }
+
+        function loadCharacters() {
+            characterList.innerHTML = Object.keys(characters).map(character => `<li onclick="showCharacter('${character}')">${character}</li>`).join("");
+        }
+
+        function showCharacter(character) {
+            characterImage.src = characters[character].image;
+            characterDescription.textContent = characters[character].description;
+            characterInfo.style.display = "block";
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                pdfFrame.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        comicSelector.addEventListener("change", function() {
+            pdfFrame.src = this.value;
+        });
+
+        loadComics();
+        loadCharacters();
+    </script>
+</body>
+</html>
