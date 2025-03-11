@@ -84,20 +84,37 @@
             border-radius: 5px;
             margin-bottom: 10px;
         }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #e0e0e0;
+            padding: 10px;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
+  <nav>
+      <ul>
+          <li><a href="Gallery/Gallery.html">O'l Andem Gallery</a></li>
+      </ul>
+  </nav>
     <h1>O'l Andem Campaign Website</h1>
     <p>Story by Vegard Fotland, Lars Toppe, Emma Husa, Lee, Sunniva Lode, Mats Riveland and Sofie Rørlien</p>
     <p>Visualized by Lars Toppe</p>
-    <nav>
-      <header>
-                        <a href="../index.html" class="back-button">← Back</a>
-      </header>
-        <ul>
-            <li><a href="Gallery/Gallery.html">O'l Andem Gallery</a></li>
-        </ul>
-    </nav>
+
     <div class="container">
         <div class="pdf-section">
             <select id="comic-selector"></select>
