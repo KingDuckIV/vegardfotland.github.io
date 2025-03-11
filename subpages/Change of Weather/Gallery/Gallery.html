@@ -47,6 +47,10 @@
             border: 2px solid white;
             box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
         }
+        .counter {
+            margin-top: 10px;
+            font-size: 18px;
+        }
         .controls {
             position: fixed;
             bottom: 10px;
@@ -83,6 +87,7 @@
         <select id="comic-selector"></select>
         <div class="comic-container" id="comic-container">
             <img id="comic-image" class="comic-image" src="" alt="Comic Page">
+            <p class="counter" id="counter">Page 1 of X</p>
         </div>
     </div>
 
@@ -107,6 +112,7 @@
         let currentPage = 0;
         const comicSelector = document.getElementById("comic-selector");
         const comicImage = document.getElementById("comic-image");
+        const counter = document.getElementById("counter");
 
         function loadComics() {
             comicSelector.innerHTML = Object.keys(comics).map(comic => `<option value="${comic}">${comic}</option>`).join("");
@@ -116,6 +122,7 @@
 
         function updatePage() {
             comicImage.src = comics[currentComic][currentPage];
+            counter.textContent = `Page ${currentPage + 1} of ${comics[currentComic].length}`;
         }
 
         function nextPage() {
