@@ -8,7 +8,7 @@
 <link href='https://fonts.googleapis.com/css?family=Metal Mania' rel='stylesheet'>
 </head>
 <body>
-    <header>
+    <header id="BannerImage">
       <img src="Itch Banner.png" alt="Banner">
         <h1>Vegard Fotland</h1>
         <br>
@@ -178,7 +178,22 @@
         <a href="https://soundcloud.com/colorforablindman" target="_blank">Soundcloud</a>
         <a href="https://kingduckiv.itch.io/" target="_blank">Itch.io</a>
         <a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv" target="_blank">World Anvil (O'l Andem)</a>
+        <a href="https://bsky.app/profile/vegardfotland.bsky.social" target="_blank">BlueSky</a>
     </div>
     <p>&copy; Vegard Fotland, cringelord extraordinaire</p>
 </footer>
 </html>
+
+
+<script type="text/javascript">
+var prevScrollpos = window.pageYOffset;
+window.onscroll = function() {
+var currentScrollPos = window.pageYOffset;
+if (prevScrollpos > currentScrollPos) {
+  document.getElementById("BannerImage").style.top = "0";
+} else {
+  document.getElementById("BannerImage").style.top = "-200px";
+}
+prevScrollpos = currentScrollPos;
+}
+</script>

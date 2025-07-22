@@ -16,6 +16,11 @@ header {
     top: 0;
     z-index: 1000;
 }
+
+#BannerImage {
+  transition: top 0.3s;
+}
+
 header h1 {
     font-family: Arial, sans-serif;
     color: #e0e0e0;
