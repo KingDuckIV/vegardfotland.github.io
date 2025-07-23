@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vegard's Books</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: #eee;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #333;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    #chapter-selector {
+      background-color: #222;
+      color: #eee;
+      border: 1px solid #444;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    iframe {
+      width: 90vw;
+      height: 70vh;
+      border: none;
+      background-color: #000;
+      box-shadow: 0 0 10px #000;
+    }
+
+    #music-player {
+      margin-top: 1rem;
+      background-color: #222;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+
+    footer {
+      padding: 1rem;
+      text-align: center;
+      border-top: 1px solid #333;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Vegard's Books
+  </header>
+  <main>
+    <select id="chapter-selector">
+      <option value="">Choose Book</option>
+      <option value="chapter1.pdf" data-music="FarBeyondtheSeams.wav">Far Beyond the Seams (Chapter 1)</option>
+      <option value="chapter2.pdf" data-music="chapter2.mp3">Tellurian Chronicles (Not available)</option>
+
+    </select>
+
+    <iframe id="pdf-viewer" src=""></iframe>
+
+    <div id="music-player">
+      <audio id="audio" controls>
+        <source src="FarBeyondtheSeams.wav" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </main>
+  <footer>
+    &copy; 2025 Vegard Fotland
+  </footer>
+
+  <script>
+    const selector = document.getElementById('chapter-selector');
+    const viewer = document.getElementById('pdf-viewer');
+    const audio = document.getElementById('audio');
+
+    selector.addEventListener('change', function () {
+      const selectedOption = selector.options[selector.selectedIndex];
+      const chapterUrl = selectedOption.value;
+      const musicUrl = selectedOption.getAttribute('data-music');
+
+      if (chapterUrl) {
+        viewer.src = chapterUrl;
+      }
+
+      if (musicUrl) {
+        audio.src = musicUrl;
+        audio.play();
+      }
+    });
+  </script>
+</body>
+</html>
