@@ -1,46 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Colors of Mine</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Little Colors of Mine • Poem Blog</title>
+
+  <!-- Single-file styles: dark esoteric vibe -->
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --bg-soft: #101219;
+      --ink: #e6e6e6;
+      --muted: #b2b2bf;
+      --accent: #9b59ff;
+      --accent-2: #0ef0c8;
+      --glow: 0 0 18px rgba(155,89,255,0.5), 0 0 32px rgba(14,240,200,0.18);
+      --card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.08);
+      --danger: #ff3d6e;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: var(--ink);
+      background: radial-gradient(1200px 800px at 20% -10%, #1a1230 0%, transparent 60%),
+                  radial-gradient(1200px 800px at 120% 20%, #09242a 0%, transparent 55%),
+                  linear-gradient(180deg, #06060a 0%, #0b0c10 50%, #0b0c10 100%);
+      overflow-x: hidden;
+      letter-spacing: 0.2px;
+    }
+
+    /* Constellation canvas backdrop */
+    #sky {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+    }
+
+    /* Subtle vignette */
+    .vignette {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(circle at 50% 30%, transparent 0%, transparent 55%, rgba(0,0,0,0.6) 100%);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(8px) saturate(120%);
+      background: linear-gradient(180deg, rgba(5,7,12,0.8), rgba(5,7,12,0.2));
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    }
+
+    .back-button {
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 999px;
+      transition: 200ms ease;
+    }
+    .back-button:hover { color: var(--ink); border-color: var(--ink); box-shadow: var(--glow); }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 56px);
+      margin: 10px 0 2px 0;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: inline-flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .sigil {
+      width: 36px; height: 36px; opacity: 0.9; filter: drop-shadow(0 0 8px rgba(14,240,200,0.4));
+      transition: transform 300ms ease;
+    }
+    h1:hover .sigil { transform: rotate(7deg) scale(1.05); }
+
+    .subtitle { color: var(--muted); margin: 0 0 16px 0; font-size: 14px; }
+
+    .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      cursor: pointer; border: 1px solid var(--border); background: var(--card);
+      color: var(--ink); padding: 8px 12px; border-radius: 10px; font-size: 14px;
+      transition: 200ms ease; user-select: none;
+    }
+    .btn:hover { border-color: var(--ink); box-shadow: var(--glow); }
+
+    main { padding-bottom: 100px; }
+    .grid { display: grid; grid-template-columns: 260px 1fr; gap: 22px; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    /* Sidebar */
+    aside {
+      position: sticky; top: 74px; align-self: start; border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 16px; padding: 16px; height: fit-content;
+    }
+    .aside-title { font-size: 12px; color: var(--muted); letter-spacing: 1.3px; text-transform: uppercase; margin-bottom: 8px; }
+    .sigils { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+    .sigils svg { width: 100%; aspect-ratio: 1; border: 1px solid var(--border); border-radius: 10px; padding: 8px; background: var(--card); }
+
+    /* Articles */
+    article.card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border-radius: 16px; padding: 18px 18px 6px 18px; margin-bottom: 18px; position: relative; overflow: hidden;
+    }
+    article.card::before {
+      content: ""; position: absolute; inset: -2px -2px auto auto; width: 160px; height: 160px;
+      background: radial-gradient(130px 130px at 100% 0%, rgba(155,89,255,0.15), transparent 70%);
+      pointer-events: none;
+    }
+    article.card h2 { margin: 0 0 8px 0; font-size: clamp(18px, 2.2vw, 24px); }
+    article.card time { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+
+    .meta { display: flex; gap: 10px; align-items: center; margin: 6px 0 12px 0; }
+    .tag { font-size: 12px; border: 1px solid var(--border); padding: 3px 7px; border-radius: 999px; color: var(--muted); }
+
+    .content { color: #ddd; line-height: 1.6; letter-spacing: 0.2px; }
+    .content p { margin: 0 0 12px 0; }
+
+    .reveal { cursor: pointer; margin-top: 6px; font-size: 14px; color: var(--accent-2); background: transparent; border: none; padding: 8px 0; }
+
+    .hr { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 12px 0; }
+
+    /* Ink cursor drip */
+    .drip {
+      position: fixed; width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle, #fff 0%, #c8baff 60%, transparent 70%);
+      pointer-events: none; mix-blend-mode: screen; opacity: 0.85; filter: blur(0.4px);
+      animation: fade 900ms ease-out forwards;
+    }
+    @keyframes fade { to { transform: translateY(12px) scale(0.7); opacity: 0; } }
+
+    /* Typewriter accent */
+    .type { border-right: 2px solid var(--accent); white-space: nowrap; overflow: hidden; }
+
+    footer { text-align: center; color: var(--muted); padding: 36px 0; font-size: 13px; border-top: 1px solid var(--border); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 16px; right: 16px; background: #12131a; border: 1px solid var(--border); border-radius: 12px;
+      padding: 10px 14px; color: var(--ink); font-size: 13px; box-shadow: var(--glow); opacity: 0; transform: translateY(10px);
+      transition: 250ms ease; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* Light mode toggle (optional) */
+    body.light {
+      --bg: #f7f7fb; --bg-soft: #ffffff; --ink: #0b0c10; --muted: #444a58; --card: rgba(0,0,0,0.03); --border: rgba(0,0,0,0.12);
+      background: linear-gradient(180deg, #f1f2f8, #f7f7fb);
+    }
+  </style>
 </head>
 <body>
-    <header>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header>
+    <div class="container topbar">
       <a href="../index.html" class="back-button">← Back</a>
-        <h1 class="animated-heading">Little Colors of Mine</h1>
-    </header>
-    <main>
+      <div class="controls">
+        <button id="theme" class="btn" aria-label="Toggle theme">Toggle theme</button>
+        <button id="shuffle" class="btn" aria-label="Shuffle sigils">Shuffle sigils</button>
+        <button id="help" class="btn" aria-label="Keyboard help">Help</button>
+      </div>
+    </div>
+    <div class="container" style="padding-top:0;">
+      <h1 id="title" class="type">
+        <svg class="sigil" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M50 12 L50 88 M18 50 L82 50 M29 29 L71 71 M71 29 L29 71" stroke="currentColor" stroke-width="6"/>
+        </svg>
+        Little Colors of Mine
+      </h1>
+      <p class="subtitle">A poem blog of quiet signals, soft machines, and small haunted colors.</p>
+    </div>
+  </header>
 
-      <article>
+  <main class="container">
+    <div class="grid">
+      <aside>
+        <div class="aside-title">Sigil board</div>
+        <div id="sigilBoard" class="sigils" aria-label="Esoteric sigils"></div>
+        <div class="hr"></div>
+        <div class="aside-title">Shortcuts</div>
+        <ul style="margin:6px 0 0 16px; padding:0; line-height:1.6; color:var(--muted);">
+          <li>J or Down to next poem</li>
+          <li>K or Up to previous poem</li>
+          <li>T to toggle theme</li>
+          <li>H for this help</li>
+        </ul>
+      </aside>
 
-        <article>
-            <h2>NMWP Main Prize thouhgts</h2>
-            <p> Ahhh, the new media writing prize, the highest of praise, nominated for both the main and student prize. What a time to be alive ey. Well, thank you to the judges for dragging me into this thing <br>
-              I am very honored. Eternally so. 
-
-             </p>
+      <section id="poems">
+        <!-- Poem 1 -->
+        <article class="card" data-tags="award,process,gratitude">
+          <h2>NMWP Main Prize thoughts</h2>
+          <div class="meta">
+            <time datetime="2025-01-10">10 Jan 2025</time>
+            <span class="tag">process</span>
+            <span class="tag">gratitude</span>
+          </div>
+          <div class="content" hidden>
+            <p>Ahhh, the new media writing prize, the highest of praise, nominated for both the main and student prize. What a time to be alive ey. Thank you to the judges for dragging me into this thing. I am honored. Eternally so.</p>
+            <p>Some nights I map small sparks that led here. A page that glitched just right. A teacher who said keep going. A friends pat on the back. It is enough.</p>
+          </div>
+          <button class="reveal" aria-expanded="false">Read</button>
         </article>
 
-
-        <h2>Starting my Masters Course - 17/07/2024</h2>
-        <p>For a long time I've been standing at a crossroads. Many roads leading different ways all shrouded in mist and unknown qualities. Standing at such a precipice
-        sets my mind racing. Where am i going? What will it bring? Does it matter? Should i care? It is only recently ive found peace with the unknown. I look at all the crossroads
-      and i truly don't care where they lead anymore. Because as long as i am doing the things i enjoy doing. As long as i love and help the people around me. It doesnt really matter.
-    When i decided to throw myself into Digital Culture this past year i realized i was not only happy with the current. I was interested. I was good at it.
-  I am so excited to take part in this space. To engage with the people in this space. To cultivate and grow the space. To create and analyse and parse. No matter what the new road brings. It will be interesting.</p>
-      </article>
-
-        <article>
-            <h2>My thoughts about the New Media Writing Prize</h2>
-            <p>What Remains? was my first ever digital artwork, and my bachelors project at that, and to have it shortlisted among the many wonderful works across the globe was an honour and a half. It doesn’t feel real. Its so distant. And though I am eternally grateful to the judges who chose to shortlist me, the biggest honour was seeing how proud my teachers became on my behalf. Alinta Krauth who was my supervisor on the project and Jason Nelson who helped and supported me along the way. <br> It is similar to music in a way. I have played many concerts throughout the years, and its always great to hear from the people who liked it, but nothing ever compares to when a musician you respect and look up to comes over and nods in agreement and compliments you. It’s a special type of bubbly fuzziness. <br>
-            So, thank you to the wonderful people at the New Media Writing Prize! Huzzah! </p>
+        <!-- Poem 2 -->
+        <article class="card" data-tags="study,path">
+          <h2>Starting my Masters Course</h2>
+          <div class="meta">
+            <time datetime="2024-07-17">17 Jul 2024</time>
+            <span class="tag">study</span>
+            <span class="tag">path</span>
+          </div>
+          <div class="content" hidden>
+            <p>For a long time I stood at a crossroads, roads in mist, each with a rumor. My mind ran. Where am I going. What will it bring. Does it matter. Should I care.</p>
+            <p>It is only lately I found peace with not knowing. I look at all the roads and I do not mind which one. If I keep making the things I love, if I care for the people near me, then any road becomes mine. Digital Culture felt like a current. I stepped in. It felt right. I am excited to work in this space. To learn. To build. To listen. Whatever the road brings. It will be interesting.</p>
+          </div>
+          <button class="reveal" aria-expanded="false">Read</button>
         </article>
 
-    </main>
-    <footer>
-        <p>&copy; This Is Cringe</p>
-    </footer>
+        <!-- Poem 3 -->
+        <article class="card" data-tags="award,reflection">
+          <h2>New Media Writing Prize</h2>
+          <div class="meta">
+            <time datetime="2024-12-02">02 Dec 2024</time>
+            <span class="tag">award</span>
+            <span class="tag">reflection</span>
+          </div>
+          <div class="content" hidden>
+            <p><em>What Remains?</em> was my first digital artwork and my bachelors project. To see it shortlisted felt unreal and distant. I am grateful to the judges, but the deepest joy was my teachers beaming. Alinta Krauth who guided me. Jason Nelson who nudged strange doors open.</p>
+            <p>It is like music. Applause is warm, but when a musician you respect says they felt it, that is a special fizz. Thank you to the New Media Writing Prize. Huzzah.</p>
+          </div>
+          <button class="reveal" aria-expanded="false">Read</button>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>© This Is Cringe • </p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Single-file JavaScript -->
+  <script>
+    // Constellation background
+    const sky = document.getElementById('sky');
+    const ctx = sky.getContext('2d');
+    let stars = [];
+    function makeStars() {
+      const { innerWidth: w, innerHeight: h } = window;
+      sky.width = w; sky.height = h;
+      stars = Array.from({ length: Math.min(140, Math.floor((w*h)/9000)) }, () => ({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*1.1 + 0.2,
+        vx: (Math.random()-0.5)*0.05,
+        vy: (Math.random()-0.5)*0.05
+      }));
+    }
+    function drawStars() {
+      ctx.clearRect(0,0,sky.width, sky.height);
+      ctx.globalCompositeOperation = 'lighter';
+      for (const s of stars) {
+        s.x += s.vx; s.y += s.vy;
+        if (s.x<0||s.x>sky.width) s.vx*=-1;
+        if (s.y<0||s.y>sky.height) s.vy*=-1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(200,180,255,0.6)';
+        ctx.fill();
+      }
+      // Draw faint links
+      for (let i=0;i<stars.length;i++){
+        for (let j=i+1;j<stars.length;j++){
+          const a = stars[i], b = stars[j];
+          const dx=a.x-b.x, dy=a.y-b.y;
+          const dist = Math.hypot(dx,dy);
+          if (dist < 110) {
+            ctx.strokeStyle = `rgba(155,89,255,${(1-dist/110)*0.12})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
+    makeStars(); drawStars();
+    window.addEventListener('resize', makeStars);
+
+    // Typewriter effect for title
+    const title = document.getElementById('title');
+    const full = title.textContent.trim();
+    function typeTitle() {
+      title.classList.add('type');
+      title.textContent = '';
+      let i=0;
+      const iv = setInterval(()=>{ title.textContent = full.slice(0, ++i); if (i>=full.length) { clearInterval(iv); setTimeout(()=>title.classList.remove('type'), 400); } }, 38);
+    }
+    typeTitle();
+
+    // Reveal buttons for poems
+    const poems = Array.from(document.querySelectorAll('article.card'));
+    poems.forEach(card => {
+      const btn = card.querySelector('.reveal');
+      const content = card.querySelector('.content');
+      btn.addEventListener('click', () => {
+        const open = content.hasAttribute('hidden') ? false : true;
+        document.querySelectorAll('#poems .content').forEach(c => c.setAttribute('hidden', ''));
+        document.querySelectorAll('#poems .reveal').forEach(b => b.setAttribute('aria-expanded','false'));
+        if (!open) { content.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); card.scrollIntoView({ behavior:'smooth', block:'start'}); }
+      });
+    });
+
+    // Keyboard navigation
+    function indexOpen(){ return poems.findIndex(p => !p.querySelector('.content').hasAttribute('hidden')); }
+    document.addEventListener('keydown', e => {
+      const i = indexOpen();
+      if (e.key.toLowerCase()==='t') { toggleTheme(); }
+      if (e.key.toLowerCase()==='h') { toast('J/K to move. T to toggle theme.'); }
+      if (['j','arrowdown'].includes(e.key.toLowerCase())) {
+        const n = Math.min(poems.length-1, Math.max(0, i+1));
+        poems[n].querySelector('.reveal').click();
+      }
+      if (['k','arrowup'].includes(e.key.toLowerCase())) {
+        const n = Math.max(0, Math.min(poems.length-1, i-1));
+        poems[n].querySelector('.reveal').click();
+      }
+    });
+
+    // Ink drip cursor
+    window.addEventListener('pointermove', e => {
+      const d = document.createElement('div');
+      d.className = 'drip';
+      d.style.left = e.clientX + 'px';
+      d.style.top = e.clientY + 'px';
+      document.body.appendChild(d);
+      setTimeout(()=>d.remove(), 900);
+    }, { passive:true });
+
+    // Theme toggle with localStorage
+    const themeBtn = document.getElementById('theme');
+    function applyTheme(t){ document.body.classList.toggle('light', t==='light'); }
+    function toggleTheme(){ const next = document.body.classList.contains('light') ? 'dark' : 'light'; localStorage.setItem('theme', next); applyTheme(next); toast(next==='light'?'Light mode on':'Dark mode on'); }
+    themeBtn.addEventListener('click', toggleTheme);
+    applyTheme(localStorage.getItem('theme')||'dark');
+
+    // Toast helper
+    const toastEl = document.getElementById('toast');
+    function toast(msg){
+      toastEl.textContent = msg; toastEl.classList.add('show');
+      setTimeout(()=>toastEl.classList.remove('show'), 1800);
+    }
+
+    // Procedural sigils in sidebar
+    const board = document.getElementById('sigilBoard');
+    function randomSigilPath() {
+      // Build a geometric path with symmetry
+      const cmds = [];
+      const steps = 6 + Math.floor(Math.random()*4);
+      let x=50, y=10;
+      for (let i=0;i<steps;i++){
+        const nx = 10 + Math.random()*80;
+        const ny = 10 + Math.random()*80;
+        cmds.push(`M ${x} ${y} L ${nx} ${ny}`);
+        x=nx; y=ny;
+      }
+      // Mirror horizontally for a sigil vibe
+      return cmds.join(' ') + ' ' + cmds.join(' ').replaceAll(/(\d+\.?\d*) (\d+\.?\d*)/g, (m,a,b)=> `${100-Number(a)} ${b}`);
+    }
+    function makeSigil() {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 100 100');
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx','50'); circle.setAttribute('cy','50'); circle.setAttribute('r','44');
+      circle.setAttribute('fill','none'); circle.setAttribute('stroke','currentColor'); circle.setAttribute('stroke-width','2');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', randomSigilPath());
+      path.setAttribute('stroke','currentColor'); path.setAttribute('stroke-width','2'); path.setAttribute('fill','none');
+      svg.appendChild(circle); svg.appendChild(path);
+      svg.style.transition = 'transform 250ms ease, filter 250ms ease';
+      svg.addEventListener('mouseenter', ()=> svg.style.transform = 'scale(1.04) rotate(1deg)');
+      svg.addEventListener('mouseleave', ()=> svg.style.transform = '');
+      svg.addEventListener('click', ()=> { navigator.clipboard?.writeText(`[sigil:${Date.now()}]`); toast('Sigil copied'); });
+      return svg;
+    }
+    function populateSigils() { board.innerHTML=''; for (let i=0;i<8;i++) board.appendChild(makeSigil()); }
+    populateSigils();
+    document.getElementById('shuffle').addEventListener('click', populateSigils);
+
+    // Accessibility nicety: announce on load
+    setTimeout(()=>toast('Welcome. Press H for help.'), 900);
+  </script>
 </body>
 </html>
