@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cold Fluorescent Lights — Campaign Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f12;
+      --bg-2:#151519;
+      --ink:#e9e6df;
+      --muted:#b9b4aa;
+      --accent:#9ad0ff;
+      --accent-2:#f2c17d;
+      --line:#292a31;
+      --card:#15161b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:radial-gradient(1200px 700px at 15% 5%, #181920 0%, var(--bg) 60%) no-repeat fixed;
+      color:var(--ink); font-family: 'Cardo', serif; letter-spacing:.2px;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{opacity:.9; text-decoration:underline}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(120%) blur(8px); background:rgba(10,10,12,.6);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      max-width:1100px; margin:0 auto; display:flex; align-items:center; gap:18px; padding:14px 18px;
+      font-family:'Space Grotesk', system-ui, sans-serif; font-weight:600; text-transform:uppercase; font-size:.9rem;
+    }
+    .nav .brand{margin-right:auto; letter-spacing:.12em}
+    .nav a{padding:6px 10px; border-radius:10px}
+    .nav a:hover{background:rgba(255,255,255,.06)}
+
+    /* Hero */
+    .hero{
+      max-width:1100px; margin:42px auto 28px; padding:0 18px; display:grid; grid-template-columns:1.2fr .9fr; gap:24px;
+      align-items:stretch;
+    }
+    .hero .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0));
+      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:22px; position:relative; overflow:hidden;
+    }
+    .title{
+      font-size:clamp(28px, 4vw, 48px); margin:0 0 10px; line-height:1.1; letter-spacing:.6px;
+    }
+    .subtitle{margin:0 0 18px; color:var(--muted); font-size:1rem; font-family:'Space Grotesk', sans-serif}
+    .hero .stamp{
+      position:absolute; right:18px; top:18px; font-family:'Space Grotesk', sans-serif; font-size:.8rem; color:var(--muted);
+      border:1px solid var(--line); padding:6px 10px; border-radius:999px; background:rgba(0,0,0,.25)
+    }
+    .taglist{display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 0}
+    .tag{border:1px dashed var(--line); padding:6px 10px; border-radius:999px; font-size:.8rem; color:var(--muted)}
+
+    .hero .image{
+      background:linear-gradient(180deg, #0e0f14 0%, #0a0b0f 100%);
+      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+      overflow:hidden; position:relative;
+    }
+    .hero .image img{width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.05) saturate(0.8)}
+    .credit{position:absolute; right:10px; bottom:10px; font-size:.75rem; color:var(--muted); background:rgba(0,0,0,.35); padding:6px 8px; border-radius:8px}
+
+    /* Sections */
+    section{max-width:1100px; margin:36px auto; padding:0 18px}
+    h2{font-size:clamp(20px,2.8vw,28px); margin:0 0 14px}
+    p{line-height:1.6}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns:repeat(12, 1fr); gap:12px}
+    .shot{grid-column: span 4; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--card); cursor:pointer}
+    .shot.tall{grid-row: span 2}
+    .shot img{width:100%; height:220px; object-fit:cover; display:block}
+    .shot .cap{padding:10px 12px; color:var(--muted); font-size:.9rem}
+
+    /* Lightbox */
+    .lightbox{position:fixed; inset:0; display:none; place-items:center; background:rgba(5,6,8,.85); z-index:80}
+    .lightbox.open{display:grid}
+    .lightbox img{max-width:92vw; max-height:80vh; border:1px solid var(--line); border-radius:12px; box-shadow:var(--shadow)}
+
+    /* Map */
+    .map-wrap{display:grid; grid-template-columns: 1.2fr .8fr; gap:18px}
+    .map{
+      background:#0b0c10; border:1px solid var(--line); border-radius:16px; overflow:hidden; position:relative;
+      aspect-ratio: 16/10; display:grid; place-items:center
+    }
+    .map img{width:100%; height:100%; object-fit:cover}
+    .map .pins button{position:absolute; background:rgba(255,255,255,.08); border:1px solid var(--line); border-radius:999px; padding:6px 8px; color:var(--ink); font-family:'Space Grotesk', sans-serif; font-size:.8rem; cursor:pointer}
+    .map .zoom{position:absolute; right:10px; bottom:10px; display:flex; gap:8px}
+    .map .zoom button{background:rgba(255,255,255,.08); border:1px solid var(--line); color:var(--ink); width:38px; height:38px; border-radius:9px; font-size:18px; cursor:pointer}
+    .map .zoom button:active{transform:scale(.98)}
+    .legend{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px}
+
+    /* Party */
+    .party{display:grid; grid-template-columns:repeat(5, 1fr); gap:14px}
+    .pc{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0));
+      border:1px solid var(--line); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; min-height:350px
+    }
+    .pc figure{margin:0; height:180px; overflow:hidden}
+    .pc img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.85)}
+    .pc .body{padding:12px 14px}
+    .pc h3{margin:0 0 4px}
+    .pc .note{color:var(--muted); font-size:.9rem}
+    .pc .traits{margin:10px 0 0; display:flex; flex-wrap:wrap; gap:8px}
+    .chip{border:1px dashed var(--line); padding:4px 8px; border-radius:999px; font-size:.8rem; color:var(--muted)}
+
+    /* Timeline */
+    .timeline{border-left:2px solid var(--line); margin-left:8px; padding-left:14px; display:grid; gap:16px}
+    .t-item{position:relative}
+    .t-item::before{content:""; position:absolute; left:-11px; top:4px; width:12px; height:12px; background:var(--accent-2); border-radius:999px; box-shadow:0 0 0 2px var(--bg)}
+    .t-item h4{margin:0 0 6px}
+    .t-item p{margin:0}
+
+    /* Footer */
+    footer{border-top:1px solid var(--line); padding:24px 18px; color:var(--muted); text-align:center; margin-top:40px}
+
+    /* Responsive */
+    @media (max-width: 1024px){
+      .hero{grid-template-columns:1fr}
+      .map-wrap{grid-template-columns:1fr}
+      .party{grid-template-columns:repeat(2, 1fr)}
+      .shot{grid-column: span 6}
+    }
+    @media (max-width: 560px){
+      .party{grid-template-columns:1fr}
+      .shot{grid-column: span 12}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand">Cold Fluorescent Lights</div>
+      <a href="#summary">Summary</a>
+      <a href="#gallery">Images</a>
+      <a href="#map">Map</a>
+      <a href="#party">Party</a>
+      <a href="#timeline">Timeline</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="summary">
+      <div class="panel">
+
+        <h1 class="title">Cold Fluorescent Lights</h1>
+        <p class="subtitle">A post war industrial fantasy campaign about forbidden Pneuma, dream logic, and workers caught between the state and the underworld.</p>
+        <p>
+          The Sootworks churns. Factories hum. The Pneumoclasts police the ruins of the old war while dream sects whisper about the sea behind the arcane gate. Our party has crossed paths with assassins, union busters, and the Malferent Soulforge, uncovering hints that the gods are not the only storykeepers in town. This page collects a primer for new players and a reference hub for the table.
+        </p>
+        <div class="taglist">
+          <span class="tag">Jungian shadows</span>
+          <span class="tag">Lacanian mirrors</span>
+          <span class="tag">Union struggle</span>
+          <span class="tag">Dream exploration</span>
+          <span class="tag">Pneumatic research</span>
+        </div>
+      </div>
+      <div class="image">
+        <img src="CFLCover.png" alt="penis" />
+        <div class="credit">A giant penis in the sky</div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <h2>Images and Mood</h2>
+      <div class="gallery">
+        <figure class="shot"><img src="Wanted Poster.png" alt="Wanted Poster"/><figcaption class="cap">Wanted Poster of Teel</figcaption></figure>
+        <figure class="shot"><img src="BV to CCF Shipment Log.png" alt="Shipment Log"/><figcaption class="cap">Shipment Log</figcaption></figure>
+        <figure class="shot"><img src="MalosCoconut.png" alt="Malos coconut Juice"/><figcaption class="cap">Malos with Coconut juice</figcaption></figure>
+        <figure class="shot"><img src="NavedApple.png" alt="Naved reaching for apple"/><figcaption class="cap">Naved reaching for apple</figcaption></figure>
+        <figure class="shot"><img src="NavedTPose.png" alt="Naved t pose"/><figcaption class="cap">Naved t pose</figcaption></figure>
+        <figure class="shot"><img src="TriandraNude.jpg" alt="Triandra Nude"/><figcaption class="cap">Triandra Nude, very important, yes yes</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+      <h2>The Sootworks Map</h2>
+      <div class="map-wrap">
+        <div class="map" id="mapBox">
+          <img id="mapImg" src="sootworks.jpg" alt="Map of the Sootworks district"/>
+
+          <div class="zoom">
+            <button id="zoomIn">+</button>
+            <button id="zoomOut">−</button>
+            <button id="resetZoom" title="Reset">⟲</button>
+          </div>
+        </div>
+        <aside class="legend">
+          <h3 style="margin:0 0 8px">Legend</h3>
+          <p class="note">Location blurbs</p>
+          <ul>
+            <li>Soulforge — The central hub of all things pneumatic. Closed of to the public.</li>
+            <li>Ruby Ramshack — Party home for some days while the terrorist Teel ocontroversy raged across the Sootworks</li>
+            <li>Coked Coal Refinery — Harker Blacklung's factory of coughing workers and conspiracy</li>
+            <li>Archivist Lounge — Gurma Nagash's place of knowledge. Books, articles and all things written word.</li>
+            <li>Goldgrave Vault — Lowlight district headquarter for the Canoli Crew</li>
+          </ul>
+          <p style="margin-top:10px"><a href="sootworks.jpg" download>Download current map</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PARTY -->
+    <section id="party">
+      <h2>Party</h2>
+      <div class="party">
+        <article class="pc">
+          <figure><img src="alkaline.jpeg" alt="Alkaline portrait"></figure>
+          <div class="body">
+            <h3>Alkaline</h3>
+            <div class="note">Tiefling Etherborn tinkerer. Healer with a machine maker mind. Works the refinery. Accepted a job with Tony Canoli.</div>
+            <div class="traits">
+              <span class="chip">Tinkering</span>
+              <span class="chip">Empathy</span>
+              <span class="chip">Risk taker</span>
+            </div>
+          </div>
+        </article>
+        <article class="pc">
+          <figure><img src="triandra.jpeg" alt="Triandra portrait"></figure>
+          <div class="body">
+            <h3>Triandra</h3>
+            <div class="note">Half elven woman living with dream episodes. Joined the White Lotus. Working toward memory integration with the Pale Gardener and Inland Empire.</div>
+            <div class="traits">
+              <span class="chip">Dreams</span>
+              <span class="chip">Self reflection</span>
+              <span class="chip">Courage</span>
+            </div>
+          </div>
+        </article>
+        <article class="pc">
+          <figure><img src="teel.png" alt="Teel portrait"></figure>
+          <div class="body">
+            <h3>Teel</h3>
+            <div class="note">Dwarven ex union buster seeking atonement. Wrongly blamed for explosions. Practices reading and tries to keep his temper.</div>
+            <div class="traits">
+              <span class="chip">Brute honesty</span>
+              <span class="chip">Protective</span>
+              <span class="chip">Haunted past</span>
+            </div>
+          </div>
+        </article>
+        <article class="pc">
+          <figure><img src="florian.jpeg" alt="Florian portrait"></figure>
+          <div class="body">
+            <h3>Florian</h3>
+            <div class="note">Halfling ward of Rakish. Etherborn traits, and unstable moods. Struggles with identity and origin while safeguarding the group.</div>
+            <div class="traits">
+              <span class="chip">Mindful</span>
+              <span class="chip">Resourceful</span>
+              <span class="chip">Loyal</span>
+            </div>
+          </div>
+        </article>
+        <article class="pc">
+          <figure><img src="naved.jpeg" alt="Naved portrait"></figure>
+          <div class="body">
+            <h3>Naved Khadem</h3>
+            <div class="note">Ex Aurum Watch. Guided by the Warden named Deni. Navigates the thin line between faith, secrecy, and the team.</div>
+            <div class="traits">
+              <span class="chip">Driven</span>
+              <span class="chip">Conflicted</span>
+              <span class="chip">Clever</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="timeline">
+      <h2>Key Events</h2>
+      <div class="timeline">
+        <div class="t-item">
+          <h4>Black Baths saved</h4>
+          <p>Alkaline prevents a refinery disaster and the party is pulled into the Pneuma conspiracy.</p>
+        </div>
+        <div class="t-item">
+          <h4>Order of the White Lotus</h4>
+          <p>Triandra joins the dream sect and begins integrating selves. Memory husks attack for memories.</p>
+        </div>
+        <div class="t-item">
+          <h4>Assassins and bounties</h4>
+          <p>Pneumoclast assassin fails. Gold dragonborn bounty hunter V is defeated at the Ruby Ramshack.</p>
+        </div>
+        <div class="t-item">
+          <h4>Blacklung Pact attack</h4>
+          <p>Gas bombs kill many union workers. Cinderglass is discovered in oil. Thread points toward Blackvein Holdings in Drakenslag.</p>
+        </div>
+        <div class="t-item">
+          <h4>Malferent Soulforge breached</h4>
+          <p>Naved uses the insignia on the ethereal side. Engine halted pneuamtic machine. Rakish recovered. A Gith enemy is gained.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>For my players whom i sometimes love dearly.</p>
+    <p><a href="#summary">Back to top</a></p>
+  </footer>
+
+  <div class="lightbox" id="lightbox"><img alt="zoomed" id="zoomed"></div>
+
+  <script>
+    // Lightbox for gallery
+    const lightbox = document.getElementById('lightbox');
+    const zoomed = document.getElementById('zoomed');
+    document.querySelectorAll('.shot img').forEach(img => {
+      img.addEventListener('click', () => {
+        zoomed.src = img.src; lightbox.classList.add('open');
+      });
+    });
+    lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+
+    // Map zoom and simple pin popups
+    const mapImg = document.getElementById('mapImg');
+    let scale = 1;
+    function applyZoom(){ mapImg.style.transform = `scale(${scale})`; mapImg.style.transformOrigin = 'center center'; }
+    document.getElementById('zoomIn').onclick = () => { scale = Math.min(2.2, scale + 0.2); applyZoom(); };
+    document.getElementById('zoomOut').onclick = () => { scale = Math.max(1, scale - 0.2); applyZoom(); };
+    document.getElementById('resetZoom').onclick = () => { scale = 1; applyZoom(); };
+
+    document.querySelectorAll('.map .pins button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const note = btn.getAttribute('data-pin');
+        alert(note);
+      })
+    });
+  </script>
+</body>
+</html>
