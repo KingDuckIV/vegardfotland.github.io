@@ -1,111 +1,377 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vegard's Books</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      color: #eee;
-      font-family: 'Courier New', monospace;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    :root{
+      --bg:#0b0b0b;         /* near-black */
+      --panel:#141414;      /* panel bg */
+      --panel-2:#1b1b1b;
+      --border:#2e2e2e;
+      --text:#e7e3db;       /* bone white */
+      --muted:#a79f90;      /* parchment */
+      --accent:#c3a66c;     /* brass */
+      --accent-2:#6f8c7a;   /* moss */
+      --shadow:0 10px 40px rgba(0,0,0,.45);
     }
 
-    header {
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 1px solid #333;
-      font-size: 1.5rem;
-      letter-spacing: 0.1em;
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:"EB Garamond", serif; letter-spacing:.02rem;
+      display:flex; flex-direction:column; min-height:100vh; overflow-x:hidden;
     }
 
-    main {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
+    /* subtle film grain + vignette */
+    body::before{content:""; position:fixed; inset:0; pointer-events:none;
+      background:
+        radial-gradient(80% 60% at 50% 50%, transparent 40%, rgba(0,0,0,.6) 100%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 2px, transparent 2px 4px);
+      mix-blend-mode:overlay; opacity:.6; z-index:0;
     }
 
-    #chapter-selector {
-      background-color: #222;
-      color: #eee;
-      border: 1px solid #444;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
+    header{
+      position:sticky; top:0; z-index:5; text-align:center; padding:1.1rem .75rem;
+      background:linear-gradient(180deg, rgba(10,10,10,.9), rgba(10,10,10,.5));
+      border-bottom:1px solid var(--border);
     }
 
-    iframe {
-      width: 90vw;
-      height: 70vh;
-      border: none;
-      background-color: #000;
-      box-shadow: 0 0 10px #000;
+    .title{font-size:clamp(1.3rem, 2.2vw, 2.2rem); letter-spacing:.18em; text-transform:uppercase;
+      font-weight:600; display:inline-flex; align-items:center; gap:.6rem;}
+    .sigil{width:28px; aspect-ratio:1; border:1px solid var(--border); border-radius:50%; display:inline-grid; place-items:center;
+      box-shadow:var(--shadow); background:conic-gradient(from 90deg, #232323, #101010);
+      position:relative; overflow:hidden}
+    .sigil::after{content:""; width:60%; height:60%; border:1px solid var(--accent); border-radius:50%; filter:drop-shadow(0 0 6px rgba(195,166,108,.3));}
+
+    main{flex:1; display:grid; grid-template-columns:320px 1fr; gap:1.25rem; padding:1.25rem; position:relative; z-index:1}
+
+    /* sidebar */
+    .sidebar{
+      background:linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow);
+      padding:1rem; display:flex; flex-direction:column; gap:.8rem; max-height:calc(100vh - 140px); position:sticky; top:86px; overflow:auto;
     }
 
-    #music-player {
-      margin-top: 1rem;
-      background-color: #222;
-      padding: 1rem;
-      border-radius: 5px;
+    .search{display:flex; gap:.5rem}
+    .search input{
+      flex:1; background:#0e0e0e; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:.55rem .7rem; font-family:"Space Grotesk", system-ui, sans-serif; font-size:.95rem;
     }
 
-    footer {
-      padding: 1rem;
-      text-align: center;
-      border-top: 1px solid #333;
-      font-size: 0.8rem;
+    .books{display:flex; flex-direction:column; gap:.5rem}
+    .book{
+      display:grid; grid-template-columns:64px 1fr; gap:.7rem; align-items:center;
+      padding:.55rem; border:1px solid var(--border); border-radius:10px; background:#101010; cursor:pointer; transition:transform .1s ease, border-color .2s ease, background .2s ease;
+    }
+    .book:hover{transform:translateY(-1px); border-color:#3b3b3b;}
+    .book[aria-selected="true"]{outline:2px solid var(--accent);}
+    .book.disabled{opacity:.5; filter:grayscale(1); cursor:not-allowed}
+
+    .cover{width:64px; height:84px; border-radius:6px; background:#070707; border:1px solid var(--border); background-size:cover; background-position:center;}
+    .meta{display:flex; flex-direction:column}
+    .meta .t{font-family:"Space Grotesk", system-ui, sans-serif; font-weight:600; letter-spacing:.02em}
+    .meta .s{color:var(--muted); font-size:.88rem}
+
+    /* viewer column */
+    .viewer{
+      display:flex; flex-direction:column; gap:.8rem; min-width:0;
+    }
+    .panel{
+      background:linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow);
+      padding: .9rem; min-height:0;
+    }
+
+    .toolbar{display:flex; align-items:center; gap:.5rem; justify-content:space-between; padding-bottom:.4rem; border-bottom:1px dashed var(--border); margin-bottom:.6rem}
+    .left, .right{display:flex; align-items:center; gap:.4rem; flex-wrap:wrap}
+    button, .ghost{
+      background:#0e0e0e; border:1px solid var(--border); color:var(--text); border-radius:8px; padding:.5rem .7rem; font-family:"Space Grotesk", system-ui, sans-serif;
+      cursor:pointer; display:inline-flex; gap:.45rem; align-items:center; transition:background .2s ease, transform .06s ease;
+    }
+    button:hover{background:#141414}
+    button:active{transform:translateY(1px)}
+    .ghost{opacity:.75}
+
+    .badge{font-size:.8rem; color:var(--muted); border:1px solid var(--border); padding:.15rem .4rem; border-radius:999px}
+
+    iframe{
+      width:100%; height:70vh; border:none; background:#000; border-radius:10px;
+      box-shadow: inset 0 0 0 1px #000, 0 0 20px rgba(0,0,0,.6);
+    }
+
+    /* music */
+    .player{display:flex; align-items:center; gap:.6rem; flex-wrap:wrap}
+    .player .track{flex:1; min-width:160px; color:var(--muted)}
+    .player input[type="range"]{accent-color:var(--accent);}
+    .player .vol{display:flex; align-items:center; gap:.4rem}
+
+    /* keyboard help */
+    .kb-hint{font-family:"Space Grotesk", system-ui, sans-serif; font-size:.85rem; color:var(--muted)}
+
+    footer{padding:1rem; text-align:center; border-top:1px solid var(--border); font-size:.85rem; color:var(--muted)}
+
+    @media(max-width: 960px){
+      main{grid-template-columns:1fr}
+      .sidebar{position:relative; top:0; max-height:unset}
+      iframe{height:65vh}
     }
   </style>
 </head>
 <body>
   <header>
-    Vegard's Books
-  </header>
-  <main>
-    <select id="chapter-selector">
-      <option value="">Choose Book</option>
-      <option value="Chapter1.pdf" data-music="FarBeyondtheSeams.wav">Far Beyond the Seams (Chapter 1-4)</option>
-      <option value="chapter2.pdf" data-music="chapter2.mp3">Tellurian Chronicles (Not available yet)</option>
-
-    </select>
-
-    <iframe id="pdf-viewer" src=""></iframe>
-
-    <div id="music-player">
-      <audio id="audio" controls>
-        <source src="FarBeyondtheSeams.wav" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+    <div class="title">
+      <span class="sigil" aria-hidden="true"></span>
+      Vegard's Books, Essays, and Articles
+      <span class="badge">Stories from beyond the fell</span>
     </div>
+  </header>
+
+  <main>
+    <!-- SIDEBAR: library -->
+    <aside class="sidebar" id="sidebar">
+      <div class="search">
+        <input id="search" type="search" placeholder="Search library… ( / )" aria-label="Search" />
+      </div>
+      <div id="book-list" class="books" role="listbox" aria-label="Books"></div>
+      <div class="kb-hint">Tip: Use ← → to switch books, Space to play/pause, M to mute.</div>
+    </aside>
+
+    <!-- VIEWER -->
+    <section class="viewer">
+      <div class="panel">
+        <div class="toolbar">
+          <div class="left">
+            <button id="prevBtn" title="Previous (←)">◀ Prev</button>
+            <button id="nextBtn" title="Next (→)">Next ▶</button>
+            <span id="status" class="badge">No book selected</span>
+          </div>
+          <div class="right">
+            <a id="openBtn" class="ghost" href="#" target="_blank" rel="noopener">Open</a>
+            <a id="dlBtn" class="ghost" href="#" download>Download</a>
+          </div>
+        </div>
+
+        <iframe id="pdf" title="PDF viewer" src="" loading="lazy"></iframe>
+      </div>
+
+      <div class="panel">
+        <div class="player">
+          <button id="playPause">Play</button>
+          <div class="track" id="trackTitle">No track</div>
+          <div class="vol">
+            <button id="muteBtn" title="Mute (M)">Mute</button>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.3" />
+          </div>
+          <div class="kb-hint">Volume Slider</div>
+        </div>
+        <audio id="audio" preload="none"></audio>
+      </div>
+    </section>
   </main>
+
   <footer>
-    &copy; 2025 Vegard Fotland
+    © 2025 Vegard Fotland
   </footer>
 
   <script>
-    const selector = document.getElementById('chapter-selector');
-    const viewer = document.getElementById('pdf-viewer');
-    const audio = document.getElementById('audio');
-
-    selector.addEventListener('change', function () {
-      const selectedOption = selector.options[selector.selectedIndex];
-      const chapterUrl = selectedOption.value;
-      const musicUrl = selectedOption.getAttribute('data-music');
-
-      if (chapterUrl) {
-        viewer.src = chapterUrl;
+    // ——— Library definition ———
+    const LIBRARY = [
+      {
+        id: 'book1',
+        title: 'Far Beyond the Seams (Ch. 1–4)',
+        pdf: 'Chapter1.pdf',
+        music: 'FarBeyondtheSeams.wav',
+        cover: 'Far Beyond the Seams.png', // optional; add your image path or remove
+        blurb: 'A man awakens buried alive with no memory in a hostile environment. What happens next as he explores the arid wastes and the evergrowing mist.',
+        available: true
+      },
+      {
+        id: 'article1',
+        title: '250 Bachelors Thesis',
+        pdf: '250 Bachelors.pdf',
+        music: '',
+        cover: '', // optional; add your image path or remove
+        blurb: 'My Bachelors thesis from UIB about glitch art and mental health',
+        available: true
+      },
+      {
+        id: 'book2',
+        title: 'Tellurian Chronicles',
+        pdf: 'chapter2.pdf',
+        music: 'chapter2.mp3',
+        cover: 'covers/tellurian.jpg',
+        blurb: '',
+        available: false
       }
+    ];
 
-      if (musicUrl) {
-        audio.src = musicUrl;
-        audio.volume = 0.3;
-        audio.play();
+    // ——— Elements ———
+    const listEl = document.getElementById('book-list');
+    const pdfEl = document.getElementById('pdf');
+    const statusEl = document.getElementById('status');
+    const openBtn = document.getElementById('openBtn');
+    const dlBtn = document.getElementById('dlBtn');
+
+    const audioEl = document.getElementById('audio');
+    const playPauseBtn = document.getElementById('playPause');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeEl = document.getElementById('volume');
+    const trackTitleEl = document.getElementById('trackTitle');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const searchEl = document.getElementById('search');
+
+    // ——— State ———
+    let currentIndex = -1;
+    const LS_LAST = 'vb:lastBook';
+    const LS_VOL = 'vb:volume';
+
+    // Restore volume
+    const savedVol = parseFloat(localStorage.getItem(LS_VOL));
+    if (!Number.isNaN(savedVol)) {
+      volumeEl.value = savedVol;
+      audioEl.volume = savedVol;
+    } else {
+      audioEl.volume = parseFloat(volumeEl.value);
+    }
+
+    // Build list
+    function renderList(items = LIBRARY){
+      listEl.innerHTML = '';
+      items.forEach((b, idx) => {
+        const li = document.createElement('button');
+        li.className = 'book' + (b.available ? '' : ' disabled');
+        li.setAttribute('role','option');
+        li.dataset.index = idx;
+        li.ariaSelected = (idx === currentIndex) ? 'true' : 'false';
+        li.disabled = !b.available;
+        li.innerHTML = `
+          <div class="cover" style="background-image:url('${b.cover || ''}')"></div>
+          <div class="meta">
+            <div class="t">${b.title}</div>
+            <div class="s">${b.available ? (b.blurb || '') : 'Not available yet'}</div>
+          </div>`;
+        li.addEventListener('click', () => selectBook(idx));
+        listEl.appendChild(li);
+      });
+    }
+
+    function updateSelectionHighlight(){
+      Array.from(listEl.children).forEach((el, i)=>{
+        el.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
+      });
+    }
+
+    // ——— Audio helpers ———
+    let fadeTimer = null;
+    function fadeTo(target, ms = 400){
+      clearInterval(fadeTimer);
+      const start = audioEl.volume;
+      const steps = Math.max(1, Math.floor(ms / 25));
+      let i = 0;
+      fadeTimer = setInterval(()=>{
+        i++;
+        const v = start + (target - start) * (i/steps);
+        audioEl.volume = Math.min(1, Math.max(0, v));
+        if(i >= steps) clearInterval(fadeTimer);
+      }, 25);
+    }
+
+    async function playTrack(src, title){
+      // fade out, swap, fade in
+      const desired = parseFloat(volumeEl.value);
+      fadeTo(0, 250);
+      await new Promise(r => setTimeout(r, 260));
+      audioEl.src = src || '';
+      trackTitleEl.textContent = title ? `Track: ${title}` : 'No track';
+      try {
+        await audioEl.play();
+        playPauseBtn.textContent = 'Pause';
+        fadeTo(desired, 350);
+      } catch(err){
+        // likely autoplay restriction
+        playPauseBtn.textContent = 'Play';
       }
+    }
+
+    function togglePlay(){
+      if(audioEl.paused){
+        audioEl.play().then(()=>{playPauseBtn.textContent='Pause'}).catch(()=>{});
+      } else { audioEl.pause(); playPauseBtn.textContent='Play'; }
+    }
+
+    function toggleMute(){
+      audioEl.muted = !audioEl.muted;
+      muteBtn.textContent = audioEl.muted ? 'Unmute' : 'Mute';
+    }
+
+    // ——— Selection ———
+    function selectBook(index){
+      const b = LIBRARY[index];
+      if(!b || !b.available) return;
+      currentIndex = index;
+      updateSelectionHighlight();
+
+      pdfEl.src = b.pdf;
+      statusEl.textContent = b.title;
+      openBtn.href = b.pdf; dlBtn.href = b.pdf;
+
+      if(b.music){ playTrack(b.music, b.title); }
+      else { audioEl.pause(); playPauseBtn.textContent = 'Play'; trackTitleEl.textContent = 'No track'; }
+
+      localStorage.setItem(LS_LAST, String(index));
+    }
+
+    // ——— Keyboard ———
+    function selectNext(dir){
+      if(LIBRARY.length === 0) return;
+      let idx = currentIndex;
+      do { idx = (idx + dir + LIBRARY.length) % LIBRARY.length; } while(!LIBRARY[idx].available && idx !== currentIndex);
+      if(LIBRARY[idx].available) selectBook(idx);
+    }
+
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'ArrowRight'){ e.preventDefault(); selectNext(1); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); selectNext(-1); }
+      if(e.key === ' '){ e.preventDefault(); togglePlay(); }
+      if(e.key.toLowerCase() === 'm'){ e.preventDefault(); toggleMute(); }
+      if(e.key === '/') { e.preventDefault(); searchEl.focus(); }
+    });
+
+    // ——— Search ———
+    searchEl.addEventListener('input', ()=>{
+      const q = searchEl.value.trim().toLowerCase();
+      const filtered = LIBRARY.filter(b => b.title.toLowerCase().includes(q) || (b.blurb||'').toLowerCase().includes(q));
+      renderList(filtered);
+    });
+
+    // ——— UI controls ———
+    playPauseBtn.addEventListener('click', togglePlay);
+    muteBtn.addEventListener('click', toggleMute);
+    volumeEl.addEventListener('input', ()=>{
+      audioEl.volume = parseFloat(volumeEl.value);
+      localStorage.setItem(LS_VOL, audioEl.volume);
+    });
+    prevBtn.addEventListener('click', ()=>selectNext(-1));
+    nextBtn.addEventListener('click', ()=>selectNext(1));
+
+    // ——— Initial render ———
+    renderList();
+    const last = parseInt(localStorage.getItem(LS_LAST));
+    if(!Number.isNaN(last) && LIBRARY[last] && LIBRARY[last].available){ selectBook(last); }
+
+    // If no selection but one available, hint-select first
+    if(currentIndex === -1){
+      const idx = LIBRARY.findIndex(b=>b.available);
+      if(idx !== -1){ statusEl.textContent = 'Select a book from the left'; }
+    }
+
+    // ——— Basic error note for PDF load failures ———
+    pdfEl.addEventListener('error', ()=>{
+      statusEl.textContent = 'Failed to load PDF';
     });
   </script>
 </body>
