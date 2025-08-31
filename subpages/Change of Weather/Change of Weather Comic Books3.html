@@ -1,212 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change of Weather - PDF Viewer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #222;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        .container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            width: 100%;
-        }
-        .pdf-section {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .pdf-container {
-            width: 80%;
-            max-width: 800px;
-            height: 1000px;
-            border: 2px solid white;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
-            margin-top: 20px;
-        }
-        .controls {
-            margin-top: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .fullscreen-btn { background-color: #f04; color: white; }
-        select {
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        .sidebar {
-            flex: 1;
-            background-color: #333;
-            padding: 20px;
-            text-align: left;
-            color: white;
-        }
-        .character-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .character-list li {
-            cursor: pointer;
-            padding: 10px;
-            background-color: #444;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
-        .character-list li:hover {
-            background-color: #555;
-        }
-        .character-info {
-            margin-top: 20px;
-            display: none;
-            text-align: center;
-        }
-        .character-info img {
-            width: 250px;
-            height: auto;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 15px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #A020F0;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
-        nav ul li a:hover {
-            color: #ffffff;
-        }
-        header {
-            background-color: #1e1e1e;
-            padding: 5px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            margin: auto;
-        }
-        header h1 {
-            font-family: Arial, sans-serif;
-            color: #e0e0e0;
-            font-size: 30px;
-            margin: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>O'l Andem - Archive & Atlas</title>
+
+  <!-- Fantasy-adjacent typefaces -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Forest palette */
+      --bg-deep:#0f1a13;
+      --bg-forest:#16251b;
+      --leaf:#2b5d3a;
+      --leaf-soft:#326b44;
+      --bark:#4a3b2a;
+      --bark-soft:#6a5842;
+      --moss:#94b49f;
+      --parchment:#f2e9d7;
+      --ink:#221c16;
+
+      /* Shadows and borders */
+      --rim:#dbc79e;
+      --shadow:0 10px 24px rgba(0,0,0,.35);
+      --glow:0 0 0 2px rgba(219,199,158,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* Subtle foresty background */
+    body{
+      margin:0;
+      color:#f5f3ec;
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #1f2f24 0%, transparent 60%),
+        radial-gradient(1200px 800px at 110% 10%, #213528 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-forest), var(--bg-deep));
+      font-family:"Crimson Text", serif;
+      min-height:100svh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Decorative header */
+    header{
+      position:sticky; top:0; z-index:1000;
+      background:
+        linear-gradient(180deg, rgba(22,37,27,.95), rgba(15,26,19,.92)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60" fill="none"><path d="M0 59h120" stroke="%236a5842" stroke-width="2"/></svg>') bottom center/120px 60px repeat-x;
+      border-bottom:1px solid rgba(219,199,158,.35);
+      box-shadow:var(--shadow);
+      backdrop-filter:saturate(1.1) blur(4px);
+    }
+    .wrap{width:min(1400px, 92%); margin:0 auto; padding:14px 0;}
+    .brand{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .title{
+      font-family:"Cinzel", serif;
+      letter-spacing:.03em;
+      margin:0;
+      font-weight:700;
+      font-size:clamp(20px, 3.2vw, 32px);
+      color:#e9e4d6;
+      text-shadow:0 2px 0 rgba(0,0,0,.35);
+    }
+    nav ul{list-style:none; padding:0; margin:6px 0 0; display:flex; gap:14px; flex-wrap:wrap}
+    nav a{
+      font-family:"Cinzel", serif;
+      font-size:14px;
+      text-decoration:none;
+      padding:8px 12px;
+      color:#e8dfcb;
+      background:linear-gradient(180deg, rgba(148,180,159,.14), rgba(148,180,159,.08));
+      border:1px solid rgba(219,199,158,.45);
+      border-radius:12px;
+      box-shadow:var(--glow);
+      transition:transform .12s ease, background .2s ease, box-shadow .2s ease;
+    }
+    nav a:hover{transform:translateY(-1px); background:linear-gradient(180deg, rgba(148,180,159,.22), rgba(148,180,159,.12));}
+
+    /* Page grid - enlarged middle column for monitors */
+    main{
+      flex:1;
+      display:grid; gap:18px;
+      grid-template-columns: 0.9fr 1.8fr 0.9fr; /* bigger center */
+      width:min(1400px, 92%);
+      margin:18px auto 32px;
+      align-items:start;
+    }
+    @media (min-width:1600px){
+      main{grid-template-columns: 1fr 2fr 1fr;}
+    }
+    @media (max-width: 980px){
+      main{grid-template-columns:1fr; }
+    }
+
+    /* Card look */
+    .card{
+      background:
+        linear-gradient(180deg, rgba(242,233,215,.85), rgba(242,233,215,.9)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140"><path d="M15 15h110v110H15z" fill="none" stroke="%23dbc79e" stroke-opacity=".15"/></svg>');
+      color:var(--ink);
+      border:1px solid rgba(106,88,66,.35);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      background:linear-gradient(180deg, rgba(148,180,159,.35), rgba(148,180,159,.15));
+      border-bottom:1px solid rgba(106,88,66,.3);
+      padding:12px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .card h2{
+      margin:0; font-family:"Cinzel", serif; font-size:20px; color:#2b3a30;
+      letter-spacing:.02em;
+    }
+    .card .body{padding:14px 16px;}
+
+    /* Controls */
+    .controls{
+      display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px;
+    }
+    select, button{
+      font-family:"Crimson Text", serif;
+      font-size:16px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid rgba(74,59,42,.5);
+      background:linear-gradient(180deg, #fff, #f2ecdf);
+      color:var(--ink);
+      box-shadow:var(--glow);
+      cursor:pointer;
+    }
+    button.filled{
+      background:linear-gradient(180deg, #7aa684, #55765f);
+      color:#f3f0e6; border-color:rgba(74,59,42,.6);
+    }
+    button.filled:hover{filter:brightness(1.05);}
+
+    /* PDF viewer column - a bit taller for monitors */
+    .frame-wrap{
+      border:1px solid rgba(74,59,42,.5);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#fff;
+      height: min(86svh, 1000px);
+    }
+    iframe{border:0; width:100%; height:100%; background:#fff;}
+
+    /* Character sidebar */
+    .char-list{display:grid; gap:8px; grid-template-columns:1fr; max-height:calc(86svh - 160px); overflow:auto; padding-right:4px;}
+    .char-item{
+      background:linear-gradient(180deg, rgba(148,180,159,.22), rgba(148,180,159,.1));
+      border:1px solid rgba(74,59,42,.35);
+      border-radius:12px; padding:8px 10px;
+      display:flex; align-items:center; gap:10px; cursor:pointer;
+      transition:transform .12s ease, background .2s ease;
+    }
+    .char-item:hover{transform:translateY(-1px); background:linear-gradient(180deg, rgba(148,180,159,.28), rgba(148,180,159,.14));}
+    .char-item img{width:40px; height:40px; border-radius:8px; object-fit:cover; border:1px solid rgba(74,59,42,.35);}
+    .char-detail{margin-top:12px; border-top:1px solid rgba(74,59,42,.25); padding-top:12px; display:none;}
+    .char-detail img{width:100%; border-radius:12px; border:1px solid rgba(74,59,42,.35);}
+
+    /* Map explorer */
+    .map-wrap{position:relative; aspect-ratio: 4 / 3; border:1px solid rgba(74,59,42,.5); border-radius:14px; overflow:hidden; background:#0d1310;}
+    .map-viewport{position:absolute; inset:0; overflow:hidden; touch-action:pan-x pan-y;}
+    .map-inner{position:absolute; top:0; left:0; transform-origin:0 0;}
+    .map-inner img{display:block; max-width:none; user-select:none; -webkit-user-drag:none;}
+    .pin{
+      position:absolute; transform:translate(-50%, -100%);
+      padding:4px 6px; border-radius:10px;
+      background:#f2e9d7; color:#221c16; border:1px solid rgba(74,59,42,.6);
+      font-size:12px; white-space:nowrap; box-shadow:var(--shadow); cursor:pointer;
+    }
+    .map-toolbar{display:flex; gap:8px; justify-content:flex-end; align-items:center; flex-wrap:wrap;}
+    .spot-info{
+      margin-top:10px; display:none;
+      background:linear-gradient(180deg, rgba(148,180,159,.18), rgba(148,180,159,.1));
+      border:1px solid rgba(74,59,42,.35); border-radius:12px; padding:10px;
+    }
+
+    /* Tiny scrollbars for parchment areas */
+    .char-list::-webkit-scrollbar{height:8px;width:8px}
+    .char-list::-webkit-scrollbar-thumb{background:#bfae8c;border-radius:10px}
+  </style>
 </head>
 <body>
 
-
-  <nav>
-      <ul>
-          <li><a href="Gallery/Gallery.html">O'l Andem Gallery</a></li>
-          <li><a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland Main Page</a></li>
-      </ul>
-  </nav>
-    <h1>O'l Andem Campaign Website</h1>
-    <p>Story by Vegard Fotland, Lars Toppe, Emma Husa, Lee, Sunniva Lode, Mats Riveland and Sofie Rørlien</p>
-    <p>Visualized by Lars Toppe</p>
-
-
-
-    <div class="container">
-        <div class="pdf-section">
-            <select id="comic-selector"></select>
-            <iframe id="pdf-frame" class="pdf-container" src="" frameborder="0"></iframe>
-            <div class="controls">
-                <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
-            </div>
-        </div>
-        <div class="sidebar">
-            <h2>Characters</h2>
-            <ul class="character-list" id="character-list"></ul>
-            <div class="character-info" id="character-info">
-                <img id="character-image" src="" alt="Character Image">
-                <p id="character-description"></p>
-            </div>
-        </div>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1 class="title">O'l Andem - Archive & Atlas</h1>
+        <nav>
+          <ul>
+            <li><a href="Gallery/Gallery.html">O'l Andem Gallery</a></li>
+            <li><a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland Main Page</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
+  </header>
 
-    <script>
-        const comics = {
-            "Change of Weather, Session 17-65": "session1.pdf",
-            "Change of Weather, Session 67-98": "session2.pdf",
-            "Cold Fluorescent Light, Session x-x": "session3.pdf"
-        };
+  <main>
+    <!-- Map Explorer -->
+    <section class="card" id="mapCard">
+      <div class="head">
+        <h2>Exploration Map</h2>
+        <div class="map-toolbar">
+          <button id="mapFullscreen" title="Toggle fullscreen">Map Fullscreen</button>
+          <button id="zoomOut" title="Zoom out">−</button>
+          <button id="zoomIn" title="Zoom in">+</button>
+          <button id="resetView" title="Reset view">Reset</button>
+        </div>
+      </div>
+      <div class="body">
+        <div class="map-wrap" id="mapWrap">
+          <div class="map-viewport" id="mapViewport">
+            <div class="map-inner" id="mapInner">
+              <!-- Replace map.jpg with your map -->
+              <img id="mapImage" src="map.jpg" alt="Campaign Map">
+              <!-- Pins are injected by JS -->
+            </div>
+          </div>
+        </div>
+        <div class="spot-info" id="spotInfo">
+          <strong id="spotTitle"></strong>
+          <p id="spotDesc" style="margin:.4rem 0 0;"></p>
+        </div>
+      </div>
+    </section>
 
-        const characters = {
-            "Torcoll": { image: "Torcoll.png", description: "Torcoll is a Dwarf of Dwalinstad. He was kidnapped by Gamdring Firebrod and injected with alchemical components that gave him draconic powers, but also slowly turns him into a halfdragon." },
-            "Cordelia": { image: "Cordelia.png", description: "Cordelia is a tailor from Reun who was working for Garnielle as part of his spy network." },
-            "Krom": { image: "Krom.png", description: "Krom is a far traveller from a small village in the north who found herself sucked into the war effort." },
-            "Aaliyah": { image: "Aaliyah.png", description: "Aaliyah was an experimental soldier fighting for the dragonborn side until she was disillusioned with the war and changed sides." },
-            "Medella": { image: "Medella.png", description: "Medella is a young cleric of the broken one who found out she was part of a cult and escaped. She was seemingly killed by father Elijah. Her fate is currently unknown." },
-            "Malos": { image: "Malos.png", description: "Malos is a snarky 2000+ year old Drow Elf and was the headmaster of the mystic and occult at the Galloway University. He ingested pneumatic essence and blew up. Poof." }
-        };
+    <!-- PDF Reader (wider center column) -->
+    <section class="card">
+      <div class="head">
+        <h2>Campaign Issues & Chapters</h2>
+      </div>
+      <div class="body">
+        <div class="controls">
+          <label for="comicSelector" style="font-weight:600">Select issue:</label>
+          <select id="comicSelector"></select>
+          <button class="filled" id="openFullscreen">PDF Fullscreen</button>
+        </div>
+        <div class="frame-wrap">
+          <iframe id="pdfFrame" src="" title="PDF Viewer"></iframe>
+        </div>
+      </div>
+    </section>
 
-        let pdfFrame = document.getElementById("pdf-frame");
-        let comicSelector = document.getElementById("comic-selector");
-        let characterList = document.getElementById("character-list");
-        let characterInfo = document.getElementById("character-info");
-        let characterImage = document.getElementById("character-image");
-        let characterDescription = document.getElementById("character-description");
+    <!-- Characters -->
+    <aside class="card">
+      <div class="head">
+        <h2>Characters</h2>
+      </div>
+      <div class="body">
+        <div class="char-list" id="charList"></div>
 
-        function loadComics() {
-            comicSelector.innerHTML = Object.keys(comics).map(comic => `<option value="${comics[comic]}">${comic}</option>`).join("");
-            comicSelector.value = Object.values(comics)[0];
-            pdfFrame.src = Object.values(comics)[0];
-        }
+        <div class="char-detail" id="charDetail">
+          <img id="charImage" src="" alt="">
+          <h3 id="charName" style="font-family:Cinzel,serif; margin:10px 0 6px; color:#2b3a30;"></h3>
+          <p id="charDesc" style="margin:0;"></p>
+        </div>
+      </div>
+    </aside>
+  </main>
 
-        function loadCharacters() {
-            characterList.innerHTML = Object.keys(characters).map(character => `<li onclick="showCharacter('${character}')">${character}</li>`).join("");
-        }
+  <script>
+    /* -----------------------------
+       Data
+    ----------------------------- */
+    const COMICS = {
+      "Change of Weather, Session 17-65": "session1.pdf",
+      "Change of Weather, Session 67-98": "session2.pdf",
+      "Cold Fluorescent Lights, Session x-x": "session3.pdf"
+    };
 
-        function showCharacter(character) {
-            characterImage.src = characters[character].image;
-            characterDescription.textContent = characters[character].description;
-            characterInfo.style.display = "block";
-        }
+    /* Replace your existing CHARACTERS object with this one */
+    const CHARACTERS = {
+      /* Party */
+      "Torcoll": { image: "Torcoll.png", description: "Dwarf of Dwalinstad. Kidnapped by Gamdring Firebrod and injected with alchemical components that grant draconic puissance while slowly turning him half-dragon." },
+      "Cordelia": { image: "Cordelia.png", description: "Tailor from Reun employed by Garnielle’s spy network." },
+      "Krom": { image: "Krom.png", description: "Far traveler from a northern village drawn into the war’s undertow." },
+      "Aaliyah": { image: "Aaliyah.png", description: "Experimental soldier once conscripted by the dragonborn. Disillusioned, she changed sides." },
+      "Medella": { image: "Medella.png", description: "Young cleric of the Broken One, escaped a cult and was seemingly slain by Father Elijah. Fate unknown." },
+      "Malos": { image: "Malos.png", description: "Acerbic drow scholar, head of mystic and occult studies at Galloway University. Ingested Pneuma and detonated." },
+      "Alkaline": {
+        image: "Alkaline.png",
+        description: "Tiefling Etherborn tinkerer from the Coked Coal Refinery. Obsessed with machines and with decoding Pneuma without serving the state."
+      },
+      "Triandra": {
+        image: "Triandra.png",
+        description: "Half elven woman plagued by shared dreams and memory intrusions. Joined the White Lotus to face her Inland Empire and reclaim scattered memories."
+      },
+      "Teel": {
+        image: "Teel.png",
+        description: "Dwarven bruiser with a past as a union buster who now seeks atonement. Framed for crimes after refinery explosions and hunted by bounty knives."
+      },
+      "Florian Kettledrop": {
+        image: "Florian.png",
+        description: "Young halfling ward of Rakish with Etherborn traits. Scholar who fights to learn why he was left behind and what Rakish truly planned."
+      },
+      "Naved Khadem": {
+        image: "Naved.png",
+        description: "Ex Aurum Watch constable guided by a careful patron called the Warden. Walks the line between duty, secrecy, and the group that trusts them only sometimes."
+      },
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                pdfFrame.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }
+      "Lumeric Coinscathe": {
+        image: "Lumeric.png",
+        description: "Androgynous half elf and discreet fence. Runs Lumeric’s Bed and Breakfast and trades in information with a smile that has too many rooms."
+      },
+      "Gurma Nagash": {
+        image: "Gurma.png",
+        description: "Refined orc High Archivist of the Sootworks. Quietly preserves forbidden research and slipped the party a confiscated diary at some risk."
+      },
+      "Elaris Nightvale": {
+        image: "Elaris.png",
+        description: "Monk who tends the Sootworks branch of the White Lotus. Means well, misreads omens, and opens doors to collective dreaming that are not always safe."
+      },
+      "Tony Canoli": {
+        image: "TonyCanoli.png",
+        description: "Canoli family don who prefers ledgers to knives. Offered maps, grudges, and jobs tied to the Malferent Soulforge and old thefts gone bad."
+      },
+      "Cullen “Cougher” Morsley": {
+        image: "Cullen.png",
+        description: "Gravel throated organizer of the Blacklung Pact. Survived a gas attack and now demands courage equal to the smoke in his lungs."
+      },
+      "Amber Sulthart": {
+        image: "Amber.png",
+        description: "Researcher for the Blacklung Pact who found cinderglass in the oil. Possibly Cullens fuckbuddy."
+      },
+      "Ruby": {
+        image: "Ruby.png",
+        description: "Red tiefling innkeeper of the Ruby Ramshack. Keeps order with a look. Keeps grudges in a ledger under the counter."
+      },
+      "Ren the Gnoll": {
+        image: "Ren.png",
+        description: "Scrapyard dealer who loves anything that gleams. Useful parts. Worse timing. Honest prices if you flatter the shine."
+      },
+      "Silma": {
+        image: "Silma.png",
+        description: "Blue tiefling fence working for Tony Canoli. Follows quietly and sells loudly. Knows what a favor costs."
+      },
 
-        comicSelector.addEventListener("change", function() {
-            pdfFrame.src = this.value;
+      "Magistrate Harker Blacklung": {
+        image: "HarkerBlacklung.png",
+        description: "Skeletal administrator with a smile like ash. The refinery runs. The workers cough. Harker calls it progress."
+      },
+      "Overseer Ormund “Red Eyes” Korrik": {
+        image: "OrmundKorrik.png",
+        description: "Overseer at the Coked Coal Refinery. Always bloodshot eyes from all the soot. Likes to beat employees"
+      },
+      "Pneumoclast Operatives": {
+        image: "Pneumoclasts.png",
+        description: "Unofficial agents of the state who erase Pneuma wherever it burns. They do not debate. They confiscate."
+      },
+
+      "Lady Medella": {
+        image: "Medella.png",
+        description: "Maiden figure of the White Lotus who may be a mask or a teaching. Speaks in flowers and riddles to those who can stay asleep."
+      },
+      "Malos Malferent": {
+        image: "Malos.png",
+        description: "Drow scholar turned Pseudo-god. Sought an egalitarian magic before he stepped into the ethereal sea and tore himself open."
+      },
+      "The Warden (Deni)": {
+        image: "Warden.png",
+        description: "Naved’s careful patron. Protects knowledge by rationing it. Truth given slowly so hearts do not split."
+      },
+      "Grand Executioner Thorne": {
+        image: "Thorne.png",
+        description: "Githyanki hunter who stalked the Soulforge halls. Totally badass and has an ancient red dragon."
+      },
+      "The Pale Gardener": {
+        image: "PaleGardener.png",
+        description: "Tender of Triandra’s memories who prunes only what the self agrees to shed. Teaches that forgetting is a choice with roots."
+      },
+
+      "Rakish": {
+        image: "Rakish.png",
+        description: "Elder gnome researcher and Florian’s guardian. Worked the line between medicine and weaponry and was taken from his workshop in fire."
+      },
+      "Briggon Bonebreaker": {
+        image: "Briggon.png",
+        description: "Half orc tavern regular who fenced stolen papers."
+      },
+      "Remuz": {
+        image: "Remuz.png",
+        description: "Dwarven shift manager who got party involved with the Union plot. Died in the Blacklung attack and left a name that weighs on Teel."
+      },
+      "Dragonborn Bounty Hunter V": {
+        image: "BountyV.png",
+        description: "Gold dragonborn professional who came for Teel’s head. Met steel, ether, and the floorboards."
+      },
+
+    };
+
+    /* Map spots: x and y are percentages relative to the image size.
+       Optional: add character:"Name" to also open that character in the sidebar when the pin is clicked. */
+
+
+    /* -----------------------------
+       PDF: selector + fullscreen
+    ----------------------------- */
+    const pdfFrame = document.getElementById("pdfFrame");
+    const comicSelector = document.getElementById("comicSelector");
+    const openFullscreen = document.getElementById("openFullscreen");
+
+    function loadComics(){
+      comicSelector.innerHTML = Object.keys(COMICS)
+        .map(k => `<option value="${COMICS[k]}">${k}</option>`).join("");
+      comicSelector.value = Object.values(COMICS)[0];
+      pdfFrame.src = comicSelector.value;
+    }
+    comicSelector?.addEventListener("change", e => { pdfFrame.src = e.target.value; });
+    openFullscreen?.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        pdfFrame.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    /* -----------------------------
+       Characters
+    ----------------------------- */
+    const charList = document.getElementById("charList");
+    const charDetail = document.getElementById("charDetail");
+    const charImage = document.getElementById("charImage");
+    const charName = document.getElementById("charName");
+    const charDesc = document.getElementById("charDesc");
+
+    function loadCharacters(){
+      charList.innerHTML = Object.keys(CHARACTERS).map(name => {
+        const c = CHARACTERS[name];
+        return `
+          <div class="char-item" data-name="${name}">
+            <img src="${c.image}" alt="${name}">
+            <div style="display:flex; flex-direction:column;">
+              <strong style="font-family:Cinzel,serif; color:#2b3a30;">${name}</strong>
+              <span style="font-size:12px; color:#3a4a40;">Click for details</span>
+            </div>
+          </div>`;
+      }).join("");
+
+      charList.querySelectorAll(".char-item").forEach(item=>{
+        item.addEventListener("click", ()=> openCharacter(item.getAttribute("data-name")));
+      });
+    }
+
+    function openCharacter(name){
+      const c = CHARACTERS[name];
+      if (!c) return;
+      charImage.src = c.image;
+      charImage.alt = name;
+      charName.textContent = name;
+      charDesc.textContent = c.description;
+      charDetail.style.display = "block";
+      // Keep it smooth on larger screens
+      charDetail.scrollIntoView({behavior:"smooth", block:"nearest"});
+    }
+
+    /* -----------------------------
+       Map Explorer: zoom, pins, reset, fullscreen
+    ----------------------------- */
+    const mapCard = document.getElementById("mapCard");
+    const mapWrap = document.getElementById("mapWrap");
+    const mapInner = document.getElementById("mapInner");
+    const mapImage = document.getElementById("mapImage");
+    const mapViewport = document.getElementById("mapViewport");
+    const zoomInBtn = document.getElementById("zoomIn");
+    const zoomOutBtn = document.getElementById("zoomOut");
+    const resetViewBtn = document.getElementById("resetView");
+    const mapFullscreenBtn = document.getElementById("mapFullscreen");
+    const spotInfo = document.getElementById("spotInfo");
+    const spotTitle = document.getElementById("spotTitle");
+    const spotDesc = document.getElementById("spotDesc");
+
+    let scale = 1;            // current zoom
+    let minScale = 1;
+    let maxScale = 3;
+    let offsetX = 0;          // pan offset in px
+    let offsetY = 0;
+    let isPanning = false;
+    let panStart = {x:0,y:0};
+    let offsetStart = {x:0,y:0};
+
+    function applyTransform(){
+      mapInner.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    }
+
+    function resetView(){
+      scale = 1;
+      offsetX = 0;
+      offsetY = 0;
+      spotInfo.style.display = "none";
+      applyTransform();
+    }
+
+    function clampOffsets(){
+      const vp = mapViewport.getBoundingClientRect();
+      const imgW = mapImage.naturalWidth || mapInner.offsetWidth;
+      const imgH = mapImage.naturalHeight || mapInner.offsetHeight;
+
+      const scaledW = imgW * scale;
+      const scaledH = imgH * scale;
+
+      const minX = Math.min(0, vp.width - scaledW);
+      const minY = Math.min(0, vp.height - scaledH);
+      const maxX = 0;
+      const maxY = 0;
+
+      if (offsetX < minX) offsetX = minX;
+      if (offsetY < minY) offsetY = minY;
+      if (offsetX > maxX) offsetX = maxX;
+      if (offsetY > maxY) offsetY = maxY;
+    }
+
+    function zoomAt(factor, centerX, centerY){
+      const oldScale = scale;
+      scale = Math.max(minScale, Math.min(maxScale, scale * factor));
+      const vp = mapViewport.getBoundingClientRect();
+
+      // Keep point under cursor stable
+      const dx = centerX - vp.left - offsetX;
+      const dy = centerY - vp.top - offsetY;
+      offsetX -= (dx / oldScale) * (scale - oldScale);
+      offsetY -= (dy / oldScale) * (scale - oldScale);
+
+      clampOffsets();
+      applyTransform();
+    }
+
+    function addPins(){
+      // Ensure mapInner matches the image natural size once loaded
+      mapImage.addEventListener("load", ()=>{
+        mapInner.style.width = mapImage.naturalWidth + "px";
+        mapInner.style.height = mapImage.naturalHeight + "px";
+      });
+
+      MAP_SPOTS.forEach(spot=>{
+        const el = document.createElement("button");
+        el.className = "pin";
+        el.textContent = "• " + spot.name;
+        el.style.left = spot.x + "%";
+        el.style.top  = spot.y + "%";
+        el.addEventListener("click", (e)=>{
+          e.stopPropagation();
+          spotTitle.textContent = spot.name;
+          spotDesc.textContent = spot.desc;
+          spotInfo.style.display = "block";
+
+          // Optional cross-link to character
+          if (spot.character && CHARACTERS[spot.character]) {
+            openCharacter(spot.character);
+          }
         });
+        mapInner.appendChild(el);
+      });
+    }
 
-        loadComics();
-        loadCharacters();
-    </script>
+    function enablePan(){
+      mapViewport.addEventListener("mousedown", e=>{
+        isPanning = true;
+        panStart = {x:e.clientX, y:e.clientY};
+        offsetStart = {x:offsetX, y:offsetY};
+      });
+      window.addEventListener("mousemove", e=>{
+        if (!isPanning) return;
+        const dx = e.clientX - panStart.x;
+        const dy = e.clientY - panStart.y;
+        offsetX = offsetStart.x + dx;
+        offsetY = offsetStart.y + dy;
+        clampOffsets();
+        applyTransform();
+      });
+      window.addEventListener("mouseup", ()=>{ isPanning = false; });
+
+      // Wheel zoom
+      mapViewport.addEventListener("wheel", e=>{
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.1 : 0.9;
+        zoomAt(factor, e.clientX, e.clientY);
+      }, {passive:false});
+    }
+
+    // Buttons
+    zoomInBtn?.addEventListener("click", ()=>{
+      const vp = mapViewport.getBoundingClientRect();
+      zoomAt(1.15, vp.left + vp.width/2, vp.top + vp.height/2);
+    });
+    zoomOutBtn?.addEventListener("click", ()=>{
+      const vp = mapViewport.getBoundingClientRect();
+      zoomAt(0.87, vp.left + vp.width/2, vp.top + vp.height/2);
+    });
+    resetViewBtn?.addEventListener("click", resetView);
+
+    // Map fullscreen: include the whole card so controls remain visible
+    mapFullscreenBtn?.addEventListener("click", ()=>{
+      const target = mapCard; // or mapWrap if you only want the map area
+      if (!document.fullscreenElement) {
+        target.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+
+    /* -----------------------------
+       Init
+    ----------------------------- */
+    loadComics();
+    loadCharacters();
+    addPins();
+    enablePan();
+    resetView();
+  </script>
 </body>
 </html>

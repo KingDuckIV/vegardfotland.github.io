@@ -1,202 +1,513 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change of Weather</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #222;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .nav-button {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background-color: #555;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .nav-button:hover {
-            background-color: #777;
-        }
-        .main-content {
-            flex: 3;
-            padding: 20px;
-        }
-        .comic-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            position: relative;
-        }
-        .comic-image {
-            width: 80%;
-            max-width: 800px;
-            height: auto;
-            border: 2px solid white;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
-        }
-        .counter {
-            margin-top: 10px;
-            font-size: 18px;
-        }
-        .controls {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .prev-btn { background-color: #444; color: white; }
-        .next-btn { background-color: #008CBA; color: white; }
-        .fullscreen-btn { background-color: #f04; color: white; }
-        select {
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-        nav ul li {
-            margin: 0 15px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #A020F0;
-            padding: 10px;
-            transition: color 0.3s ease;
-        }
-        nav ul li a:hover {
-            color: #ffffff;
-        }
-        header {
-            background-color: #1e1e1e;
-            padding: 10px 0;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-        header h1 {
-            font-family: Arial, sans-serif;
-            color: #e0e0e0;
-            font-size: 36px;
-            margin: 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Change of Weather — Gallery & Atlas</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-deep:#0f1a13;
+      --bg-forest:#16251b;
+      --leaf:#2b5d3a;
+      --leaf-soft:#326b44;
+      --bark:#4a3b2a;
+      --bark-soft:#6a5842;
+      --moss:#94b49f;
+      --parchment:#f2e9d7;
+      --ink:#221c16;
+      --rim:#dbc79e;
+      --shadow:0 10px 24px rgba(0,0,0,.35);
+      --glow:0 0 0 2px rgba(219,199,158,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    /* Page */
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:#f5f3ec;
+      background:
+        radial-gradient(1200px 800px at 10% -10%, #1f2f24 0%, transparent 60%),
+        radial-gradient(1200px 800px at 110% 10%, #213528 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg-forest), var(--bg-deep));
+      font-family:"Crimson Text", serif;
+      display:flex; flex-direction:column;
+    }
+
+    header{
+      position:sticky; top:0; z-index:10;
+      background:
+        linear-gradient(180deg, rgba(22,37,27,.95), rgba(15,26,19,.92)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="60" viewBox="0 0 120 60"><path d="M0 59h120" stroke="%236a5842" stroke-width="2"/></svg>') bottom center/120px 60px repeat-x;
+      border-bottom:1px solid rgba(219,199,158,.35);
+      box-shadow:var(--shadow);
+      backdrop-filter:saturate(1.05) blur(4px);
+    }
+    .wrap{width:min(1400px,92%); margin:0 auto; padding:10px 0;}
+    .brand{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+    h1.title{
+      margin:0; font-family:"Cinzel",serif; letter-spacing:.03em;
+      font-size:clamp(20px, 3vw, 34px); color:#e9e4d6; text-shadow:0 2px 0 rgba(0,0,0,.35);
+    }
+    nav ul{list-style:none; margin:0; padding:0; display:flex; gap:12px; flex-wrap:wrap}
+    nav a{
+      font-family:"Cinzel",serif; font-size:14px; text-decoration:none;
+      padding:8px 12px; color:#e8dfcb;
+      background:linear-gradient(180deg, rgba(148,180,159,.14), rgba(148,180,159,.08));
+      border:1px solid rgba(219,199,158,.45);
+      border-radius:12px; box-shadow:var(--glow);
+      transition:transform .12s ease, background .2s ease;
+    }
+    nav a:hover{transform:translateY(-1px); background:linear-gradient(180deg, rgba(148,180,159,.22), rgba(148,180,159,.12));}
+
+    /* Layout */
+    .main{width:min(1400px,92%); margin:16px auto 24px; display:grid; gap:16px; grid-template-columns: 1fr; align-items:start;}
+    .card{
+      background:
+        linear-gradient(180deg, rgba(242,233,215,.86), rgba(242,233,215,.92)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140"><path d="M15 15h110v110H15z" fill="none" stroke="%23dbc79e" stroke-opacity=".15"/></svg>');
+      color:var(--ink);
+      border:1px solid rgba(106,88,66,.35);
+      border-radius:16px; box-shadow:var(--shadow); overflow:hidden;
+    }
+    .head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border-bottom:1px solid rgba(106,88,66,.3); background:linear-gradient(180deg, rgba(148,180,159,.35), rgba(148,180,159,.15));}
+    .head h2{margin:0; font-family:"Cinzel",serif; font-size:20px; color:#2b3a30;}
+    .body{padding:12px 16px;}
+
+    /* Toolbar */
+    .toolbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:10px;}
+    select, button{
+      font-family:"Crimson Text",serif; font-size:16px; padding:8px 10px; border-radius:12px;
+      border:1px solid rgba(74,59,42,.5); background:linear-gradient(180deg, #fff, #f2ecdf); color:var(--ink);
+      box-shadow:var(--glow); cursor:pointer;
+    }
+    button.primary{background:linear-gradient(180deg, #7aa684, #55765f); color:#f3f0e6;}
+    button.ghost{background:linear-gradient(180deg, #fff, #f7f1e6);}
+    button:disabled{opacity:.6; cursor:not-allowed}
+
+    /* Viewer */
+    .viewer{
+      position:relative;
+      border:1px solid rgba(74,59,42,.5); border-radius:14px; background:#111; overflow:hidden;
+      height:min(78svh, 900px);
+      display:flex; align-items:center; justify-content:center;
+      user-select:none;
+    }
+    .viewer img{
+      max-width:100%; max-height:100%;
+      object-fit:contain; /* toggles to cover via JS */
+      transition:transform .12s ease;
+      will-change:transform;
+      image-rendering:auto;
+      cursor:grab;
+    }
+    .viewer img.dragging{cursor:grabbing}
+    .badge{
+      position:absolute; left:12px; bottom:12px;
+      background:rgba(17,17,17,.6); color:#f2e9d7; padding:6px 10px; border-radius:10px; font-size:14px; border:1px solid rgba(219,199,158,.35);
+      backdrop-filter:blur(3px);
+    }
+
+    /* Controls row */
+    .controls{
+      display:flex; gap:8px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:10px;
+    }
+
+    /* Thumbs */
+    .thumbs{
+      margin-top:12px; overflow:auto; display:flex; gap:8px; padding-bottom:6px;
+    }
+    .thumbs::-webkit-scrollbar{height:8px}
+    .thumbs::-webkit-scrollbar-thumb{background:#bfae8c; border-radius:10px}
+    .thumb{
+      flex:0 0 auto; width:110px; height:72px; border-radius:10px; overflow:hidden; border:2px solid transparent; background:#222;
+      position:relative;
+    }
+    .thumb img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) contrast(1.05)}
+    .thumb.active{border-color:#6a5842}
+    .thumb::after{
+      content:attr(data-i);
+      position:absolute; right:6px; bottom:4px; font-size:12px; color:#eee;
+      background:rgba(0,0,0,.55); padding:2px 6px; border-radius:8px; border:1px solid rgba(255,255,255,.12)
+    }
+
+    /* Help line */
+    .help{margin-top:8px; color:#2b3a30; font-size:14px}
+
+    @media (min-width:1100px){
+      .main{grid-template-columns: 1.2fr;}
+    }
+  </style>
 </head>
 <body>
 
-  <nav>
-  <ul>
-      <li><a href="../Change of Weather Comic Books3.html">O'l Andem Archives</a></li>
-      <li><a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland Main Page</a></li>
-  </ul>
-</nav>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1 class="title">Change of Weather — Gallery</h1>
+        <nav>
+          <ul>
+            <li><a href="../Change of Weather Comic Books3.html">O'l Andem Archives</a></li>
+            <li><a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland Main Page</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-
-    <div class="main-content">
-        <h1>Change of Weather Gallery</h1>
-        <p>Visualized by Emma Husa, Lee, Sofie Rørlien, Vegard Fotland, Sunniva Lode and Lars Toppe</p>
-        <select id="comic-selector"></select>
-        <div class="comic-container" id="comic-container">
-            <img id="comic-image" class="comic-image" src="" alt="Comic Page">
-            <p class="counter" id="counter">Page 1 of X</p>
+  <main class="main">
+    <section class="card">
+      <div class="head">
+        <h2>Collections</h2>
+        <div class="toolbar">
+          <label for="collection" style="font-weight:600">Pick collection:</label>
+          <select id="collection"></select>
+          <button id="shuffle" class="ghost" title="Shuffle order">Shuffle</button>
+          <button id="slideshow" class="ghost" title="Start slideshow">Slideshow</button>
+          <button id="fitToggle" class="ghost" title="Toggle contain or cover">Fit: Contain</button>
+          <button id="fullscreen" class="primary" title="Fullscreen viewer">Fullscreen</button>
+          <button id="downloadBtn" class="ghost" title="Download current image">Download</button>
         </div>
-    </div>
+      </div>
 
-    <div class="controls">
-        <button class="prev-btn" onclick="prevPage()">Previous</button>
-        <button class="next-btn" onclick="nextPage()">Next</button>
-        <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
-    </div>
+      <div class="body">
+        <div class="viewer" id="viewer">
+          <img id="img" alt="Comic page">
+          <div class="badge" id="badge">Image 1 of X</div>
+        </div>
 
-    <script>
-        const comics = {
-            "Torcoll": ["Torcoll1.png", "Torcoll2.JPG", "Torcoll3.png"],
-            "Cordelia": ["Cordelia1.png", "Cordelia2.png", "Cordelia3.png", "Cordelia4.png", "Cordelia5.png", "Cordelia6.JPG", "Cordelia7.png"],
-            "Aaliyah": ["Aaliyah1.png", "Aaliyah2.png", "Aaliyah3.png", "Aaliyah4.png", "Aaliyah5.png", "Aaliyah6.JPG", "Aaliyah7.png"],
-            "Medella": ["Medella1.png", "Medella2.JPG", "Medella3.png", "Medella4.png", "Medella5.png", "Medella6.jpg"],
-            "Krom": ["Krom1.jpg", "Krom2.jpg", "Krom3.jpg", "Krom4.jpg", "Krom5.jpg", "Krom6.gif", "Krom7.jpg", "Krom8.jpg", "Krom9.jpg", "Krom10.png", "Krom11.jpg", "Krom12.jpg", "Krom13.png", "Krom14.JPG", "Krom15.png", "Krom16.png"],
-            "Misc": ["Alucard1.png", "Alucard2.png", "Alucard3.jpg", "Dillweed1.png", "Malos1.JPG", "Dillweed2.png", "Misc1.png", "Misc2.png", "Misc3.png", "Misc4.jpg", "DillweedDead.jpg", "Misc5.png"],
-            "Scenes": ["Scene1.jpg", "Scene2.png", "Scene3.jpg", "Scene4.png", "Scene5.png", "Scene6.png", "Scene7.png", "Scene8.png", "Scene9.png", "Scene10.png", "Scene11.png", "Scene12.jpg", "Scene13.jpg", "Scene14.png", "Scene15.png"]
-        };
+        <div class="controls">
+          <button id="prev" class="ghost">Previous</button>
+          <button id="next" class="primary">Next</button>
+          <span id="nameLabel" style="font-weight:600; color:#2b3a30;">Torcoll</span>
+        </div>
 
-        let currentComic = Object.keys(comics)[0];
-        let currentPage = 0;
-        const comicSelector = document.getElementById("comic-selector");
-        const comicImage = document.getElementById("comic-image");
-        const counter = document.getElementById("counter");
+        <div class="thumbs" id="thumbs" aria-label="Thumbnails"></div>
+        <div class="help">Tip: use arrow keys, A and D, or swipe. Wheel to zoom. Double click to toggle zoom. Drag to pan when zoomed.</div>
+      </div>
+    </section>
+  </main>
 
-        function loadComics() {
-            comicSelector.innerHTML = Object.keys(comics).map(comic => `<option value="${comic}">${comic}</option>`).join("");
-            comicSelector.value = currentComic;
-            updatePage();
-        }
+  <script>
+    /* Data: keep your filenames as you already have them */
+    const COLLECTIONS = {
+      "Torcoll": ["Torcoll1.png", "Torcoll2.JPG", "Torcoll3.png"],
+      "Cordelia": ["Cordelia1.png", "Cordelia2.png", "Cordelia3.png", "Cordelia4.png", "Cordelia5.png", "Cordelia6.JPG", "Cordelia7.png"],
+      "Aaliyah": ["Aaliyah1.png", "Aaliyah2.png", "Aaliyah3.png", "Aaliyah4.png", "Aaliyah5.png", "Aaliyah6.JPG", "Aaliyah7.png"],
+      "Medella": ["Medella1.png", "Medella2.JPG", "Medella3.png", "Medella4.png", "Medella5.png", "Medella6.jpg"],
+      "Krom": ["Krom1.jpg", "Krom2.jpg", "Krom3.jpg", "Krom4.jpg", "Krom5.jpg", "Krom6.gif", "Krom7.jpg", "Krom8.jpg", "Krom9.jpg", "Krom10.png", "Krom11.jpg", "Krom12.jpg", "Krom13.png", "Krom14.JPG", "Krom15.png", "Krom16.png"],
+      "Misc": ["Alucard1.png", "Alucard2.png", "Alucard3.jpg", "Dillweed1.png", "Malos1.JPG", "Dillweed2.png", "Misc1.png", "Misc2.png", "Misc3.png", "Misc4.jpg", "DillweedDead.jpg", "Misc5.png"],
+      "Scenes": ["Scene1.jpg", "Scene2.png", "Scene3.jpg", "Scene4.png", "Scene5.png", "Scene6.png", "Scene7.png", "Scene8.png", "Scene9.png", "Scene10.png", "Scene11.png", "Scene12.jpg", "Scene13.jpg", "Scene14.png", "Scene15.png"]
+    };
 
-        function updatePage() {
-            comicImage.src = comics[currentComic][currentPage];
-            counter.textContent = `Image ${currentPage + 1} of ${comics[currentComic].length}`;
-        }
+    /* State */
+    let order = Object.keys(COLLECTIONS);
+    let currentCollection = order[0];
+    let index = 0;
+    let fitMode = "contain";      // or "cover"
+    let slideTimer = null;
+    let zoom = 1;
+    let offset = {x:0, y:0};
+    let isPanning = false;
+    let panStart = {x:0, y:0};
+    let offsetStart = {x:0, y:0};
 
-        function nextPage() {
-            if (currentPage < comics[currentComic].length - 1) {
-                currentPage++;
-                updatePage();
-            }
-        }
+    /* Elements */
+    const sel = document.getElementById("collection");
+    const viewer = document.getElementById("viewer");
+    const img = document.getElementById("img");
+    const badge = document.getElementById("badge");
+    const nameLabel = document.getElementById("nameLabel");
+    const thumbs = document.getElementById("thumbs");
+    const prevBtn = document.getElementById("prev");
+    const nextBtn = document.getElementById("next");
+    const fullscreenBtn = document.getElementById("fullscreen");
+    const fitToggle = document.getElementById("fitToggle");
+    const shuffleBtn = document.getElementById("shuffle");
+    const slideshowBtn = document.getElementById("slideshow");
+    const downloadBtn = document.getElementById("downloadBtn");
 
-        function prevPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                updatePage();
-            }
-        }
+    /* Init */
+    function init(){
+      sel.innerHTML = order.map(k => `<option value="${k}">${k} (${COLLECTIONS[k].length})</option>`).join("");
+      sel.value = currentCollection;
+      nameLabel.textContent = currentCollection;
+      buildThumbs();
+      loadImage();
+      bindEvents();
+    }
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.error("Fullscreen request failed", err);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-        comicSelector.addEventListener("change", function() {
-            currentComic = this.value;
-            currentPage = 0;
-            updatePage();
+    function buildThumbs(){
+      thumbs.innerHTML = "";
+      COLLECTIONS[currentCollection].forEach((src, i)=>{
+        const t = document.createElement("button");
+        t.className = "thumb";
+        t.setAttribute("data-i", i+1);
+        const ti = document.createElement("img");
+        ti.loading = "lazy";
+        ti.src = src;
+        ti.alt = "Thumb " + (i+1);
+        t.appendChild(ti);
+        t.addEventListener("click", ()=>{
+          index = i; loadImage();
         });
+        thumbs.appendChild(t);
+      });
+      highlightThumb();
+    }
 
-        loadComics();
-    </script>
+    function updateBadge(){
+      const total = COLLECTIONS[currentCollection].length;
+      badge.textContent = `Image ${index+1} of ${total}`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === total - 1;
+    }
+
+    function loadImage(){
+      const src = COLLECTIONS[currentCollection][index];
+      img.style.transform = "translate(0px,0px) scale(1)";
+      zoom = 1; offset = {x:0, y:0};
+      img.style.objectFit = fitMode;
+      img.src = src;
+      img.alt = `${currentCollection} ${index+1}`;
+      updateBadge();
+      highlightThumb();
+      // Prefetch the next image for snappier clicks
+      const nextSrc = COLLECTIONS[currentCollection][index+1];
+      if (nextSrc){
+        const pre = new Image(); pre.src = nextSrc;
+      }
+      // Update download link
+      downloadBtn.setAttribute("data-src", src);
+      downloadBtn.setAttribute("data-name", `${currentCollection}_${index+1}${src.slice(src.lastIndexOf('.'))}`);
+    }
+
+    function highlightThumb(){
+      const ts = [...thumbs.querySelectorAll(".thumb")];
+      ts.forEach(el=>el.classList.remove("active"));
+      if (ts[index]) ts[index].classList.add("active");
+      // Ensure active thumb stays in view
+      const active = ts[index];
+      if (active){
+        const ar = active.getBoundingClientRect();
+        const tr = thumbs.getBoundingClientRect();
+        if (ar.right > tr.right) thumbs.scrollLeft += (ar.right - tr.right) + 10;
+        if (ar.left < tr.left) thumbs.scrollLeft -= (tr.left - ar.left) + 10;
+      }
+    }
+
+    function next(){ if (index < COLLECTIONS[currentCollection].length - 1){ index++; loadImage(); } }
+    function prev(){ if (index > 0){ index--; loadImage(); } }
+
+    function setCollection(name){
+      currentCollection = name;
+      index = 0;
+      nameLabel.textContent = currentCollection;
+      buildThumbs();
+      loadImage();
+    }
+
+    function toggleFit(){
+      fitMode = fitMode === "contain" ? "cover" : "contain";
+      fitToggle.textContent = `Fit: ${fitMode === "contain" ? "Contain" : "Cover"}`;
+      img.style.objectFit = fitMode;
+    }
+
+    function startSlideshow(){
+      if (slideTimer) return;
+      slideshowBtn.textContent = "Stop slideshow";
+      slideTimer = setInterval(()=>{
+        if (index < COLLECTIONS[currentCollection].length - 1) next();
+        else {
+          // go to next collection
+          const keys = Object.keys(COLLECTIONS);
+          let i = keys.indexOf(currentCollection);
+          i = (i + 1) % keys.length;
+          sel.value = keys[i];
+          setCollection(keys[i]);
+        }
+      }, 2500);
+    }
+    function stopSlideshow(){
+      clearInterval(slideTimer); slideTimer = null;
+      slideshowBtn.textContent = "Slideshow";
+    }
+    function toggleSlideshow(){ slideTimer ? stopSlideshow() : startSlideshow(); }
+
+    function toggleFullscreen(){
+      const target = viewer;
+      if (!document.fullscreenElement) target.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+
+    function shuffleCurrent(){
+      // Fisher-Yates on this collection only
+      const arr = COLLECTIONS[currentCollection];
+      for (let i = arr.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      index = 0;
+      buildThumbs();
+      loadImage();
+    }
+
+    /* Zoom and pan */
+    function applyTransform(){ img.style.transform = `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`; }
+
+    function zoomAt(factor, cx, cy){
+      const rect = viewer.getBoundingClientRect();
+      const ox = (cx - rect.left - offset.x) / zoom;
+      const oy = (cy - rect.top - offset.y) / zoom;
+      const newZoom = Math.min(6, Math.max(1, zoom * factor));
+      offset.x = cx - rect.left - ox * newZoom;
+      offset.y = cy - rect.top - oy * newZoom;
+      zoom = newZoom;
+      clampPan(); applyTransform();
+    }
+
+    function clampPan(){
+      // Keep at least some of the image in view when zoomed out
+      const rect = viewer.getBoundingClientRect();
+      const vw = rect.width, vh = rect.height;
+      const iw = img.naturalWidth; const ih = img.naturalHeight;
+      if (!iw || !ih) return;
+
+      // Compute scaled image size given fit mode
+      let displayW = iw, displayH = ih;
+      const rw = vw / iw, rh = vh / ih;
+      if (fitMode === "contain"){
+        const s = Math.min(rw, rh);
+        displayW = iw * s; displayH = ih * s;
+      } else {
+        const s = Math.max(rw, rh);
+        displayW = iw * s; displayH = ih * s;
+      }
+      const scaledW = displayW * zoom;
+      const scaledH = displayH * zoom;
+
+      const minX = Math.min(0, vw - scaledW);
+      const minY = Math.min(0, vh - scaledH);
+      const maxX = 0, maxY = 0;
+
+      if (offset.x < minX) offset.x = minX;
+      if (offset.y < minY) offset.y = minY;
+      if (offset.x > maxX) offset.x = maxX;
+      if (offset.y > maxY) offset.y = maxY;
+    }
+
+    /* Events */
+    function bindEvents(){
+      sel.addEventListener("change", e => setCollection(e.target.value));
+      nextBtn.addEventListener("click", next);
+      prevBtn.addEventListener("click", prev);
+      fullscreenBtn.addEventListener("click", toggleFullscreen);
+      fitToggle.addEventListener("click", toggleFit);
+      shuffleBtn.addEventListener("click", shuffleCurrent);
+      slideshowBtn.addEventListener("click", toggleSlideshow);
+
+      // Download
+      downloadBtn.addEventListener("click", ()=>{
+        const src = downloadBtn.getAttribute("data-src");
+        const name = downloadBtn.getAttribute("data-name") || "image";
+        const a = document.createElement("a");
+        a.href = src; a.download = name; document.body.appendChild(a);
+        a.click(); a.remove();
+      });
+
+      // Keyboard
+      window.addEventListener("keydown", e=>{
+        if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") next();
+        if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") prev();
+        if (e.key.toLowerCase() === "f") toggleFullscreen();
+        if (e.key.toLowerCase() === "s") toggleSlideshow();
+        if (e.key.toLowerCase() === "x") toggleFit();
+      });
+
+      // Mouse wheel zoom
+      viewer.addEventListener("wheel", e=>{
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.15 : 0.87;
+        zoomAt(factor, e.clientX, e.clientY);
+      }, {passive:false});
+
+      // Double click to toggle zoom
+      viewer.addEventListener("dblclick", e=>{
+        const factor = zoom === 1 ? 2 : 1 / Math.max(zoom, 1);
+        zoomAt(factor === 2 ? 2 : 1/zoom, e.clientX, e.clientY);
+      });
+
+      // Drag to pan when zoomed
+      img.addEventListener("mousedown", e=>{
+        if (zoom === 1) return;
+        isPanning = true; img.classList.add("dragging");
+        panStart = {x:e.clientX, y:e.clientY};
+        offsetStart = {...offset};
+      });
+      window.addEventListener("mousemove", e=>{
+        if (!isPanning) return;
+        offset.x = offsetStart.x + (e.clientX - panStart.x);
+        offset.y = offsetStart.y + (e.clientY - panStart.y);
+        clampPan(); applyTransform();
+      });
+      window.addEventListener("mouseup", ()=>{ isPanning = false; img.classList.remove("dragging"); });
+
+      // Touch swipe and pinch
+      let touchStart = null;
+      let lastDist = null;
+
+      viewer.addEventListener("touchstart", e=>{
+        if (e.touches.length === 1){
+          touchStart = {x:e.touches[0].clientX, y:e.touches[0].clientY, time:Date.now()};
+        }
+        if (e.touches.length === 2){
+          lastDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+        }
+      }, {passive:true});
+
+      viewer.addEventListener("touchmove", e=>{
+        if (e.touches.length === 2){
+          const d = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const centerX = (e.touches[0].clientX + e.touches[1].clientX)/2;
+          const centerY = (e.touches[0].clientY + e.touches[1].clientY)/2;
+          if (lastDist){
+            const factor = d > lastDist ? 1.05 : 0.95;
+            zoomAt(factor, centerX, centerY);
+          }
+          lastDist = d;
+        }
+        if (e.touches.length === 1 && zoom > 1){
+          // pan with touch
+          const dx = e.touches[0].clientX - (touchStart?.x ?? e.touches[0].clientX);
+          const dy = e.touches[0].clientY - (touchStart?.y ?? e.touches[0].clientY);
+          offset.x += dx * 0.5; offset.y += dy * 0.5;
+          touchStart = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+          clampPan(); applyTransform();
+        }
+      }, {passive:true});
+
+      viewer.addEventListener("touchend", e=>{
+        if (touchStart && zoom === 1 && e.changedTouches.length === 1){
+          const dt = Date.now() - touchStart.time;
+          const dx = Math.abs((e.changedTouches[0].clientX) - touchStart.x);
+          if (dt < 300 && dx > 40){
+            if (e.changedTouches[0].clientX < touchStart.x) next(); else prev();
+          }
+        }
+        if (e.touches.length < 2) lastDist = null;
+        if (e.touches.length === 0) touchStart = null;
+      });
+    }
+
+    /* Kick off */
+    init();
+  </script>
 </body>
 </html>
