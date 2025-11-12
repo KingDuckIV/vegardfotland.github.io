@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selected Accomplishments & Creative Works – Vegard Fotland</title>
+  <meta name="description" content="Selected accomplishments, awards, exhibitions, professional roles, and musical projects by Vegard Fotland." />
+  <style>
+    :root {
+      --bg: #0b0c0d;
+      --card: #111316;
+      --ink: #e6f0ff;
+      --muted: #9bb1c9;
+      --accent: #7cc4ff;
+      --link: #9ae6ff;
+      --rule: #1b1f24;
+      --shadow: 0 8px 24px rgba(0,0,0,0.35);
+      --radius: 16px;
+      --maxw: 980px;
+      --pad: clamp(16px, 2.5vw, 28px);
+    }
+
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #0b0c0d 0%, #0a0b0c 100%);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad) 64px; }
+
+    header.site {
+      position: sticky; top: 0; z-index: 5;
+      backdrop-filter: saturate(140%) blur(6px);
+      background: linear-gradient(180deg, rgba(11,12,13,0.9) 0%, rgba(11,12,13,0.6) 100%);
+      border-bottom: 1px solid var(--rule);
+    }
+    .site-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px var(--pad); }
+    .brand a { color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: 0.3px; }
+    .brand small { color: var(--muted); font-weight: 400; }
+    nav a { color: var(--link); text-decoration: none; margin-left: 14px; }
+    nav a:hover { text-decoration: underline; }
+
+    .hero { padding: 56px var(--pad) 24px; border-bottom: 1px solid var(--rule); background: radial-gradient(1200px 1200px at 20% -10%, rgba(124,196,255,0.08), transparent 60%); }
+    .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 12px; }
+    .hero p { margin: 0; color: var(--muted); max-width: 48ch; }
+
+    .toc { margin: 28px 0 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+    .toc a { background: var(--card); border: 1px solid var(--rule); padding: 8px 12px; border-radius: 999px; color: var(--link); text-decoration: none; font-size: 14px; }
+    .toc a:hover { border-color: var(--accent); }
+
+    section { padding: 28px 0; }
+
+    .section-title { font-size: clamp(18px, 2.8vw, 24px); margin: 0 0 14px; letter-spacing: 0.2px; }
+
+    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+    .card { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 6px; font-size: 18px; }
+    .card .meta { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+    .card p { margin: 0; }
+
+    .list { display: grid; gap: 12px; }
+
+    .pill { display: inline-block; font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); background: #0d1114; color: var(--muted); }
+
+    .projects { display: grid; gap: 12px; }
+    .project { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; }
+    .project strong { display: block; font-size: 16px; }
+    .project span { color: var(--muted); font-size: 14px; }
+
+    footer { border-top: 1px solid var(--rule); color: var(--muted); padding: 28px var(--pad) 48px; }
+
+    /* Print friendly */
+    @media print {
+      header.site, .toc { display: none !important; }
+      body { background: #fff; color: #000; }
+      .card, .project { box-shadow: none; border-color: #ddd; }
+      a { color: #000; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site" aria-label="Site header">
+    <div class="site-inner wrap">
+      <div class="brand">
+        <a href="/">Vegard Fotland</a>
+        <small>Accomplishments</small>
+      </div>
+      <nav aria-label="Local">
+        <!-- Optional: replace with your site's nav links -->
+        <a href="/">Home</a>
+        <a href="#awards">Awards</a>
+        <a href="#exhibitions">Exhibitions</a>
+        <a href="#experience">Experience</a>
+        <a href="#music">Music</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="top">
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Selected Accomplishments and Creative Works</h1>
+      <p>A concise record of awards, nominations, exhibitions, roles, and music projects.</p>
+      <div class="toc" role="navigation" aria-label="On this page">
+        <a href="#awards">Awards and Nominations</a>
+        <a href="#exhibitions">Exhibitions and Features</a>
+        <a href="#experience">Professional Experience</a>
+        <a href="#music">Musical Projects</a>
+      </div>
+    </section>
+
+    <section id="awards" aria-labelledby="awards-title">
+      <h2 class="section-title" id="awards-title">Awards and Nominations</h2>
+      <div class="grid">
+        <article class="card" aria-labelledby="wr">
+          <h3 id="wr"><em>What Remains?</em></h3>
+          <div class="meta">Nominated for the New Media Writing Prize — Student Award, 2023</div>
+          <p>Experimental digital narrative exploring grief, mental illness, and memory through interactive media and glitch art.</p>
+        </article>
+        <article class="card" aria-labelledby="olw">
+          <h3 id="olw"><em>One Lonely World</em></h3>
+          <div class="meta">Nominated for the Chris Meade Memorial Main Prize, 2024</div>
+          <p>Poetic interactive work reflecting on isolation, domestication and environmental collapse.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="exhibitions" aria-labelledby="exhibitions-title">
+      <h2 class="section-title" id="exhibitions-title">Exhibitions and Features</h2>
+      <div class="grid">
+        <article class="card" aria-labelledby="icids">
+          <h3 id="icids"><em>One Lonely World</em></h3>
+          <div class="meta">Featured at ICIDS 2025 Art Exhibition, Malta</div>
+          <p>Presented among leading works in interactive digital storytelling.</p>
+        </article>
+        <article class="card" aria-labelledby="elo">
+          <h3 id="elo"><em>Careful of This</em></h3>
+          <div class="meta">Collaborative work with Jason Nelson, Alinta Kiri Krauth, and Sofie Rørlien. Featured at ELO 2025 Exhibition</div>
+          <p>Generative, multimedia exploration of narratives in AI.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" aria-labelledby="exp-title">
+      <h2 class="section-title" id="exp-title">Professional Experience</h2>
+      <div class="list">
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">Creative Technologist</h3>
+          <div class="meta">Nelson Digital Poetics Lab under Jason Nelson • 2023 to 2025</div>
+          <p>Contributed to experimental web artworks, interactive literature, and creative code prototypes. Focus areas included generative design, narrative systems, accessibility, and multimedia interaction.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="music" aria-labelledby="music-title">
+      <h2 class="section-title" id="music-title">Musical Projects</h2>
+      <div class="projects">
+        <div class="project">
+          <strong>Color for a Blind Man</strong>
+          <span>Genre agnostic project trying to fuse different genre elements into new and exciting tunes. Also some acoustic singer songwriter stuff. And black metal.</span>
+        </div>
+        <div class="project">
+          <strong>Rathaus</strong>
+          <span>Collaborative industrial duo blending glitch, spoken word, and metallic textures.</span>
+        </div>
+        <div class="project">
+          <strong>The Wayfarer Project</strong>
+          <span>Conceptual cinematic and folk influenced soundwork exploring narrative composition. My amateur composer project</span>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="notes-title">
+      <h2 class="section-title" id="notes-title">Press and Links</h2>
+      <div class="card">
+        <p style="margin-top:0"></p>
+        <ul>
+          <li><a href="https://newmediawritingprize.co.uk/2024-shortlist/">Chris Meade Memorial Main Prize 2024 shortlist</a></li>
+          <li><a href="https://newmediawritingprize.co.uk/2023-shortlist/">New Media Writing Prize (Student Award) 2023</a></li>
+          <li><a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183">Metal-Archives for Color for a Blind Man</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap" role="contentinfo">
+    <p>© <span id="year"></span> Vegard Fotland. All rights reserved or whatever.</p>
+  </footer>
+
+  <script>
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Optional: Smooth scroll for in-page anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
