@@ -73,6 +73,18 @@
     .project { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; }
     .project strong { display: block; font-size: 16px; }
     .project span { color: var(--muted); font-size: 14px; }
+    .image {
+  background-image: url("/image.jpg");
+  background-size: 150px;
+  width: auto;
+  height: 300px;
+}
+.smallimage {
+background-image: url("/image.jpg");
+background-size: 150px;
+width: auto;
+height: 300px;
+}
 
     footer { border-top: 1px solid var(--rule); color: var(--muted); padding: 28px var(--pad) 48px; }
 
@@ -89,15 +101,16 @@
   <header class="site" aria-label="Site header">
     <div class="site-inner wrap">
       <div class="brand">
-        <a href="/">Vegard Fotland</a>
+        <a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland</a>
         <small>Accomplishments</small>
       </div>
       <nav aria-label="Local">
         <!-- Optional: replace with your site's nav links -->
-        <a href="/">Home</a>
+        <a href="https://kingduckiv.github.io/vegardfotland.github.io/">Home</a>
         <a href="#awards">Awards</a>
         <a href="#exhibitions">Exhibitions</a>
         <a href="#experience">Experience</a>
+        <a href="#Books">Books, TTRPGs and World Building</a>
         <a href="#music">Music</a>
       </nav>
     </div>
@@ -111,8 +124,10 @@
         <a href="#awards">Awards and Nominations</a>
         <a href="#exhibitions">Exhibitions and Features</a>
         <a href="#experience">Professional Experience</a>
+        <a href="#Books">Books, TTRPGs and World Building</a>
         <a href="#music">Musical Projects</a>
       </div>
+              <img class="smallimage" src="vegardfotland.jpg" alt="Me in all my beauty">
     </section>
 
     <section id="awards" aria-labelledby="awards-title">
@@ -120,13 +135,31 @@
       <div class="grid">
         <article class="card" aria-labelledby="wr">
           <h3 id="wr"><em>What Remains?</em></h3>
+          <li><a href="https://kingduckiv.itch.io/what-remains">What Remains?</a></li>
           <div class="meta">Nominated for the New Media Writing Prize — Student Award, 2023</div>
           <p>Experimental digital narrative exploring grief, mental illness, and memory through interactive media and glitch art.</p>
+          <br>
+          <img class="image" src="whatremains.png" alt="Sillouhete of a boy standing in a grey void">
         </article>
         <article class="card" aria-labelledby="olw">
           <h3 id="olw"><em>One Lonely World</em></h3>
+          <li><a href="https://kingduckiv.itch.io/one-lonely-world">One Lonely World</a></li>
           <div class="meta">Nominated for the Chris Meade Memorial Main Prize, 2024</div>
           <p>Poetic interactive work reflecting on isolation, domestication and environmental collapse.</p>
+          <br>
+          <div class="meta">Won the 2025 Digital Culture Award at UiB for best Interactive Work</div>
+          <p>I do not have video of this, but Hanna Lauvli PhD candidate at the CDN and the Digital Culture Student Comitee can all testify</p>
+          <br>
+          <img class="image" src="OneLonelyWorld.png" alt="A lone dog and a hanged man">
+        </article>
+          <br>
+          <article class="card" aria-labelledby="olw">
+            <h3 id="olw"><em>Choke On Your Forked Tongue</em></h3>
+            <li><a href="https://kingduckiv.itch.io/choke-on-your-forked-tongue">Choke On Your Forked Tongue</a></li>
+          <div class="meta">Longlisted in the 2025 New Media Writing Prize</div>
+          <p>A polisatirical work featuring a fake desktop experience detailing the rancid exprience of being queer on X during the Trump era</p>
+          <br>
+          <img class="image" src="Choke on your forked tongue.png" alt="a noose acting as a hitler moustache on a smiling man">
         </article>
       </div>
     </section>
@@ -138,11 +171,20 @@
           <h3 id="icids"><em>One Lonely World</em></h3>
           <div class="meta">Featured at ICIDS 2025 Art Exhibition, Malta</div>
           <p>Presented among leading works in interactive digital storytelling.</p>
+          <li><a href="https://icids2025.ardin.online/home-9">ICIDS Exhibitons</a></li>
+          <br>
+          <div class="meta">Featured in the 2025 Digital Culture Awards collection on Itch.io</div>
+          <p>Featured with lots of impressive works from current and past Students of UiB</p>
+          <li><a href="https://itch.io/c/6966481/digital-culture-awards-2025">2025 Digital Culture Awards Collection</a></li>
+          <br>
+          <img class="image" src="OneLonelyWorld.png" alt="A lone dog and a hanged man">
         </article>
         <article class="card" aria-labelledby="elo">
           <h3 id="elo"><em>Careful of This</em></h3>
           <div class="meta">Collaborative work with Jason Nelson, Alinta Kiri Krauth, and Sofie Rørlien. Featured at ELO 2025 Exhibition</div>
           <p>Generative, multimedia exploration of narratives in AI.</p>
+          <br>
+          <img class="image" src="carefulofthis.jpg" alt="a cacophany of AI">
         </article>
       </div>
     </section>
@@ -152,8 +194,49 @@
       <div class="list">
         <article class="card" aria-labelledby="role">
           <h3 id="role">Creative Technologist</h3>
-          <div class="meta">Nelson Digital Poetics Lab under Jason Nelson • 2023 to 2025</div>
-          <p>Contributed to experimental web artworks, interactive literature, and creative code prototypes. Focus areas included generative design, narrative systems, accessibility, and multimedia interaction.</p>
+          <div class="meta">Worked for Professor Nelson in an unofficial capacity at the CDN • 2023 to 2026</div>
+          <p>Contributed to experimental web artworks, interactive literature, and creative code prototypes. Focus areas included generative design, narrative systems, and multimedia interaction.</p>
+        </article>
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">Spot Editor, Interview Editor and Sparse spot voice for Radio Sandnes/Jæren</h3>
+          <div class="meta">Worked for six months at Radio Sandnes in 2017</div>
+          <p>Creation of Spots (Advertisment), editing of interviews, sometimes filling in for voice over</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="Books" aria-labelledby="exp-title">
+      <h2 class="section-title" id="exp-title">Books, TTRPGs and World Building</h2>
+      <div class="list">
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">Aritéa</h3>
+          <div class="meta">A large world building project aiming to create a wholly unique fantasy world</div>
+          <p>The World of Aritéa is a world that is slowly being consumed by a mist that defragments that which it touches. The world consists of 6 distinct races who have philosophies and complex webs of political reltations</p>
+        </article>
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">O'l Andem</h3>
+          <div class="meta">A large Dungeons and Dragons world with over 100,000 words and 54k page views</div>
+          <p>This world is a homebrew world based on the Dungeons and Dragons 3.5 and 5th edition which encapsulates a large scale war for Pneumatic Energy that threatens to change the dynamic of magic forever.</p>
+          <li><a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv">O'l Andem</a></li>
+          <br>
+          <img class="image" src="map.jpg" alt="A map of O'l Andem">
+        </article>
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">Crossroads TTRPG</h3>
+          <div class="meta">A rules light TTRPG focused on Roleplaying and underlining choices</div>
+          <p>Crossroads uses paths as a way to visualise choices within the game which by the end shoould look like a tree of branches or a splitting road. Each path is distinct and every time you make a choice you gain marks that describe what you did, what you gain or lost and what you left behind</p>
+        </article>
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">Far Beyond the Seams</h3>
+          <div class="meta">A procedural book about a man waking up in a coffin and finding himself in a desolate wasteland</div>
+          <p>The book takes place in an alternate reality version of Aritéa where the mist is spreading fast and wide. As our protagonist wander the wastes and comes across a band of scavenger who he joins. Drama ensues.</p>
+          <br>
+          <img class="image" src="Far Beyond the Seams.png" alt="A man clad i flame in a dark void">
+        </article>
+        <article class="card" aria-labelledby="role">
+          <h3 id="role">The Definitley not Fallout TTRPG</h3>
+          <div class="meta">A rules heavy Simulationist/Gamist TTRPG set in the post-apocalypse</div>
+          <p>This TTRPG aims to simulate the rough experience of surviving a post-apocalyptic wasteland with mechanics for food, thirst, fatigue, repair, disease and so much more. It is class agnostic and uses a perks system to create characters over time that are wholly unique</p>
         </article>
       </div>
     </section>
@@ -163,15 +246,40 @@
       <div class="projects">
         <div class="project">
           <strong>Color for a Blind Man</strong>
-          <span>Genre agnostic project trying to fuse different genre elements into new and exciting tunes. Also some acoustic singer songwriter stuff. And black metal.</span>
+          <span>Genre agnostic project trying to fuse different genre elements into new and exciting tunes. Also some acoustic singer songwriter stuff. And black metal. And more. It has released over 200 songs all written over the course of 15 years. It has thousands of plays spanning several platforms (only made about 130$, i love being a musician)</span>
+          <li><a href="https://open.spotify.com/artist/60IxVOuFmSEhNzL8qglDNY?si=3825fc5de0ba446a">Color for a Blind Man's music can be found here</a></li>
+          <br>
+          <img class="image" src="Color for a Blind Man 2.png" alt="Two insects walking up a mountain with butterfly wings">
         </div>
         <div class="project">
           <strong>Rathaus</strong>
-          <span>Collaborative industrial duo blending glitch, spoken word, and metallic textures.</span>
+          <span>Collaborative industrial duo blending Electronic music, glitch, Singing, and progressive guitar work.</span>
+          <li><a href="https://open.spotify.com/artist/1osI9UJpUHDfabSpzg1VO1?si=1a5613a142db45cd">Rathaus's music can be found here</a></li>
+          <br>
+          <img class="image" src="Remnants of Cathedral Ash Cover.png" alt="A Woman being choked in a church">
         </div>
         <div class="project">
           <strong>The Wayfarer Project</strong>
           <span>Conceptual cinematic and folk influenced soundwork exploring narrative composition. My amateur composer project</span>
+          <li><a href="https://open.spotify.com/artist/6F8uknny7mfskN9qZ7mQun?si=26001ba3c9694156">The Wayfarer Project's music can be found here</a></li>
+          <br>
+          <img class="image" src="CFL ART.png" alt="Two ethereal insec guardians in the sky with the moon as a background">
+        </div>
+        <div class="project">
+          <strong>Cull the Living Flower</strong>
+          <span>Progressive Rock project blending atmospheric elements with progressive metal guitar, running bass lines and high chest register vocals</span>
+          <li><a href="https://soundcloud.com/cull-the-living-flower">Cull the Living Flower's music can be foun here</a></li>
+          <br>
+          <img class="image" src="CLF.png" alt="Some text on a dark background">
+        </div>
+        <div class="project">
+          <strong>MovePrimer(no longer active)</strong>
+          <span>I played bass in a Progressive rock band that made music in the 2017-2019. We did Concerts at Folken and Metropolis</span>
+        </div>
+        <div class="project">
+          <strong>OCM (no longer active)</strong>
+          <span>I played bass in a rock band from 2012-2017 we released several singles, an EP and played numerous concerts druing our time.</span>
+          <li><a href="https://soundcloud.com/ocm_official">OCMs music can be found here</a></li>
         </div>
       </div>
     </section>
@@ -183,6 +291,7 @@
         <ul>
           <li><a href="https://newmediawritingprize.co.uk/2024-shortlist/">Chris Meade Memorial Main Prize 2024 shortlist</a></li>
           <li><a href="https://newmediawritingprize.co.uk/2023-shortlist/">New Media Writing Prize (Student Award) 2023</a></li>
+          <li><a href="https://newmediawritingprize.co.uk/opening-up-2025/">New Media Writing Prize Longlist 2025</a></li>
           <li><a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183">Metal-Archives for Color for a Blind Man</a></li>
           <li><a href="https://metallurgi.org/tag/color-for-a-blind-man/">Coloor for a Blind Man Alene Review</a></li>
           <li><a href="https://metallurgi.org/2022/01/13/makrostrukturell-evaluering-ukas-plater-57/">Color for a Blind Man Anathema Review</a></li>
