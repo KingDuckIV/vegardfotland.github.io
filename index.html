@@ -8,7 +8,7 @@
 
   <style>
 :root {
-  /* Purple-forward progressive palette */
+
   --bg-1: #0a0017;
   --bg-2: #14002a;
   --bg-3: #1c003d;
@@ -27,7 +27,7 @@
   --maxw: 1100px;
 }
 
-/* Animated cosmic background */
+/* Animated background */
 body {
   margin: 0;
   color: var(--txt);
@@ -107,10 +107,10 @@ section { margin: 28px 0; }
 .spotify-embed { width:80%; max-width:700px; }
 .spotify-embed iframe { width:100%; height:400px; border-radius:14px; border:1px solid var(--ring); }
 
-/* Non-Spotify embeds smaller */
+/* Non-Spotify embeds */
 .ratio {
   width: 100%;
-  max-width: 420px;           /* smaller than before */
+  max-width: 420px;
   aspect-ratio: 16/9;
   border-radius: 14px;
   overflow: hidden;
@@ -119,10 +119,10 @@ section { margin: 28px 0; }
 }
 .ratio iframe { width:100%; height:100%; border:0 }
 
-/* Gallery grid with smaller pictures */
+/* Gallery grid*/
 .grid {
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* smaller tiles */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 14px;
 }
 .tile {
@@ -131,8 +131,8 @@ section { margin: 28px 0; }
   overflow:hidden;
   border: 1px solid var(--ring);
   background: rgba(255,255,255,0.03);
-  max-width: 220px;            /* cap tile width so images stay small */
-  margin: 0 auto;              /* center each tile */
+  max-width: 220px;
+  margin: 0 auto;
 }
 .tile img { width: 100%; height: auto; display:block; }
 .tip { position:absolute; inset:auto 8px 8px 8px; background: rgba(255,255,255,0.55); padding: 8px 10px; border-radius: 10px; opacity:0; transform: translateY(6px); transition: .25s ease; font-size:.85rem; }
@@ -142,7 +142,7 @@ section { margin: 28px 0; }
 .center { text-align:center }
 .lead { color: var(--muted); margin-top: 0; }
 
-/* Poetry (now a top section) */
+/* Poetry */
 .poems { display: grid; gap: 12px; }
 .poem { background: rgba(255,255,255,0.04); border: 1px dashed var(--ring); border-radius: 14px; padding: 12px 14px; }
 .poem h4 { margin: 0 0 6px; font-size: 1rem; letter-spacing: .3px; color: var(--accent); }
@@ -363,7 +363,7 @@ And find comfort in the dissonance</p></article>
         <div class="card__body">
           <h3 class="subhead">TTRPG</h3>
           <div class="embed-row">
-
+  <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/fgkARdBsbTw?si=SJdqUlqYQYcfRo7A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
           </div>
 
           <h3 class="subhead" style="margin-top:14px">Video Essay</h3>
@@ -373,7 +373,7 @@ And find comfort in the dissonance</p></article>
           </div>
 <div class="ratio">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/l7ssG9B38ug?si=S-nIvt479kJrQNDi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>  
+        </div>
             <div class="ratio">
 <iframe width="560" height="315" src="https://www.youtube.com/embed/UD2doEJ02MA?si=eYqfe3KiShhpyLNv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>          </div>
             <div class="ratio">
