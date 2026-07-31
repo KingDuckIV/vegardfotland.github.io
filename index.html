@@ -1,244 +1,275 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vegard Fotland</title>
-  <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Vegard Fotland</title>
+<link href="https://fonts.googleapis.com/css2?family=Metal+Mania&amp;family=Space+Grotesk:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
 :root {
-
-  --bg-1: #0a0017;
-  --bg-2: #14002a;
-  --bg-3: #1c003d;
-  --txt: #f6edff;
-  --muted: #d9c9ff;
-  --accent: #b26bff;   /* neon lavender */
-  --accent-2: #ff4fd8; /* magenta */
-  --accent-3: #00ffd1; /* teal pop */
-  --accent-4: #7aa2ff; /* cool blue */
-  --card-bg: rgba(180, 120, 255, 0.08);
-  --glass: rgba(180, 120, 255, 0.14);
-  --ring: rgba(240, 220, 255, 0.28);
-  --shadow: 0 12px 44px rgba(0,0,0,0.45);
-  --radius: 18px;
-  --nav-h: 72px;
-  --maxw: 1100px;
+  --bg: #09070f;
+  --surface: #12101a;
+  --surface-2: #191522;
+  --surface-3: #211a2c;
+  --text: #f7f2fb;
+  --muted: #b9adc4;
+  --faint: #82758e;
+  --accent: #c77dff;
+  --accent-2: #ff70c5;
+  --accent-soft: rgba(199, 125, 255, .14);
+  --line: rgba(255,255,255,.11);
+  --line-strong: rgba(255,255,255,.19);
+  --shadow: 0 24px 70px rgba(0,0,0,.38);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --maxw: 1180px;
+  --nav-h: 70px;
 }
 
-/* Animated background */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  color: var(--txt);
-  font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   min-height: 100svh;
-  background: radial-gradient(1200px 800px at 10% 20%, #3b117a, transparent 55%),
-              radial-gradient(1000px 700px at 80% 0%, #1b1b7a, transparent 55%),
-              radial-gradient(900px 900px at 80% 90%, #2b1055, transparent 60%),
-              linear-gradient(120deg, var(--bg-1), var(--bg-2) 50%, var(--bg-3));
-  background-attachment: fixed;
-  overflow-x: hidden;
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(116, 49, 157, .24), transparent 34rem),
+    radial-gradient(circle at 90% 12%, rgba(52, 63, 146, .18), transparent 30rem),
+    var(--bg);
+  line-height: 1.6;
 }
 body::before {
   content: "";
-  position: fixed; inset: 0;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.07"/></svg>');
-  mix-blend-mode: overlay; pointer-events: none; z-index: 0;
-  animation: drift 40s linear infinite;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");
+  z-index: -1;
 }
-@keyframes drift { from { transform: translate(0,0) } to { transform: translate(-80px,-80px) } }
+a { color: inherit; }
+img { max-width: 100%; }
 
-/* Header / Nav */
 .nav {
-  position: sticky; top: 0; z-index: 1000;
-  height: var(--nav-h);
-  display: flex; align-items: center; justify-content: center;
-  backdrop-filter: blur(10px) saturate(120%);
-  background: linear-gradient(90deg, rgba(178,107,255,0.12), rgba(122,162,255,0.10), rgba(255,79,216,0.10));
-  border-bottom: 1px solid var(--ring);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.25);
-}
-.nav__inner { width: min(95%, var(--maxw)); display:flex; align-items:center; gap: 16px; }
-.brand { display:flex; align-items:center; gap: 12px; text-decoration:none; color: var(--txt); }
-.brand__mark {
-  width: 42px; height: 42px; border-radius: 12px; position: relative; isolation: isolate; box-shadow: var(--shadow);
-  background: conic-gradient(from 40deg, #3b007a, #7a1fff, #ff4fd8, #00ffd1, #7aa2ff, #3b007a);
-  animation: hue 18s linear infinite;
-}
-.brand__mark::after { content:""; position:absolute; inset: 2px; border-radius: 10px; background: rgba(0,0,0,0.25); mix-blend-mode: soft-light; }
-@keyframes hue { to { filter: hue-rotate(360deg) } }
-.brand__name { font-family: "Metal Mania", system-ui; font-size: 2rem; letter-spacing: 2px; }
-
-.nav__spacer { flex:1 }
-.nav__links { display:flex; gap: 4px; align-items:center; }
-.nav__links a {
-  color: var(--txt); text-decoration:none; padding: 8px 12px; border-radius: 999px; font-weight:600; font-size:.95rem;
-  border: 1px solid transparent;
-}
-.nav__links a:hover, .nav__links a.active { border-color: var(--ring); background: var(--glass); }
-
-.nav__toggle { display:none; margin-left:auto; border:1px solid var(--ring); background: var(--glass); color: var(--txt); border-radius: 12px; padding: 8px 10px; }
-@media (max-width: 900px) {
-  .nav__links { display:none; position: absolute; top: calc(var(--nav-h) - 6px); right: 2.5%; left: 2.5%; padding: 10px; background: rgba(0,0,0,0.35); backdrop-filter: blur(12px); border:1px solid var(--ring); border-radius: 14px; flex-wrap: wrap; gap: 8px; }
-  .nav__links.open { display:flex; }
-  .nav__toggle { display:block }
-}
-
-/* Page title hero */
-.hero { width: min(95%, var(--maxw)); margin: 24px auto 8px; position: relative; z-index: 1; display:grid; gap: 14px; align-items:center; grid-template-columns: 72px 1fr; }
-.hero h1 { margin: 0; font-size: clamp(1.8rem, 1.3rem + 2.6vw, 3rem); line-height: 1.05; }
-.hero p { margin: 0; color: var(--muted); }
-.hero__pfp { grid-row: span 2; width: 72px; height: 72px; border-radius: 16px; overflow:hidden; box-shadow: var(--shadow); border:1px solid var(--ring); object-fit: cover; background: #1a0b2e; }
-
-/* Main layout (single column now) */
-.wrapper { width: min(95%, var(--maxw)); margin: 0 auto; }
-
-/* Section cards */
-section { margin: 28px 0; }
-.card { background: var(--card-bg); border: 1px solid var(--ring); border-radius: var(--radius); box-shadow: var(--shadow); overflow:hidden; }
-.card__head { display:flex; align-items:center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--ring); background: linear-gradient( to right, rgba(178,107,255,0.18), rgba(122,162,255,0.10) ); }
-.card__head h2 { margin: 0; font-size: 1.15rem; letter-spacing: .3px; text-transform: uppercase; }
-.card__head .tag { margin-left:auto; font-size:.8rem; padding:4px 10px; border-radius:999px; background: rgba(0,0,0,0.35); border:1px solid var(--ring); }
-.card__body { padding: 18px; }
-
-/* Responsive media embeds */
-.embed-row { display:flex; justify-content:center; flex-wrap: wrap; gap: 16px; }
-.spotify-embed { width:80%; max-width:700px; }
-.spotify-embed iframe { width:100%; height:400px; border-radius:14px; border:1px solid var(--ring); }
-
-/* Non-Spotify embeds */
-.ratio {
-  width: 100%;
-  max-width: 420px;
-  aspect-ratio: 16/9;
-  border-radius: 14px;
-  overflow: hidden;
-  border:1px solid var(--ring);
-  background: rgba(255,255,255,0.03);
-}
-.ratio iframe { width:100%; height:100%; border:0 }
-
-/* Gallery grid*/
-.grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 14px;
-}
-.tile {
-  position: relative;
-  border-radius: 12px;
-  overflow:hidden;
-  border: 1px solid var(--ring);
-  background: rgba(255,255,255,0.03);
-  max-width: 220px;
-  margin: 0 auto;
-}
-.tile img { width: 100%; height: auto; display:block; }
-.tip { position:absolute; inset:auto 8px 8px 8px; background: rgba(255,255,255,0.55); padding: 8px 10px; border-radius: 10px; opacity:0; transform: translateY(6px); transition: .25s ease; font-size:.85rem; }
-.tile:hover .tip, .tile:focus-within .tip { opacity: 1; transform: translateY(0) }
-
-.subhead { font-family: "Metal Mania"; font-size: 1.4rem; margin: 8px 0 2px; }
-.center { text-align:center }
-.lead { color: var(--muted); margin-top: 0; }
-
-/* Poetry */
-.poems { display: grid; gap: 12px; }
-.poem { background: rgba(255,255,255,0.04); border: 1px dashed var(--ring); border-radius: 14px; padding: 12px 14px; }
-.poem h4 { margin: 0 0 6px; font-size: 1rem; letter-spacing: .3px; color: var(--accent); }
-.poem p { margin: 0; white-space: pre-wrap; line-height: 1.5; }
-
-/* Footer */
-footer { margin: 40px 0 70px; text-align: center; color: var(--muted); }
-.links { display:flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 8px; }
-.links a { color: var(--txt); text-decoration:none; border: 1px solid var(--ring); background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 999px; }
-.links a:hover { background: var(--glass); }
-
-/* Floating utilities */
-.fab {
-  position: fixed; right: 16px; bottom: 18px; z-index: 900; border-radius: 999px; padding: 10px 12px; border:1px solid var(--ring); background: linear-gradient(135deg, rgba(178,107,255,0.85), rgba(255,79,216,0.85)); color: white; box-shadow: var(--shadow);
-}
-/* Badges: keep them tidy and small */
-.badges {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: var(--nav-h);
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
   align-items: center;
-  margin-top: 8px;
+  background: rgba(9,7,15,.84);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+.nav__inner {
+  width: min(calc(100% - 32px), var(--maxw));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.brand { display: flex; align-items: center; text-decoration: none; min-width: max-content; }
+.brand__name {
+  font-family: "Metal Mania", serif;
+  font-size: clamp(1.65rem, 3vw, 2.2rem);
+  letter-spacing: .04em;
+}
+.nav__spacer { flex: 1; }
+.nav__links { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; justify-content: flex-end; }
+.nav__links a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: .82rem;
+  font-weight: 600;
+  transition: background .2s ease, color .2s ease;
+}
+.nav__links a:hover, .nav__links a.active { color: var(--text); background: var(--accent-soft); }
+.nav__toggle {
+  display: none;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font: inherit;
 }
 
-.badges img {
-  max-height: 300px;      /* size control */
-  width: auto;
-  height: auto;
-  border-radius: 10px;
-  border: 1px solid var(--ring);
-  background: rgba(255,255,255,0.03);
-  padding: 6px;
+.hero {
+  width: min(calc(100% - 32px), var(--maxw));
+  margin: 72px auto 38px;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 26px;
+}
+.hero__pfp {
+  grid-row: span 2;
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 28px;
+  border: 1px solid var(--line-strong);
   box-shadow: var(--shadow);
 }
-
-@media (max-width: 600px) {
-  .badges img { max-height: 52px; }
+.hero h1 {
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(2.3rem, 6vw, 5.2rem);
+  line-height: .98;
+  letter-spacing: -.045em;
 }
+.hero .lead { margin: 0; max-width: 620px; color: var(--muted); font-size: 1.08rem; }
 
-/* Smooth anchor offset */
-html { scroll-behavior: smooth; }
-.anchor { scroll-margin-top: calc(var(--nav-h) + 14px); }
+.wrapper { width: min(calc(100% - 32px), var(--maxw)); margin: 0 auto; }
+.content-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 34px; align-items: start; }
+.section-index {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(18,16,26,.72);
+}
+.section-index strong { display: block; margin-bottom: 10px; font-size: .76rem; letter-spacing: .13em; text-transform: uppercase; color: var(--faint); }
+.section-index a { display: block; text-decoration: none; color: var(--muted); padding: 7px 8px; border-radius: 8px; font-size: .9rem; }
+.section-index a:hover { color: var(--text); background: var(--accent-soft); }
+.sections { min-width: 0; }
+section { margin: 0 0 30px; }
+.anchor { scroll-margin-top: calc(var(--nav-h) + 22px); }
+.card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(27,22,36,.95), rgba(15,13,21,.95));
+  box-shadow: 0 16px 50px rgba(0,0,0,.22);
+}
+.card__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.card__head h2 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); letter-spacing: -.02em; }
+.card__head .tag {
+  margin-left: auto;
+  color: var(--accent);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-weight: 700;
+}
+.card__body { padding: 24px; }
+.lead { color: var(--muted); }
+.center { text-align: center; }
+.subhead { margin: 6px 0 3px; font-size: 1.15rem; }
 
-/* Accessibility focus */
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
-  </style>
+.poems { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.poem { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.025); }
+.poem h4 { margin: 0 0 10px; color: var(--accent); font-size: 1.05rem; }
+.poem p { margin: 0; white-space: pre-line; color: #e8dfed; }
+
+.music-project { padding: 4px 0 30px; }
+.music-project + .music-project { padding-top: 28px; border-top: 1px solid var(--line); }
+.embed-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.spotify-embed { width: 100%; max-width: 760px; margin: 0 auto; grid-column: 1 / -1; }
+.spotify-embed iframe { display: block; width: 100%; height: 352px; border: 0; border-radius: var(--radius-md); }
+.ratio { aspect-ratio: 16/9; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--line); background: #050505; }
+.ratio iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.tile {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.025);
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.tile:hover { transform: translateY(-3px); border-color: rgba(199,125,255,.55); background: rgba(199,125,255,.06); }
+.tile img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.tip { position: static; opacity: 1; transform: none; padding: 13px 14px 15px; color: var(--muted); font-size: .86rem; line-height: 1.45; }
+
+.badges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+.badges a { display: flex; align-items: center; justify-content: center; min-height: 112px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.025); }
+.badges img { max-height: 88px; width: auto; border: 0; padding: 0; box-shadow: none; }
+
+footer { margin: 42px 0 80px; padding-top: 28px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; }
+.links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 16px; }
+.links a { padding: 7px 10px; color: var(--muted); text-decoration: none; border-radius: 8px; font-size: .85rem; }
+.links a:hover { color: var(--text); background: var(--accent-soft); }
+.fab { position: fixed; right: 18px; bottom: 18px; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; color: var(--text); text-decoration: none; background: var(--surface-3); border: 1px solid var(--line-strong); box-shadow: var(--shadow); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 980px) {
+  .nav__toggle { display: block; }
+  .nav__links { display: none; position: absolute; left: 16px; right: 16px; top: calc(100% + 8px); padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: rgba(14,11,20,.97); box-shadow: var(--shadow); justify-content: flex-start; }
+  .nav__links.open { display: flex; }
+  .nav__links a { font-size: .9rem; }
+  .content-layout { grid-template-columns: 1fr; }
+  .section-index { position: static; display: flex; gap: 4px; overflow-x: auto; padding: 10px; }
+  .section-index strong { display: none; }
+  .section-index a { white-space: nowrap; }
+}
+@media (max-width: 720px) {
+  .hero { margin-top: 42px; grid-template-columns: 78px minmax(0,1fr); gap: 18px; }
+  .hero__pfp { width: 78px; height: 78px; border-radius: 20px; }
+  .hero h1 { font-size: clamp(2rem, 10vw, 3.2rem); }
+  .hero .lead { grid-column: 1 / -1; }
+  .poems, .embed-row, .grid, .badges { grid-template-columns: 1fr; }
+  .card__head, .card__body { padding-left: 18px; padding-right: 18px; }
+  .spotify-embed iframe { height: 420px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
+</style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="nav" role="navigation">
-    <div class="nav__inner">
-      <a class="brand" href="#top" aria-label="Home">
-
-        <span class="brand__name">Vegard Fotland</span>
-      </a>
-      <div class="nav__spacer"></div>
-      <button class="nav__toggle" aria-label="Open menu">Menu</button>
-      <div class="nav__links" id="menu">
-        <a href="#poetry" data-link>Poetry</a>
-        <a href="#music" data-link>Music</a>
-        <a href="#digital-art" data-link>Digital Art</a>
-        <a href="#videos" data-link>Videos</a>
-        <a href="#other-works" data-link>Associated</a>
-        <a href="#pad" data-link>Paintings/Photos/Drawings</a>
-        <a href="#about" data-link>About</a>
-        <a href="subpages/accomplishments.html">Accomplishments</a>
-        <a href="subpages/Book.html">Vegard's Books</a>
-        <a href="subpages/Change of Weather/Change of Weather Comic Books3.html">O'l Andem Archives</a>
-      </div>
-    </div>
-  </nav>
-
-
-  <header class="hero anchor" id="top">
-    <img class="hero__pfp" src="vegardfotland.jpg" alt="Profile picture of Vegard Fotland">
-    <h1>Musician, Digital Poet, Writer and Student.</h1>
-    <p class="lead">A condensed portal to projects, videos, and works in progress.</p>
-  </header>
-
-  <div class="wrapper">
-
-    <section id="poetry" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Poetry</h2><span class="tag">Words</span></header>
-        <div class="card__body">
-          <div class="poems" id="poems">
-            <article class="poem"><h4>My Tambre Vessel</h4><p>
+<!-- NAV -->
+<nav class="nav" role="navigation">
+<div class="nav__inner">
+<a aria-label="Home" class="brand" href="#top">
+<span class="brand__name">Vegard Fotland</span>
+</a>
+<div class="nav__spacer"></div>
+<button aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="nav__toggle" type="button">Menu</button>
+<div class="nav__links" id="menu">
+<a data-link="" href="#poetry">Poetry</a>
+<a data-link="" href="#music">Music</a>
+<a data-link="" href="#digital-art">Digital Art</a>
+<a data-link="" href="#videos">Videos</a>
+<a data-link="" href="#other-works">Associated</a>
+<a data-link="" href="#pad">Paintings/Photos/Drawings</a>
+<a data-link="" href="#about">About</a>
+<a href="subpages/accomplishments.html">Accomplishments</a>
+<a href="subpages/Book.html">Vegard's Books</a>
+<a href="subpages/Change of Weather/Change of Weather Comic Books3.html">O'l Andem Archives</a>
+</div>
+</div>
+</nav>
+<header class="hero anchor" id="top">
+<img alt="Profile picture of Vegard Fotland" class="hero__pfp" src="vegardfotland.jpg"/>
+<h1>Musician, Digital Poet, Writer and Student.</h1>
+<p class="lead">A condensed portal to projects, videos, and works in progress.</p>
+</header>
+<div class="wrapper">
+<div class="content-layout"><aside aria-label="Page sections" class="section-index"><strong>Explore</strong><a href="#poetry">Poetry</a><a href="#music">Music</a><a href="#digital-art">Digital Art</a><a href="#videos">Videos</a><a href="#other-works">Associated</a><a href="#pad">Gallery</a><a href="#about">About</a></aside><main class="sections"><section class="anchor" id="poetry">
+<article class="card">
+<header class="card__head"><h2>Poetry</h2><span class="tag">Words</span></header>
+<div class="card__body"><div class="poems" id="poems"><article class="poem"><h4>My Tambre Vessel</h4><p>
 My tambre vessel stands against the rhythm of the world
 Crash against the beat of the tide
 Ride those arid waves of feckless harmonies
-And find comfort in the dissonance</p></article>
-          </div>
-        </div>
-      </article>
-      <article class="poem"><h4>Vine Grip</h4><p>
+And find comfort in the dissonance</p></article><article class="poem"><h4>Vine Grip</h4><p>
         Upon shimmering reflection
         i refer to the light of figments
         reaching out to touch the moon
@@ -251,8 +282,7 @@ And find comfort in the dissonance</p></article>
         of vine grip pinpricks
         I say unto my ancient
         bring me back to reality
-</p></article>
-<article class="poem"><h4>Numbers</h4><p>
+</p></article><article class="poem"><h4>Numbers</h4><p>
   I am silence in the mirror
   one crutch for my fractured mind
   bedbugs keeping me up at night
@@ -264,8 +294,7 @@ And find comfort in the dissonance</p></article>
   where they remain mute forever
   dead songs for headstone hillsides
   where rain dare not fall
-</p></article>
-<article class="poem"><h4>Landfill</h4><p>
+</p></article><article class="poem"><h4>Landfill</h4><p>
   For the first time trying on open eyes
   costing nothing but alien teardrops
   i hope you found the piece you were looking for.
@@ -287,221 +316,212 @@ And find comfort in the dissonance</p></article>
   I beg you to smell the poison
   What poison? this is wine!
 
-</p></article>
-    </div>
-  </div>
+</p></article></div></div>
 </article>
-    </section>
 
-    <!-- MUSIC -->
-    <section id="music" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Music</h2><span class="tag">Listen</span></header>
-        <div class="card__body">
-          <h3 class="subhead center">Color for a Blind Man</h3>
-          <p class="lead center">Genre agnostic explorations, from funk to blackened metal to tender acoustic.</p>
-          <div class="embed-row">
-            <div class="spotify-embed">
-              <iframe src="https://open.spotify.com/embed/artist/60IxVOuFmSEhNzL8qglDNY?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
-            </div>
-          </div>
 
-          <h3 class="subhead center" style="margin-top:18px">The Wayfarer Project</h3>
-          <p class="lead center">Cinematic compositions for films, games and elsewhere.</p>
-          <div class="embed-row">
-            <div class="spotify-embed">
-              <iframe src="https://open.spotify.com/embed/artist/6F8uknny7mfskN9qZ7mQun?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
-            </div>
-          </div>
 
-          <h3 class="subhead center" style="margin-top:18px">Rathaus</h3>
-          <p class="lead center">Experimental Electronic collaboration with Sofie Rørlien.</p>
-          <div class="embed-row">
-            <div class="spotify-embed">
-              <iframe src="https://open.spotify.com/embed/artist/1osI9UJpUHDfabSpzg1VO1?utm_source=generator" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
-            </div>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- DIGITAL ART -->
-    <section id="digital-art" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Digital Art</h2><span class="tag">Interactive</span></header>
-        <div class="card__body">
-          <div class="grid" role="list">
-            <a class="tile" href="https://kingduckiv.itch.io/what-remains" role="listitem">
-              <img src="whatremains.png" alt="What Remains artwork" />
-              <div class="tip">What Remains? - bachelor thesis, shortlisted for NMWP Student Prize.</div>
-            </a>
-            <a class="tile" href="subpages/flyaway.html" role="listitem">
-              <img src="flyaway.png" alt="Fly Away generative poem" />
-              <div class="tip">Fly Away - a generative HTML-based poetry artwork.</div>
-            </a>
-            <a class="tile" href="https://dpoetry.com/careful/" role="listitem">
-              <img src="carefulofthis.jpg" alt="Ultra large animated AI images" />
-              <div class="tip">Careful - collab with Alinta Kiri Krauth, Sofie Rørlien, and Jason Nelson.</div>
-            </a>
-            <a class="tile" href="https://kingduckiv.itch.io/one-lonely-world" role="listitem">
-              <img src="OneLonelyWorld.png" alt="A dog with a trash bag" />
-              <div class="tip">One Lonely World - interactive fiction on post-anthropocentrism. Shortlisted for the NMWP Main Prize.</div>
-            </a>
-            <a class="tile" href="https://kingduckiv.itch.io/choke-on-your-forked-tongue" role="listitem">
-              <img src="Choke on your forked tongue.png" alt="Polisatirical technocracy game" />
-              <div class="tip">Choke on your forked tongue - polisatirical technocracy game.</div>
-            </a>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- VIDEOS -->
-    <section id="videos" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Videos</h2><span class="tag">Watch</span></header>
-        <div class="card__body">
-          <h3 class="subhead">TTRPG</h3>
-          <div class="embed-row">
-  <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/fgkARdBsbTw?si=SJdqUlqYQYcfRo7A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-  <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/ykXuOsjKX_w?si=om6MYbaJCayRltPu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-          </div>
-
-          <h3 class="subhead" style="margin-top:14px">Video Essay</h3>
-          <div class="embed-row">
-            <div class="ratio">
-              <iframe src="https://www.youtube.com/embed/g50BXo3IEDY?si=gWZxoH6WuUiyB4Jf" title="Video Essay" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
+</section><section class="anchor" id="music">
+<article class="card">
+<header class="card__head"><h2>Music</h2><span class="tag">Listen</span></header>
+<div class="card__body">
+<div class="music-project"><h3 class="subhead center">Color for a Blind Man</h3>
+<p class="lead center">Genre agnostic explorations, from funk to blackened metal to tender acoustic.</p>
+<div class="embed-row">
+<div class="spotify-embed">
+<iframe allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy" src="https://open.spotify.com/embed/artist/60IxVOuFmSEhNzL8qglDNY?utm_source=generator"></iframe>
+</div>
+</div>
+</div><div class="music-project"><h3 class="subhead center">The Wayfarer Project</h3>
+<p class="lead center">Cinematic compositions for films, games and elsewhere.</p>
+<div class="embed-row">
+<div class="spotify-embed">
+<iframe allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy" src="https://open.spotify.com/embed/artist/6F8uknny7mfskN9qZ7mQun?utm_source=generator"></iframe>
+</div>
+</div>
+</div><div class="music-project"><h3 class="subhead center">Rathaus</h3>
+<p class="lead center">Experimental Electronic collaboration with Sofie Rørlien.</p>
+<div class="embed-row">
+<div class="spotify-embed">
+<iframe allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy" src="https://open.spotify.com/embed/artist/1osI9UJpUHDfabSpzg1VO1?utm_source=generator"></iframe>
+</div>
+</div>
+</div></div>
+</article>
+</section><section class="anchor" id="digital-art">
+<article class="card">
+<header class="card__head"><h2>Digital Art</h2><span class="tag">Interactive</span></header>
+<div class="card__body">
+<div class="grid" role="list">
+<a class="tile" href="https://kingduckiv.itch.io/what-remains" role="listitem">
+<img alt="What Remains artwork" src="whatremains.png">
+<div class="tip">What Remains? - bachelor thesis, shortlisted for NMWP Student Prize.</div>
+</img></a>
+<a class="tile" href="subpages/flyaway.html" role="listitem">
+<img alt="Fly Away generative poem" src="flyaway.png"/>
+<div class="tip">Fly Away - a generative HTML-based poetry artwork.</div>
+</a>
+<a class="tile" href="https://dpoetry.com/careful/" role="listitem">
+<img alt="Ultra large animated AI images" src="carefulofthis.jpg"/>
+<div class="tip">Careful - collab with Alinta Kiri Krauth, Sofie Rørlien, and Jason Nelson.</div>
+</a>
+<a class="tile" href="https://kingduckiv.itch.io/one-lonely-world" role="listitem">
+<img alt="A dog with a trash bag" src="OneLonelyWorld.png"/>
+<div class="tip">One Lonely World - interactive fiction on post-anthropocentrism. Shortlisted for the NMWP Main Prize.</div>
+</a>
+<a class="tile" href="https://kingduckiv.itch.io/choke-on-your-forked-tongue" role="listitem">
+<img alt="Polisatirical technocracy game" src="Choke on your forked tongue.png"/>
+<div class="tip">Choke on your forked tongue - polisatirical technocracy game.</div>
+</a>
+</div>
+</div>
+</article>
+</section><section class="anchor" id="videos">
+<article class="card">
+<header class="card__head"><h2>Videos</h2><span class="tag">Watch</span></header>
+<div class="card__body">
+<h3 class="subhead">TTRPG</h3>
+<div class="embed-row">
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/fgkARdBsbTw?si=SJdqUlqYQYcfRo7A" title="YouTube video player"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/ykXuOsjKX_w?si=om6MYbaJCayRltPu" title="YouTube video player"></iframe></div>
+</div>
+<h3 class="subhead" style="margin-top:14px">Video Essay</h3>
+<div class="embed-row">
 <div class="ratio">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/l7ssG9B38ug?si=S-nIvt479kJrQNDi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-            <div class="ratio">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/UD2doEJ02MA?si=eYqfe3KiShhpyLNv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>          </div>
-            <div class="ratio">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/TBT037cSWeQ?si=_RWJ5xLFyNRx_DKH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-            <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/LhWbWeU3sLE?si=s-B6AdS02745GMPw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/RcPNRAp4zII?si=RGZSly85wxls6guE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-          </div>
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/g50BXo3IEDY?si=gWZxoH6WuUiyB4Jf" title="Video Essay"></iframe>
+</div>
+<div class="ratio">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/l7ssG9B38ug?si=S-nIvt479kJrQNDi" title="YouTube video player"></iframe>
+</div>
+<div class="ratio">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/UD2doEJ02MA?si=eYqfe3KiShhpyLNv" title="YouTube video player"></iframe> </div>
+<div class="ratio">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/TBT037cSWeQ?si=_RWJ5xLFyNRx_DKH" title="YouTube video player"></iframe>
+</div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/LhWbWeU3sLE?si=s-B6AdS02745GMPw" title="YouTube video player"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/RcPNRAp4zII?si=RGZSly85wxls6guE" title="YouTube video player"></iframe></div>
+</div>
+<h3 class="subhead" style="margin-top:14px">Documentation</h3>
+<div class="embed-row">
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/A2D4zaZCkVI?si=SGh_DyUgz06uvqPS"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/iNDvk0L6ooI?si=alStxh5Uxm7VK4fv"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/j0DNik1W8UM?si=GpPfcGW2lQJpuX4Y"></iframe></div>
+</div>
+<h3 class="subhead" style="margin-top:14px">Music</h3>
+<div class="embed-row">
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/4QVHapLgxFQ?si=5ZiecloJElcu3x6Q"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/seRAYBKNepM?si=ZpzNfRmdNoLph2q9"></iframe></div>
+<div class="ratio"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/jNmqTW8k15E?si=ItiVRd6vP4DF192j" title="YouTube video player"></iframe></div>
+</div>
+</div>
+</article>
+</section><section class="anchor" id="other-works">
+<article class="card">
+<header class="card__head"><h2>Associated Works</h2><span class="tag">Collab</span></header>
+<div class="card__body">
+<div class="grid" role="list">
+<a class="tile" href="https://geit0sten.itch.io/polterkicks" role="listitem">
+<img alt="Polterkicks artwork" src="poltekicks.png"/>
+<div class="tip">Polterkicks - NMWP Student Prize winner by Emma Husa. Music by Vegard.</div>
+</a>
+<a class="tile" href="https://twine.bjorkelo.no/ident/" role="listitem">
+<img alt="Ident Landing Page" src="Ident.png"/>
+<div class="tip">Ident is a twine game by Kristian A. Bjørkelo that explores identity from birth. Music by Rathaus.</div>
+</a>
+</div>
+</div>
+</article>
+</section><section class="anchor" id="pad">
+<article class="card">
+<header class="card__head"><h2>Paintings, Photos, and Drawings</h2><span class="tag">Gallery</span></header>
+<div class="card__body">
+<div class="grid" role="list">
+<a class="tile" href="thepilgrim.jpg" role="listitem"><img alt="The Pilgrim cover" src="thepilgrim.jpg"/><div class="tip">The Pilgrim - Color for a Blind Man EP cover.</div></a>
+<a class="tile" href="wsf.jpg" role="listitem"><img alt="When Silence Falters cover" src="wsf.jpg"/><div class="tip">When Silence Falters - single cover.</div></a>
+<a class="tile" href="CLF.png" role="listitem"><img alt="Cull the Living Flower" src="CLF.png"/><div class="tip">Cull the Living Flower - upcoming project art.</div></a>
+<a class="tile" href="Break Me.png" role="listitem"><img alt="Break Me single" src="Break Me.png"/><div class="tip">Break Me - single cover.</div></a>
+<a class="tile" href="DryboneGizmadon.jpg" role="listitem"><img alt="Drybone Gizmadon" src="DryboneGizmadon.jpg"/><div class="tip">Drybone Gizmadon - album art.</div></a>
+<a class="tile" href="CFL ART.png" role="listitem"><img alt="Psychedelic composite" src="CFL ART.png"/><div class="tip">Psychedelic composite art.</div></a>
+<a class="tile" href="Color for a Blind Man 2.png" role="listitem"><img alt="Composite art" src="Color for a Blind Man 2.png"/><div class="tip">Composite art.</div></a>
+<a class="tile" href="Extraterrestial Dogmeat.png" role="listitem"><img alt="Extraterrestial Dogmeat" src="Extraterrestial Dogmeat.png"/><div class="tip">Extraterrestial Dogmeat - composite art.</div></a>
+<a class="tile" href="LSS2.png" role="listitem"><img alt="LSS2 art" src="LSS2.png"/><div class="tip">Upcoming CfaBM album art.</div></a>
+<a class="tile" href="Rathaus_Behn_1.png" role="listitem"><img alt="Rathaus Scapegoat art" src="Rathaus_Behn_1.png"/><div class="tip">Rathaus - Scapegoat single art.</div></a>
+</div>
+</div>
+</article>
+</section><section class="anchor" id="about">
+<article class="card">
+<header class="card__head"><h2>Biography</h2><span class="tag">About</span></header>
+<div class="card__body">
+<p>I am a musician, poet and artist from the southwest of Norway. I study Digital Culture at the University of Bergen.</p>
+<p>Former Bassist in MovePrimer and <a href="https://soundcloud.com/ocm_official" rel="noopener" target="_blank">OCM</a>. Current demiurge behind Color for a Blind Man, Cull the Living Flower, The Wayfarer Project and one half of Rathaus.</p>
+<p>As i am on my last year on the masters program, I spend most of my time writing, or thats at least what i tell my supervisor. Don't tell her please</p>
+<div class="badges">
+<a href="https://newmediawritingprize.co.uk/2023-shortlist/"><img alt="New Media Writing Prize Student Prize 2023" src="studentprize.png"/></a>
+<a href="https://newmediawritingprize.co.uk"><img alt="New Media Writing Prize Student Prize 2024" src="NMWPS2024.png"/></a>
+<a href="https://newmediawritingprize.co.uk"><img alt="New Media Writing Prize Main Prize 2024" src="NMWPM2024.png"/></a>
+</div>
+</div>
+</article>
+</section></main></div><footer>
+<div class="links">
+<a href="https://www.instagram.com/colorforablindman/" rel="noopener" target="_blank">Instagram</a>
+<a href="https://open.spotify.com/artist/60IxVOuFmSEhNzL8qglDNY?si=W_FUGTY6RwSvU5-pUCcdNQ" rel="noopener" target="_blank">Spotify</a>
+<a href="https://www.youtube.com/channel/UCGlOAmX69ViznDCFzYS5BhQ" rel="noopener" target="_blank">YouTube</a>
+<a href="https://colorforablindman.bandcamp.com/music" rel="noopener" target="_blank">Bandcamp</a>
+<a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183" rel="noopener" target="_blank">Metal Archives</a>
+<a href="https://soundcloud.com/colorforablindman" rel="noopener" target="_blank">Soundcloud</a>
+<a href="https://kingduckiv.itch.io/" rel="noopener" target="_blank">Itch.io</a>
+<a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv" rel="noopener" target="_blank">World Anvil</a>
+<a href="https://bsky.app/profile/vegardfotland.bsky.social" rel="noopener" target="_blank">BlueSky</a>
+<a href="https://www.wattpad.com/user/KingDuckIV" rel="noopener" target="_blank">Wattpad</a>
+<a href="https://www.facebook.com/profile.php?id=61578870405021" rel="noopener" target="_blank">Facebook</a>
+<a href="https://ko-fi.com/vegardfotland" rel="noopener" target="_blank">Ko-fi</a>
+<a href="https://substack.com/@vegardfotland" rel="noopener" target="_blank">Substack</a>
+</div>
+<small>© Vegard Fotland - cringelord extraordinaire</small>
+</footer></div>
 
-          <h3 class="subhead" style="margin-top:14px">Documentation</h3>
-          <div class="embed-row">
-            <div class="ratio"><iframe src="https://www.youtube.com/embed/A2D4zaZCkVI?si=SGh_DyUgz06uvqPS" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="ratio"><iframe src="https://www.youtube.com/embed/iNDvk0L6ooI?si=alStxh5Uxm7VK4fv" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="ratio"><iframe src="https://www.youtube.com/embed/j0DNik1W8UM?si=GpPfcGW2lQJpuX4Y" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
 
-          </div>
 
-          <h3 class="subhead" style="margin-top:14px">Music</h3>
-          <div class="embed-row">
-            <div class="ratio"><iframe src="https://www.youtube.com/embed/4QVHapLgxFQ?si=5ZiecloJElcu3x6Q" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="ratio"><iframe src="https://www.youtube.com/embed/seRAYBKNepM?si=ZpzNfRmdNoLph2q9" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-            <div class="ratio"><iframe width="560" height="315" src="https://www.youtube.com/embed/jNmqTW8k15E?si=ItiVRd6vP4DF192j" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-          </div>
-        </div>
-      </article>
-    </section>
+<!-- MUSIC -->
 
-    <!-- ASSOCIATED WORKS -->
-    <section id="other-works" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Associated Works</h2><span class="tag">Collab</span></header>
-        <div class="card__body">
-          <div class="grid" role="list">
-            <a class="tile" href="https://geit0sten.itch.io/polterkicks" role="listitem">
-              <img src="poltekicks.png" alt="Polterkicks artwork" />
-              <div class="tip">Polterkicks - NMWP Student Prize winner by Emma Husa. Music by Vegard.</div>
-            </a>
-            <a class="tile" href="https://twine.bjorkelo.no/ident/" role="listitem">
-              <img src="Ident.png" alt="Ident Landing Page" />
-              <div class="tip">Ident is a twine game by Kristian A. Bjørkelo that explores identity from birth. Music by Rathaus.</div>
-            </a>
-          </div>
-        </div>
-      </article>
-    </section>
+<!-- DIGITAL ART -->
 
-    <!-- P / A / D -->
-    <section id="pad" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Paintings, Photos, and Drawings</h2><span class="tag">Gallery</span></header>
-        <div class="card__body">
-          <div class="grid" role="list">
-            <a class="tile" href="thepilgrim.jpg" role="listitem"><img src="thepilgrim.jpg" alt="The Pilgrim cover" /><div class="tip">The Pilgrim - Color for a Blind Man EP cover.</div></a>
-            <a class="tile" href="wsf.jpg" role="listitem"><img src="wsf.jpg" alt="When Silence Falters cover" /><div class="tip">When Silence Falters - single cover.</div></a>
-            <a class="tile" href="CLF.png" role="listitem"><img src="CLF.png" alt="Cull the Living Flower" /><div class="tip">Cull the Living Flower - upcoming project art.</div></a>
-            <a class="tile" href="Break Me.png" role="listitem"><img src="Break Me.png" alt="Break Me single" /><div class="tip">Break Me - single cover.</div></a>
-            <a class="tile" href="DryboneGizmadon.jpg" role="listitem"><img src="DryboneGizmadon.jpg" alt="Drybone Gizmadon" /><div class="tip">Drybone Gizmadon - album art.</div></a>
-            <a class="tile" href="CFL ART.png" role="listitem"><img src="CFL ART.png" alt="Psychedelic composite" /><div class="tip">Psychedelic composite art.</div></a>
-            <a class="tile" href="Color for a Blind Man 2.png" role="listitem"><img src="Color for a Blind Man 2.png" alt="Composite art" /><div class="tip">Composite art.</div></a>
-            <a class="tile" href="Extraterrestial Dogmeat.png" role="listitem"><img src="Extraterrestial Dogmeat.png" alt="Extraterrestial Dogmeat" /><div class="tip">Extraterrestial Dogmeat - composite art.</div></a>
-            <a class="tile" href="LSS2.png" role="listitem"><img src="LSS2.png" alt="LSS2 art" /><div class="tip">Upcoming CfaBM album art.</div></a>
-            <a class="tile" href="Rathaus_Behn_1.png" role="listitem"><img src="Rathaus_Behn_1.png" alt="Rathaus Scapegoat art" /><div class="tip">Rathaus - Scapegoat single art.</div></a>
-          </div>
-        </div>
-      </article>
-    </section>
+<!-- VIDEOS -->
 
-    <!-- ABOUT -->
-    <section id="about" class="anchor">
-      <article class="card">
-        <header class="card__head"><h2>Biography</h2><span class="tag">About</span></header>
-        <div class="card__body">
-          <p>I am a musician, poet and artist from the southwest of Norway. I study Digital Culture at the University of Bergen.</p>
-          <p>Former Bassist in MovePrimer and <a href="https://soundcloud.com/ocm_official" target="_blank" rel="noopener">OCM</a>. Current demiurge behind Color for a Blind Man, Cull the Living Flower, The Wayfarer Project and one half of Rathaus.</p>
-          <p>As i am on my last year on the masters program, I spend most of my time writing, or thats at least what i tell my supervisor. Don't tell her please</p>
-          <div class="badges">
-            <a href="https://newmediawritingprize.co.uk/2023-shortlist/"><img src="studentprize.png" alt="New Media Writing Prize Student Prize 2023"/></a>
-            <a href="https://newmediawritingprize.co.uk"><img src="NMWPS2024.png" alt="New Media Writing Prize Student Prize 2024"/></a>
-            <a href="https://newmediawritingprize.co.uk"><img src="NMWPM2024.png" alt="New Media Writing Prize Main Prize 2024"/></a>
-          </div>
-        </div>
-      </article>
-    </section>
+<!-- ASSOCIATED WORKS -->
 
-    <footer>
-      <div class="links">
-        <a href="https://www.instagram.com/colorforablindman/" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://open.spotify.com/artist/60IxVOuFmSEhNzL8qglDNY?si=W_FUGTY6RwSvU5-pUCcdNQ" target="_blank" rel="noopener">Spotify</a>
-        <a href="https://www.youtube.com/channel/UCGlOAmX69ViznDCFzYS5BhQ" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://colorforablindman.bandcamp.com/music" target="_blank" rel="noopener">Bandcamp</a>
-        <a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183" target="_blank" rel="noopener">Metal Archives</a>
-        <a href="https://soundcloud.com/colorforablindman" target="_blank" rel="noopener">Soundcloud</a>
-        <a href="https://kingduckiv.itch.io/" target="_blank" rel="noopener">Itch.io</a>
-        <a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv" target="_blank" rel="noopener">World Anvil</a>
-        <a href="https://bsky.app/profile/vegardfotland.bsky.social" target="_blank" rel="noopener">BlueSky</a>
-        <a href="https://www.wattpad.com/user/KingDuckIV" target="_blank" rel="noopener">Wattpad</a>
-        <a href="https://www.facebook.com/profile.php?id=61578870405021" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://ko-fi.com/vegardfotland" target="_blank" rel="noopener">Ko-fi</a>
-        <a href="https://substack.com/@vegardfotland" target="_blank" rel="noopener">Substack</a>
-      </div>
-      <small>© Vegard Fotland - cringelord extraordinaire</small>
-    </footer>
-  </div>
+<!-- P / A / D -->
 
-  <a href="#top" class="fab" aria-label="Back to top">↑</a>
+<!-- ABOUT -->
 
-  <script>
-    // Mobile nav toggle
-    const toggle = document.querySelector('.nav__toggle');
-    const menu = document.getElementById('menu');
-    toggle.addEventListener('click', () => menu.classList.toggle('open'));
 
-    // Scrollspy active link
-    const links = [...document.querySelectorAll('[data-link]')];
-    const sections = links.map(a => document.querySelector(a.getAttribute('href')));
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const idx = sections.indexOf(entry.target);
-        if (idx >= 0) {
-          links[idx].classList.toggle('active', entry.isIntersecting);
-        }
-      });
-    }, { rootMargin: '-60% 0px -35% 0px', threshold: 0 });
-    sections.forEach(s => s && obs.observe(s));
 
-    // Close menu when navigating
-    links.forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
-  </script>
+<a aria-label="Back to top" class="fab" href="#top">↑</a>
+<script>
+const toggle = document.querySelector('.nav__toggle');
+const menu = document.getElementById('menu');
+
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', String(open));
+});
+
+const links = [...document.querySelectorAll('[data-link]')];
+const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const idx = sections.indexOf(entry.target);
+    if (idx >= 0) links[idx].classList.toggle('active', entry.isIntersecting);
+  });
+}, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+sections.forEach(section => section && obs.observe(section));
+
+links.forEach(a => a.addEventListener('click', () => {
+  menu.classList.remove('open');
+  toggle.setAttribute('aria-expanded', 'false');
+}));
+</script>
 </body>
 </html>
