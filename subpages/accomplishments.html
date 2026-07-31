@@ -1,334 +1,509 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Selected Accomplishments & Creative Works – Vegard Fotland</title>
-  <meta name="description" content="Selected accomplishments, awards, exhibitions, professional roles, and musical projects by Vegard Fotland." />
-  <style>
-    :root {
-      --bg: #0b0c0d;
-      --card: #111316;
-      --ink: #e6f0ff;
-      --muted: #9bb1c9;
-      --accent: #7cc4ff;
-      --link: #9ae6ff;
-      --rule: #1b1f24;
-      --shadow: 0 8px 24px rgba(0,0,0,0.35);
-      --radius: 16px;
-      --maxw: 980px;
-      --pad: clamp(16px, 2.5vw, 28px);
-    }
-
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background: linear-gradient(180deg, #0b0c0d 0%, #0a0b0c 100%);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--pad) 64px; }
-
-    header.site {
-      position: sticky; top: 0; z-index: 5;
-      backdrop-filter: saturate(140%) blur(6px);
-      background: linear-gradient(180deg, rgba(11,12,13,0.9) 0%, rgba(11,12,13,0.6) 100%);
-      border-bottom: 1px solid var(--rule);
-    }
-    .site-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px var(--pad); }
-    .brand a { color: var(--ink); text-decoration: none; font-weight: 700; letter-spacing: 0.3px; }
-    .brand small { color: var(--muted); font-weight: 400; }
-    nav a { color: var(--link); text-decoration: none; margin-left: 14px; }
-    nav a:hover { text-decoration: underline; }
-
-    .hero { padding: 56px var(--pad) 24px; border-bottom: 1px solid var(--rule); background: radial-gradient(1200px 1200px at 20% -10%, rgba(124,196,255,0.08), transparent 60%); }
-    .hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 12px; }
-    .hero p { margin: 0; color: var(--muted); max-width: 48ch; }
-
-    .toc { margin: 28px 0 8px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .toc a { background: var(--card); border: 1px solid var(--rule); padding: 8px 12px; border-radius: 999px; color: var(--link); text-decoration: none; font-size: 14px; }
-    .toc a:hover { border-color: var(--accent); }
-
-    section { padding: 28px 0; }
-
-    .section-title { font-size: clamp(18px, 2.8vw, 24px); margin: 0 0 14px; letter-spacing: 0.2px; }
-
-    .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
-
-    .card { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
-    .card h3 { margin: 0 0 6px; font-size: 18px; }
-    .card .meta { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
-    .card p { margin: 0; }
-
-    .list { display: grid; gap: 12px; }
-
-    .pill { display: inline-block; font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--rule); background: #0d1114; color: var(--muted); }
-
-    .projects { display: grid; gap: 12px; }
-    .project { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; }
-    .project strong { display: block; font-size: 16px; }
-    .project span { color: var(--muted); font-size: 14px; }
-    .image {
-  background-image: url("/image.jpg");
-  background-size: 150px;
-  width: auto;
-  height: 300px;
-}
-.smallimage {
-background-image: url("/image.jpg");
-background-size: 150px;
-width: auto;
-height: 300px;
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Selected Accomplishments &amp; Creative Works – Vegard Fotland</title>
+<meta content="Selected accomplishments, awards, exhibitions, professional roles, and musical projects by Vegard Fotland." name="description"/>
+<style>
+:root {
+  --bg: #09070f;
+  --surface: #12101a;
+  --surface-2: #191522;
+  --surface-3: #211a2c;
+  --text: #f7f2fb;
+  --muted: #b9adc4;
+  --faint: #82758e;
+  --accent: #c77dff;
+  --accent-2: #ff70c5;
+  --accent-soft: rgba(199,125,255,.14);
+  --line: rgba(255,255,255,.11);
+  --line-strong: rgba(255,255,255,.19);
+  --shadow: 0 24px 70px rgba(0,0,0,.38);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --maxw: 1180px;
+  --nav-h: 70px;
 }
 
-    footer { border-top: 1px solid var(--rule); color: var(--muted); padding: 28px var(--pad) 48px; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100svh;
+  color: var(--text);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  line-height: 1.65;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(116,49,157,.24), transparent 34rem),
+    radial-gradient(circle at 90% 12%, rgba(52,63,146,.18), transparent 30rem),
+    var(--bg);
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .18;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+  z-index: -1;
+}
+a { color: inherit; }
+img { max-width: 100%; }
 
+.wrap { width: min(calc(100% - 40px), var(--maxw)); margin-inline: auto; }
 
-    @media print {
-      header.site, .toc { display: none !important; }
-      body { background: #fff; color: #000; }
-      .card, .project { box-shadow: none; border-color: #ddd; }
-      a { color: #000; text-decoration: none; }
-    }
-  </style>
+header.site {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: var(--nav-h);
+  border-bottom: 1px solid var(--line);
+  background: rgba(9,7,15,.82);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+.site-inner {
+  min-height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: 10px;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.brand a {
+  font-family: "Metal Mania", serif;
+  font-size: 1.65rem;
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+.brand small { color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .12em; }
+nav { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .84rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 999px;
+  transition: color .2s ease, background .2s ease;
+}
+nav a:hover, nav a:focus-visible { color: var(--text); background: var(--accent-soft); }
+.nav-toggle { display: none; margin-left: auto; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 12px; padding: 8px 11px; font: inherit; }
+
+main.wrap { padding-bottom: 72px; }
+.hero {
+  position: relative;
+  min-height: 440px;
+  display: grid;
+  grid-template-columns: minmax(0,1.5fr) minmax(220px,.55fr);
+  grid-template-areas: "title portrait" "description portrait" "toc portrait";
+  align-items: center;
+  gap: 26px 48px;
+  padding: clamp(58px,9vw,110px) 0 52px;
+  border-bottom: 1px solid var(--line);
+}
+.hero::before {
+  content: "Selected record";
+  position: absolute;
+  top: 42px;
+  left: 0;
+  color: var(--accent-2);
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+.hero h1 { grid-area: title; align-self: end; max-width: 14ch; margin: 0; font-size: clamp(2.65rem,7vw,5.7rem); line-height: .95; letter-spacing: -.055em; }
+.hero > p { grid-area: description; align-self: start; margin: 0; padding-top: 0; max-width: 55ch; color: var(--muted); font-size: 1.05rem; }
+.hero .smallimage {
+  grid-area: portrait;
+  width: 100%;
+  height: min(460px,55vw);
+  min-height: 300px;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+}
+.toc { grid-area: toc; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; align-self: start; }
+.toc a {
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.025);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 600;
+}
+.toc a:hover { color: var(--text); border-color: var(--line-strong); background: var(--accent-soft); }
+
+main > section:not(.hero) { padding: 76px 0 0; scroll-margin-top: calc(var(--nav-h) + 16px); }
+.section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 24px;
+  font-size: clamp(1.65rem,4vw,2.75rem);
+  line-height: 1.1;
+  letter-spacing: -.035em;
+}
+.section-title::before { color: var(--accent); font: 700 .72rem/1 "Space Grotesk"; letter-spacing: .12em; text-transform: uppercase; }
+#awards-title::before { content: "01"; }
+#exhibitions-title::before { content: "02"; }
+#exp-title::before { content: "03"; }
+#Books .section-title::before { content: "04"; }
+#music-title::before { content: "05"; }
+#notes-title::before { content: "06"; }
+
+.grid { display: grid; grid-template-columns: repeat(12,1fr); gap: 18px; }
+.grid > .card { grid-column: span 6; }
+.grid > .card:nth-child(3n) { grid-column: span 12; display: grid; grid-template-columns: 1.3fr .7fr; column-gap: 28px; align-items: center; }
+.grid > .card:nth-child(3n) .image { grid-column: 2; grid-row: 1 / span 8; }
+.list, .projects { display: grid; gap: 14px; }
+
+.card, .project {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018));
+  box-shadow: 0 12px 40px rgba(0,0,0,.19);
+}
+.card { padding: clamp(20px,3vw,30px); }
+.card::after, .project::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(130deg, rgba(199,125,255,.07), transparent 35%);
+}
+.card h3 { position: relative; z-index: 1; margin: 0 0 7px; font-size: 1.28rem; line-height: 1.2; }
+.card .meta { position: relative; z-index: 1; color: var(--accent); font-size: .83rem; font-weight: 600; margin: 8px 0; }
+.card p { position: relative; z-index: 1; margin: 0; color: var(--muted); }
+.card li, .project li { position: relative; z-index: 2; list-style: none; margin: 12px 0 0; }
+.card li a, .project li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: .86rem;
+  font-weight: 700;
+  border-bottom: 1px solid var(--accent);
+}
+.card li a::after, .project li a::after { content: "↗"; color: var(--accent-2); }
+br { display: none; }
+.image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  margin-top: 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.smallimage { background: var(--surface-2); }
+
+#experience .list, #Books .list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+#experience .card:first-child, #Books .card:nth-child(2) { grid-column: span 2; }
+#experience .card:first-child { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
+#experience .card:first-child .meta { grid-column: 1; }
+#experience .card:first-child p { grid-column: 2; grid-row: 1 / span 3; align-self: center; font-size: 1.05rem; }
+
+.projects { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.project { display: flex; flex-direction: column; padding: 26px; min-height: 230px; }
+.project strong { position: relative; z-index: 1; display: block; margin-bottom: 10px; font-size: 1.28rem; line-height: 1.2; }
+.project span { position: relative; z-index: 1; display: block; color: var(--muted); }
+.project .image { margin-top: auto; padding-top: 0; }
+.project:nth-child(1) { grid-column: span 2; display: grid; grid-template-columns: 1fr .75fr; gap: 25px; }
+.project:nth-child(1) .image { grid-column: 2; grid-row: 1 / span 4; margin: 0; height: 100%; min-height: 330px; }
+
+#notes-title + .card ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; padding: 0; margin: 0; }
+#notes-title + .card li { margin: 0; }
+#notes-title + .card li a { display: block; padding: 14px 16px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.025); }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 46px; color: var(--faint); font-size: .85rem; }
+footer p { margin: 0; }
+
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 980px) {
+  .site-inner { flex-wrap: wrap; }
+  .nav-toggle { display: block; }
+  header.site nav { display: none; width: 100%; order: 3; margin: 0; padding-bottom: 8px; flex-wrap: wrap; }
+  header.site nav.open { display: flex; }
+  .hero { min-height: 0; grid-template-columns: 1fr 230px; }
+  .hero h1 { font-size: clamp(2.6rem,8vw,4.5rem); }
+  .grid > .card, .grid > .card:nth-child(3n) { grid-column: span 12; }
+}
+
+@media (max-width: 720px) {
+  .wrap { width: min(calc(100% - 28px), var(--maxw)); }
+  .brand small { display: none; }
+  .hero { grid-template-columns: 1fr; grid-template-areas: "portrait" "title" "description" "toc"; gap: 24px; padding-top: 72px; }
+  .hero::before { top: 32px; }
+  .hero .smallimage { height: 300px; min-height: 0; }
+  .hero h1 { max-width: none; font-size: clamp(2.7rem,14vw,4.3rem); }
+  .hero > p { padding-top: 0; }
+  .grid > .card:nth-child(3n) { display: block; }
+  .grid > .card:nth-child(3n) .image { display: block; }
+  #experience .list, #Books .list, .projects { grid-template-columns: 1fr; }
+  #experience .card:first-child, #Books .card:nth-child(2), .project:nth-child(1) { grid-column: auto; display: block; }
+  #experience .card:first-child p { display: block; }
+  .project:nth-child(1) .image { height: 280px; min-height: 0; margin-top: 22px; }
+  #notes-title + .card ul { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  header.site, .toc { display: none !important; }
+  body { background: white; color: black; }
+  body::before { display: none; }
+  .card, .project { color: black; background: white; box-shadow: none; border-color: #ccc; break-inside: avoid; }
+  .card p, .project span, .meta { color: #333 !important; }
+}
+
+</style><link href="https://fonts.googleapis.com/css2?family=Metal+Mania&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 </head>
 <body>
-  <header class="site" aria-label="Site header">
-    <div class="site-inner wrap">
-      <div class="brand">
-        <a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland</a>
-        <small>Accomplishments</small>
-      </div>
-      <nav aria-label="Local">
+<header aria-label="Site header" class="site">
+<div class="site-inner wrap">
+<div class="brand">
+<a href="https://kingduckiv.github.io/vegardfotland.github.io/">Vegard Fotland</a>
+<small>Accomplishments</small>
+</div>
+<button aria-controls="local-nav" aria-expanded="false" class="nav-toggle" type="button">Menu</button><nav aria-label="Local" id="local-nav">
+<a href="https://kingduckiv.github.io/vegardfotland.github.io/">Home</a>
+<a href="#awards">Awards</a>
+<a href="#exhibitions">Exhibitions</a>
+<a href="#experience">Experience</a>
+<a href="#Books">Books, TTRPGs and World Building</a>
+<a href="#music">Music</a>
+</nav>
+</div>
+</header>
+<main class="wrap" id="top">
+<section aria-labelledby="title" class="hero">
+<h1 id="title">Selected Accomplishments and Creative Works</h1>
+<p>A concise record of awards, nominations, exhibitions, roles, and music projects.</p>
+<div aria-label="On this page" class="toc" role="navigation">
+<a href="#awards">Awards and Nominations</a>
+<a href="#exhibitions">Exhibitions and Features</a>
+<a href="#experience">Professional Experience</a>
+<a href="#Books">Books, TTRPGs and World Building</a>
+<a href="#music">Musical Projects</a>
+</div>
+<img alt="Me in all my beauty" class="smallimage" src="vegardfotland.jpg"/>
+</section>
+<section aria-labelledby="awards-title" id="awards">
+<h2 class="section-title" id="awards-title">Awards and Nominations</h2>
+<div class="grid">
+<article aria-labelledby="wr" class="card">
+<h3 id="wr"><em>What Remains?</em></h3>
+<li><a href="https://kingduckiv.itch.io/what-remains">What Remains?</a></li>
+<div class="meta">Nominated for the New Media Writing Prize — Student Award, 2023</div>
+<p>Experimental digital narrative exploring grief, mental illness, and memory through interactive media and glitch art.</p>
+<br/>
+<img alt="Sillouhete of a boy standing in a grey void" class="image" decoding="async" loading="lazy" src="whatremains.png"/>
+</article>
+<article aria-labelledby="olw" class="card">
+<h3 id="olw"><em>One Lonely World</em></h3>
+<li><a href="https://kingduckiv.itch.io/one-lonely-world">One Lonely World</a></li>
+<div class="meta">Nominated for the Chris Meade Memorial Main Prize, 2024</div>
+<p>Poetic interactive work reflecting on isolation, domestication and environmental collapse.</p>
+<br/>
+<div class="meta">Won the 2025 Digital Culture Award at UiB for best Interactive Work</div>
+<p>I do not have video of this, but Hanna Lauvli PhD candidate at the CDN and the Digital Culture Student Comitee can all testify</p>
+<br/>
+<div class="meta">Honorable mention at the 2026 ELO Coover Award</div>
+<p>The ELO awards is one of the biggest recognitions within the field of electronic literature</p>
+<br/>
+<img alt="A lone dog and a hanged man" class="image" decoding="async" loading="lazy" src="OneLonelyWorld.png"/>
+</article>
+<br/>
+<article aria-labelledby="olw" class="card">
+<h3 id="olw"><em>Choke On Your Forked Tongue</em></h3>
+<li><a href="https://kingduckiv.itch.io/choke-on-your-forked-tongue">Choke On Your Forked Tongue</a></li>
+<div class="meta">Longlisted in the 2025 New Media Writing Prize</div>
+<p>A polisatirical work featuring a fake desktop experience detailing the rancid exprience of being queer on X during the Trump era</p>
+<br/>
+<img alt="a noose acting as a hitler moustache on a smiling man" class="image" decoding="async" loading="lazy" src="Choke on your forked tongue.png"/>
+</article>
+</div>
+</section>
+<section aria-labelledby="exhibitions-title" id="exhibitions">
+<h2 class="section-title" id="exhibitions-title">Exhibitions and Features</h2>
+<div class="grid">
+<article aria-labelledby="icids" class="card">
+<h3 id="icids"><em>One Lonely World</em></h3>
+<div class="meta">Featured at ICIDS 2025 Art Exhibition, Malta</div>
+<p>Presented among leading works in interactive digital storytelling.</p>
+<li><a href="https://icids2025.ardin.online/home-9">ICIDS Exhibitons</a></li>
+<br/>
+<div class="meta">Featured in the 2025 Digital Culture Awards collection on Itch.io</div>
+<p>Featured with lots of impressive works from current and past Students of UiB</p>
+<li><a href="https://itch.io/c/6966481/digital-culture-awards-2025">2025 Digital Culture Awards Collection</a></li>
+<br/>
+<img alt="A lone dog and a hanged man" class="image" decoding="async" loading="lazy" src="OneLonelyWorld.png"/>
+</article>
+<article aria-labelledby="elo" class="card">
+<h3 id="elo"><em>Careful of This</em></h3>
+<div class="meta">Collaborative work with Jason Nelson, Alinta Kiri Krauth, and Sofie Rørlien. Featured at ELO 2025 Exhibition</div>
+<p>Generative, multimedia exploration of narratives in AI.</p>
+<br/>
+<img alt="a cacophany of AI" class="image" decoding="async" loading="lazy" src="carefulofthis.jpg"/>
+</article>
+</div>
+</section>
+<section aria-labelledby="exp-title" id="experience">
+<h2 class="section-title" id="exp-title">Professional Experience and Education</h2>
+<div class="list">
+<article aria-labelledby="role" class="card">
+<h3 id="role">Creative Technologist</h3>
+<div class="meta">Worked for Professor Nelson in an unofficial capacity at the CDN • 2023 to 2026</div>
+<p>Contributed to experimental web artworks, interactive literature, and creative code prototypes. Focus areas included generative design, narrative systems, and multimedia interaction.</p>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">Spot Editor, Interview Editor and Sparse spot voice for Radio Sandnes/Jæren</h3>
+<div class="meta">Worked for six months at Radio Sandnes in 2017</div>
+<p>Creation of Spots (Advertisment), editing of interviews, sometimes filling in for voice over</p>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">Bachelor in Digital Culture from the University of Bergen</h3>
+<div class="meta">2021-2024</div>
+<p>Learnt the inns and outs of all things technology. From history, to coding, to creative practice and societal evalutaion.</p>
+</article>
+</div>
+</section>
+<section aria-labelledby="exp-title" id="Books">
+<h2 class="section-title" id="exp-title">Books, TTRPGs and World Building</h2>
+<div class="list">
+<article aria-labelledby="role" class="card">
+<h3 id="role">Aritéa</h3>
+<div class="meta">A large world building project aiming to create a wholly unique fantasy world</div>
+<p>The World of Aritéa is a world that is slowly being consumed by a mist that defragments that which it touches. The world consists of 6 distinct races who have philosophies and complex webs of political reltations</p>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">O'l Andem</h3>
+<div class="meta">A large Dungeons and Dragons world with over 100,000 words and 54k page views</div>
+<p>This world is a homebrew world based on the Dungeons and Dragons 3.5 and 5th edition which encapsulates a large scale war for Pneumatic Energy that threatens to change the dynamic of magic forever.</p>
+<li><a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv">O'l Andem</a></li>
+<br/>
+<img alt="A map of O'l Andem" class="image" decoding="async" loading="lazy" src="map.jpg"/>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">Crossroads TTRPG</h3>
+<div class="meta">A rules light TTRPG focused on Roleplaying and underlining choices</div>
+<p>Crossroads uses paths as a way to visualise choices within the game which by the end shoould look like a tree of branches or a splitting road. Each path is distinct and every time you make a choice you gain marks that describe what you did, what you gain or lost and what you left behind</p>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">Far Beyond the Seams</h3>
+<div class="meta">A procedural book about a man waking up in a coffin and finding himself in a desolate wasteland</div>
+<p>The book takes place in an alternate reality version of Aritéa where the mist is spreading fast and wide. As our protagonist wander the wastes and comes across a band of scavenger who he joins. Drama ensues.</p>
+<br/>
+<img alt="A man clad i flame in a dark void" class="image" decoding="async" loading="lazy" src="Far Beyond the Seams.png"/>
+</article>
+<article aria-labelledby="role" class="card">
+<h3 id="role">The Definitley not Fallout TTRPG</h3>
+<div class="meta">A rules heavy Simulationist/Gamist TTRPG set in the post-apocalypse</div>
+<p>This TTRPG aims to simulate the rough experience of surviving a post-apocalyptic wasteland with mechanics for food, thirst, fatigue, repair, disease and so much more. It is class agnostic and uses a perks system to create characters over time that are wholly unique</p>
+</article>
+</div>
+</section>
+<section aria-labelledby="music-title" id="music">
+<h2 class="section-title" id="music-title">Musical Projects</h2>
+<div class="projects">
+<div class="project">
+<strong>Color for a Blind Man</strong>
+<span>Genre agnostic project trying to fuse different genre elements into new and exciting tunes. Also some acoustic singer songwriter stuff. And black metal. And more. It has released over 200 songs all written over the course of 15 years. It has thousands of plays spanning several platforms (only made about 130$, i love being a musician)</span>
+<li><a href="https://open.spotify.com/artist/60IxVOuFmSEhNzL8qglDNY?si=3825fc5de0ba446a">Color for a Blind Man's music can be found here</a></li>
+<br/>
+<img alt="Two insects walking up a mountain with butterfly wings" class="image" decoding="async" loading="lazy" src="Color for a Blind Man 2.png"/>
+</div>
+<div class="project">
+<strong>Rathaus</strong>
+<span>Collaborative industrial duo blending Electronic music, glitch, Singing, and progressive guitar work.</span>
+<li><a href="https://open.spotify.com/artist/1osI9UJpUHDfabSpzg1VO1?si=1a5613a142db45cd">Rathaus's music can be found here</a></li>
+<br/>
+<img alt="A Woman being choked in a church" class="image" decoding="async" loading="lazy" src="Remnants of Cathedral Ash Cover.png"/>
+</div>
+<div class="project">
+<strong>The Wayfarer Project</strong>
+<span>Conceptual cinematic and folk influenced soundwork exploring narrative composition. My amateur composer project</span>
+<li><a href="https://open.spotify.com/artist/6F8uknny7mfskN9qZ7mQun?si=26001ba3c9694156">The Wayfarer Project's music can be found here</a></li>
+<br/>
+<img alt="Two ethereal insec guardians in the sky with the moon as a background" class="image" decoding="async" loading="lazy" src="CFL ART.png"/>
+</div>
+<div class="project">
+<strong>Cull the Living Flower</strong>
+<span>Progressive Rock project blending atmospheric elements with progressive metal guitar, running bass lines and high chest register vocals</span>
+<li><a href="https://soundcloud.com/cull-the-living-flower">Cull the Living Flower's music can be foun here</a></li>
+<br/>
+<img alt="Some text on a dark background" class="image" decoding="async" loading="lazy" src="CLF.png"/>
+</div>
+<div class="project">
+<strong>MovePrimer(no longer active)</strong>
+<span>I played bass in a Progressive rock band that made music in the 2017-2019. We did Concerts at Folken and Metropolis</span>
+</div>
+<div class="project">
+<strong>OCM (no longer active)</strong>
+<span>I played bass in a rock band from 2012-2017 we released several singles, an EP and played numerous concerts druing our time.</span>
+<li><a href="https://soundcloud.com/ocm_official">OCMs music can be found here</a></li>
+</div>
+</div>
+</section>
+<section aria-labelledby="notes-title">
+<h2 class="section-title" id="notes-title">Press and Links</h2>
+<div class="card">
+<p style="margin-top:0"></p>
+<ul>
+<li><a href="https://newmediawritingprize.co.uk/2024-shortlist/">Chris Meade Memorial Main Prize 2024 shortlist</a></li>
+<li><a href="https://newmediawritingprize.co.uk/2023-shortlist/">New Media Writing Prize (Student Award) 2023</a></li>
+<li><a href="https://newmediawritingprize.co.uk/opening-up-2025/">New Media Writing Prize Longlist 2025</a></li>
+<li><a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183">Metal-Archives for Color for a Blind Man</a></li>
+<li><a href="https://metallurgi.org/tag/color-for-a-blind-man/">Color for a Blind Man Alene Review</a></li>
+<li><a href="https://metallurgi.org/2022/01/13/makrostrukturell-evaluering-ukas-plater-57/">Color for a Blind Man Anathema Review</a></li>
+<li><a href="https://rateyourmusic.com/artist/color-for-a-blind-man">Rate Your Music, Color for a Blind Man</a></li>
+<li><a href="https://klassekampen.no/artikkel/2025-09-12/komme-inn-pa-bergen">Rathaus on Tellektro City Bergen (Klassekampen)</a></li>
+<li><a href="https://eliterature.org/2026/07/2026-elo-awards/">2026 ELO Coover Awards</a></li>
+</ul>
+</div>
+</section>
+</main>
+<footer class="wrap" role="contentinfo">
+<p>© <span id="year"></span> Vegard Fotland. All rights reserved or whatever.</p>
+</footer>
+<script>
+const year = document.getElementById('year');
+if (year) year.textContent = new Date().getFullYear();
 
-        <a href="https://kingduckiv.github.io/vegardfotland.github.io/">Home</a>
-        <a href="#awards">Awards</a>
-        <a href="#exhibitions">Exhibitions</a>
-        <a href="#experience">Experience</a>
-        <a href="#Books">Books, TTRPGs and World Building</a>
-        <a href="#music">Music</a>
-      </nav>
-    </div>
-  </header>
+const navToggle = document.querySelector('.nav-toggle');
+const localNav = document.getElementById('local-nav');
+if (navToggle && localNav) {
+  navToggle.addEventListener('click', () => {
+    const open = localNav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+}
 
-  <main class="wrap" id="top">
-    <section class="hero" aria-labelledby="title">
-      <h1 id="title">Selected Accomplishments and Creative Works</h1>
-      <p>A concise record of awards, nominations, exhibitions, roles, and music projects.</p>
-      <div class="toc" role="navigation" aria-label="On this page">
-        <a href="#awards">Awards and Nominations</a>
-        <a href="#exhibitions">Exhibitions and Features</a>
-        <a href="#experience">Professional Experience</a>
-        <a href="#Books">Books, TTRPGs and World Building</a>
-        <a href="#music">Musical Projects</a>
-      </div>
-              <img class="smallimage" src="vegardfotland.jpg" alt="Me in all my beauty">
-    </section>
-
-    <section id="awards" aria-labelledby="awards-title">
-      <h2 class="section-title" id="awards-title">Awards and Nominations</h2>
-      <div class="grid">
-        <article class="card" aria-labelledby="wr">
-          <h3 id="wr"><em>What Remains?</em></h3>
-          <li><a href="https://kingduckiv.itch.io/what-remains">What Remains?</a></li>
-          <div class="meta">Nominated for the New Media Writing Prize — Student Award, 2023</div>
-          <p>Experimental digital narrative exploring grief, mental illness, and memory through interactive media and glitch art.</p>
-          <br>
-          <img class="image" src="whatremains.png" alt="Sillouhete of a boy standing in a grey void">
-        </article>
-        <article class="card" aria-labelledby="olw">
-          <h3 id="olw"><em>One Lonely World</em></h3>
-          <li><a href="https://kingduckiv.itch.io/one-lonely-world">One Lonely World</a></li>
-          <div class="meta">Nominated for the Chris Meade Memorial Main Prize, 2024</div>
-          <p>Poetic interactive work reflecting on isolation, domestication and environmental collapse.</p>
-          <br>
-          <div class="meta">Won the 2025 Digital Culture Award at UiB for best Interactive Work</div>
-          <p>I do not have video of this, but Hanna Lauvli PhD candidate at the CDN and the Digital Culture Student Comitee can all testify</p>
-          <br>
-          <div class="meta">Honorable mention at the 2026 ELO Coover Award</div>
-          <p>The ELO awards is one of the biggest recognitions within the field of electronic literature</p>
-          <br>
-          <img class="image" src="OneLonelyWorld.png" alt="A lone dog and a hanged man">
-        </article>
-          <br>
-          <article class="card" aria-labelledby="olw">
-            <h3 id="olw"><em>Choke On Your Forked Tongue</em></h3>
-            <li><a href="https://kingduckiv.itch.io/choke-on-your-forked-tongue">Choke On Your Forked Tongue</a></li>
-          <div class="meta">Longlisted in the 2025 New Media Writing Prize</div>
-          <p>A polisatirical work featuring a fake desktop experience detailing the rancid exprience of being queer on X during the Trump era</p>
-          <br>
-          <img class="image" src="Choke on your forked tongue.png" alt="a noose acting as a hitler moustache on a smiling man">
-        </article>
-      </div>
-    </section>
-
-    <section id="exhibitions" aria-labelledby="exhibitions-title">
-      <h2 class="section-title" id="exhibitions-title">Exhibitions and Features</h2>
-      <div class="grid">
-        <article class="card" aria-labelledby="icids">
-          <h3 id="icids"><em>One Lonely World</em></h3>
-          <div class="meta">Featured at ICIDS 2025 Art Exhibition, Malta</div>
-          <p>Presented among leading works in interactive digital storytelling.</p>
-          <li><a href="https://icids2025.ardin.online/home-9">ICIDS Exhibitons</a></li>
-          <br>
-          <div class="meta">Featured in the 2025 Digital Culture Awards collection on Itch.io</div>
-          <p>Featured with lots of impressive works from current and past Students of UiB</p>
-          <li><a href="https://itch.io/c/6966481/digital-culture-awards-2025">2025 Digital Culture Awards Collection</a></li>
-          <br>
-          <img class="image" src="OneLonelyWorld.png" alt="A lone dog and a hanged man">
-        </article>
-        <article class="card" aria-labelledby="elo">
-          <h3 id="elo"><em>Careful of This</em></h3>
-          <div class="meta">Collaborative work with Jason Nelson, Alinta Kiri Krauth, and Sofie Rørlien. Featured at ELO 2025 Exhibition</div>
-          <p>Generative, multimedia exploration of narratives in AI.</p>
-          <br>
-          <img class="image" src="carefulofthis.jpg" alt="a cacophany of AI">
-        </article>
-      </div>
-    </section>
-
-    <section id="experience" aria-labelledby="exp-title">
-      <h2 class="section-title" id="exp-title">Professional Experience and Education</h2>
-      <div class="list">
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Creative Technologist</h3>
-          <div class="meta">Worked for Professor Nelson in an unofficial capacity at the CDN • 2023 to 2026</div>
-          <p>Contributed to experimental web artworks, interactive literature, and creative code prototypes. Focus areas included generative design, narrative systems, and multimedia interaction.</p>
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Spot Editor, Interview Editor and Sparse spot voice for Radio Sandnes/Jæren</h3>
-          <div class="meta">Worked for six months at Radio Sandnes in 2017</div>
-          <p>Creation of Spots (Advertisment), editing of interviews, sometimes filling in for voice over</p>
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Bachelor in Digital Culture from the University of Bergen</h3>
-          <div class="meta">2021-2024</div>
-          <p>Learnt the inns and outs of all things technology. From history, to coding, to creative practice and societal evalutaion.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="Books" aria-labelledby="exp-title">
-      <h2 class="section-title" id="exp-title">Books, TTRPGs and World Building</h2>
-      <div class="list">
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Aritéa</h3>
-          <div class="meta">A large world building project aiming to create a wholly unique fantasy world</div>
-          <p>The World of Aritéa is a world that is slowly being consumed by a mist that defragments that which it touches. The world consists of 6 distinct races who have philosophies and complex webs of political reltations</p>
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">O'l Andem</h3>
-          <div class="meta">A large Dungeons and Dragons world with over 100,000 words and 54k page views</div>
-          <p>This world is a homebrew world based on the Dungeons and Dragons 3.5 and 5th edition which encapsulates a large scale war for Pneumatic Energy that threatens to change the dynamic of magic forever.</p>
-          <li><a href="https://www.worldanvil.com/w/o-l-andem-kingduckiv">O'l Andem</a></li>
-          <br>
-          <img class="image" src="map.jpg" alt="A map of O'l Andem">
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Crossroads TTRPG</h3>
-          <div class="meta">A rules light TTRPG focused on Roleplaying and underlining choices</div>
-          <p>Crossroads uses paths as a way to visualise choices within the game which by the end shoould look like a tree of branches or a splitting road. Each path is distinct and every time you make a choice you gain marks that describe what you did, what you gain or lost and what you left behind</p>
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">Far Beyond the Seams</h3>
-          <div class="meta">A procedural book about a man waking up in a coffin and finding himself in a desolate wasteland</div>
-          <p>The book takes place in an alternate reality version of Aritéa where the mist is spreading fast and wide. As our protagonist wander the wastes and comes across a band of scavenger who he joins. Drama ensues.</p>
-          <br>
-          <img class="image" src="Far Beyond the Seams.png" alt="A man clad i flame in a dark void">
-        </article>
-        <article class="card" aria-labelledby="role">
-          <h3 id="role">The Definitley not Fallout TTRPG</h3>
-          <div class="meta">A rules heavy Simulationist/Gamist TTRPG set in the post-apocalypse</div>
-          <p>This TTRPG aims to simulate the rough experience of surviving a post-apocalyptic wasteland with mechanics for food, thirst, fatigue, repair, disease and so much more. It is class agnostic and uses a perks system to create characters over time that are wholly unique</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="music" aria-labelledby="music-title">
-      <h2 class="section-title" id="music-title">Musical Projects</h2>
-      <div class="projects">
-        <div class="project">
-          <strong>Color for a Blind Man</strong>
-          <span>Genre agnostic project trying to fuse different genre elements into new and exciting tunes. Also some acoustic singer songwriter stuff. And black metal. And more. It has released over 200 songs all written over the course of 15 years. It has thousands of plays spanning several platforms (only made about 130$, i love being a musician)</span>
-          <li><a href="https://open.spotify.com/artist/60IxVOuFmSEhNzL8qglDNY?si=3825fc5de0ba446a">Color for a Blind Man's music can be found here</a></li>
-          <br>
-          <img class="image" src="Color for a Blind Man 2.png" alt="Two insects walking up a mountain with butterfly wings">
-        </div>
-        <div class="project">
-          <strong>Rathaus</strong>
-          <span>Collaborative industrial duo blending Electronic music, glitch, Singing, and progressive guitar work.</span>
-          <li><a href="https://open.spotify.com/artist/1osI9UJpUHDfabSpzg1VO1?si=1a5613a142db45cd">Rathaus's music can be found here</a></li>
-          <br>
-          <img class="image" src="Remnants of Cathedral Ash Cover.png" alt="A Woman being choked in a church">
-        </div>
-        <div class="project">
-          <strong>The Wayfarer Project</strong>
-          <span>Conceptual cinematic and folk influenced soundwork exploring narrative composition. My amateur composer project</span>
-          <li><a href="https://open.spotify.com/artist/6F8uknny7mfskN9qZ7mQun?si=26001ba3c9694156">The Wayfarer Project's music can be found here</a></li>
-          <br>
-          <img class="image" src="CFL ART.png" alt="Two ethereal insec guardians in the sky with the moon as a background">
-        </div>
-        <div class="project">
-          <strong>Cull the Living Flower</strong>
-          <span>Progressive Rock project blending atmospheric elements with progressive metal guitar, running bass lines and high chest register vocals</span>
-          <li><a href="https://soundcloud.com/cull-the-living-flower">Cull the Living Flower's music can be foun here</a></li>
-          <br>
-          <img class="image" src="CLF.png" alt="Some text on a dark background">
-        </div>
-        <div class="project">
-          <strong>MovePrimer(no longer active)</strong>
-          <span>I played bass in a Progressive rock band that made music in the 2017-2019. We did Concerts at Folken and Metropolis</span>
-        </div>
-        <div class="project">
-          <strong>OCM (no longer active)</strong>
-          <span>I played bass in a rock band from 2012-2017 we released several singles, an EP and played numerous concerts druing our time.</span>
-          <li><a href="https://soundcloud.com/ocm_official">OCMs music can be found here</a></li>
-        </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="notes-title">
-      <h2 class="section-title" id="notes-title">Press and Links</h2>
-      <div class="card">
-        <p style="margin-top:0"></p>
-        <ul>
-          <li><a href="https://newmediawritingprize.co.uk/2024-shortlist/">Chris Meade Memorial Main Prize 2024 shortlist</a></li>
-          <li><a href="https://newmediawritingprize.co.uk/2023-shortlist/">New Media Writing Prize (Student Award) 2023</a></li>
-          <li><a href="https://newmediawritingprize.co.uk/opening-up-2025/">New Media Writing Prize Longlist 2025</a></li>
-          <li><a href="https://www.metal-archives.com/bands/Color_for_a_Blind_Man/3540543183">Metal-Archives for Color for a Blind Man</a></li>
-          <li><a href="https://metallurgi.org/tag/color-for-a-blind-man/">Color for a Blind Man Alene Review</a></li>
-          <li><a href="https://metallurgi.org/2022/01/13/makrostrukturell-evaluering-ukas-plater-57/">Color for a Blind Man Anathema Review</a></li>
-          <li><a href="https://rateyourmusic.com/artist/color-for-a-blind-man">Rate Your Music, Color for a Blind Man</a></li>
-          <li><a href="https://klassekampen.no/artikkel/2025-09-12/komme-inn-pa-bergen">Rathaus on Tellektro City Bergen (Klassekampen)</a></li>
-          <li><a href="https://eliterature.org/2026/07/2026-elo-awards/">2026 ELO Coover Awards</a></li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <footer class="wrap" role="contentinfo">
-    <p>© <span id="year"></span> Vegard Fotland. All rights reserved or whatever.</p>
-  </footer>
-
-  <script>
-    // Update year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Optional: Smooth scroll for in-page anchors
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  </script>
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (localNav) localNav.classList.remove('open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+</script>
 </body>
 </html>
